@@ -40,10 +40,10 @@ namespace ProdTracker
         // добавление
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            UnitWindow UnitWindow = new UnitWindow(new Units());
+            UnitWindow UnitWindow = new(new Unit());
             if (UnitWindow.ShowDialog() == true)
             {
-                Units Unit = UnitWindow.Unit;
+                Unit Unit = UnitWindow.Unit;
                 db.Units.Add(Unit);
                 db.SaveChanges();
             }
@@ -52,11 +52,11 @@ namespace ProdTracker
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
             // получаем выделенный объект
-            Units? unit = usersList.SelectedItem as Units;
+            Unit? unit = usersList.SelectedItem as Unit;
             // если ни одного объекта не выделено, выходим
             if (unit is null) return;
 
-            UnitWindow UserWindow = new UnitWindow(new Units
+            UnitWindow UserWindow = new(new Unit
             {
                 Id = unit.Id,
                 Name = unit.Name
@@ -79,7 +79,7 @@ namespace ProdTracker
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             // получаем выделенный объект
-            Units? user = usersList.SelectedItem as Units;
+            Unit? user = usersList.SelectedItem as Unit;
             // если ни одного объекта не выделено, выходим
             if (user is null) return;
             db.Units.Remove(user);

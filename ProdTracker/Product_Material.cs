@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace ProdTracker
 {
-    public class Units
+    class Product_Material
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int Products_id { get; set; }
+        public int Materials_id { get; set; }
+        public int Quantity { get; set; }
     }
 }

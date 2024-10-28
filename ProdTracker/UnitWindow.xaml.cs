@@ -19,8 +19,8 @@ namespace ProdTracker
     /// </summary>
     public partial class UnitWindow : Window
     {
-        public Units Unit {  get; private set; }
-        public UnitWindow(Units unit)
+        public Unit Unit {  get; private set; }
+        public UnitWindow(Unit unit)
         {
             InitializeComponent();
             Unit = unit;
