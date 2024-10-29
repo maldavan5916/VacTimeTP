@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProdTracker
+﻿namespace ProdTracker
 {
-    class Counterpartie
+    public enum CounterpartieType { Fiz, Ur }
+
+    public class Counterpartie
     {
         public int Id { get; set; }
         public required string Name { get; set; }
@@ -14,9 +10,12 @@ namespace ProdTracker
         public required string PhoneNomber { get; set; }
         public required string PostalAddress { get; set; }
         public required string Unp { get; set; }
-        public string Type { get; set; } = "fiz";
+        public CounterpartieType Type { get; set; } = CounterpartieType.Fiz;
         public string? Okulp { get; set; }
         public string? Okpo { get; set; }
         public string? Oked { get; set; }
+
+        public List<Contract> Contracts { get; set; } = new List<Contract>();
+        public List<Receipt> Receipts { get; set; } = new List<Receipt>();
     }
 }

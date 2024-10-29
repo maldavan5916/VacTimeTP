@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProdTracker
+﻿namespace ProdTracker
 {
-    class Post
+    public class Post
     {
         public int Id { get; set; }
         public required string Name { get; set; }
+
+        // Навигационное свойство: одна должность может быть у нескольких сотрудников
+        public List<Employee> Employees { get; set; } = new List<Employee>();
     }
 }

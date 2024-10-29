@@ -7,24 +7,6 @@
         mc:Ignorable="d"
         Title="Учет выпуска и реализации продукции ООО«Вактайм»" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
-        <ListBox x:Name="usersList" ItemsSource="{Binding}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}" FontSize="16" />
-                        <TextBlock Text="{Binding Age}" FontSize="13" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Добавить" Margin="10" Click="Add_Click" />
-            <Button Content="Изменить" Margin="10" Click="Edit_Click"  />
-            <Button Content="Удалить" Margin="10" Click="Delete_Click"  />
-        </StackPanel>
+        
     </Grid>
 </Window>

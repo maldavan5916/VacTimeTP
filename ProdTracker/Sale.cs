@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProdTracker
+﻿namespace ProdTracker
 {
-    class Sale
+    public class Sale
     {
         public int Id { get; set; }
-        public int Products_id { get; set; }
-        public int Contracts_id { get; set; }
+        public int ProductId { get; set; }
+        public Product? Product { get; set; }
+        public int ContractId { get; set; }
+        public Contract? Contract { get; set; }
         public double Summ { get; set; }
         public DateTime Date { get; set; }
     }

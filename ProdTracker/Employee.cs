@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProdTracker
+﻿namespace ProdTracker
 {
-    class Employee
+    public class Employee
     {
         public int Id { get; set; }
         public required string Fio { get; set; }
-        public int Divisions_id { get; set; }
-        public int Posts_id { get; set; }
+        
+        public int DivisionId { get; set; }
+        public Division? Division { get; set; } // Внешний ключ и навигационное свойство к Division
+        
+        public int PostId { get; set; }
+        public Post? Post { get; set; } // Внешний ключ и навигационное свойство к Post
+        
         public DateTime DateHire { get; set; }
-        public DateTime DateDismissal { get; set; }
+        public DateTime? DateDismissal { get; set; } = null;
     }
 }
