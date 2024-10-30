@@ -6,13 +6,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>IconVacTime.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <StartupObject>ProdTracker.App</StartupObject>
+    <ApplicationIcon>VacTimeLogo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="IconVacTime.ico" />
+    <Content Include="VacTimeLogo.ico" />
   </ItemGroup>
 
   <ItemGroup>

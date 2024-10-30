@@ -7,6 +7,32 @@
         mc:Ignorable="d"
         Title="Учет выпуска и реализации продукции ООО«Вактайм»" Height="450" Width="800">
     <Grid>
-        
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Настройки"/>
+                <MenuItem Header="Выход" Click="Exit"/>
+            </MenuItem>
+            <MenuItem Header="Справочники">
+                <MenuItem Header="Сотрудники"/>
+                <MenuItem Header="Должности"/>
+                <MenuItem Header="Изделия"/>
+                <MenuItem Header="Единицы измерения"/>
+                <MenuItem Header="Места хранения"/>
+                <MenuItem Header="Подразделения"/>
+                <MenuItem Header="Материалы"/>
+                <MenuItem Header="Контрагенты"/>
+            </MenuItem>
+            <MenuItem Header="Документы">
+                <MenuItem Header="Договора"/>
+                <MenuItem Header="Поступления"/>
+                <MenuItem Header="Реализация"/>
+            </MenuItem>
+            <MenuItem Header="Отчеты">
+                <MenuItem Header="..."/>
+            </MenuItem>
+            <MenuItem Header="Справка">
+                <MenuItem Header="О программе" Click="OpenAboutProgramm"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
