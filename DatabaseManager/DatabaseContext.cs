@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ProdTracker
+namespace DatabaseManager
 {
-    class ApplicationContext : DbContext
+    public class DatabaseContext : DbContext
     {
         public DbSet<Unit> Units { get; set; } = null!;
         public DbSet<Post> Posts { get; set; } = null!;
