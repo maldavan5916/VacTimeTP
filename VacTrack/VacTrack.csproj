@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <StartupObject>VacTrack.Program</StartupObject>
+    <ApplicationIcon>VacTimeLogo.ico</ApplicationIcon>
+    <PlatformTarget>x64</PlatformTarget>
+    <SignAssembly>False</SignAssembly>
+    <Company>ВакТайм</Company>
+    <Authors>Грачёв Денис</Authors>
+    <Description>Программа для отслеживания объемов производства и продаж, ведения учета выпускаемой продукции и формирования отчетов для контроля и анализа производственной деятельности.</Description>
+    <PackageProjectUrl>https://github.com/maldavan5916/VacTimeTP</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/maldavan5916/VacTimeTP</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>VacTimeLogo.jpg</PackageIcon>
+    <Title>VacTrack</Title>
+    <Copyright>© Грачёв Денис</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="VacTimeLogo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\res\VacTimeLogo.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseManager\DatabaseManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

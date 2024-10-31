@@ -1,4 +1,4 @@
-﻿namespace ProdTracker
+﻿namespace DatabaseManager
 {
     public enum CounterpartieType { Fiz, Ur }
 

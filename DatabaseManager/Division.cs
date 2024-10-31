@@ -1,4 +1,4 @@
-﻿namespace ProdTracker
+﻿namespace DatabaseManager
 {
     public class Division
     {
