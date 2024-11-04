@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             menuStrip1 = new MenuStrip();
             файлToolStripMenuItem = new ToolStripMenuItem();
@@ -49,7 +50,9 @@
             отчетыToolStripMenuItem = new ToolStripMenuItem();
             справкаToolStripMenuItem = new ToolStripMenuItem();
             AboutProgramToolStripMenuItem = new ToolStripMenuItem();
+            unitBindingSource = new BindingSource(components);
             menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)unitBindingSource).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -176,9 +179,13 @@
             // AboutProgramToolStripMenuItem
             // 
             AboutProgramToolStripMenuItem.Name = "AboutProgramToolStripMenuItem";
-            AboutProgramToolStripMenuItem.Size = new Size(180, 22);
+            AboutProgramToolStripMenuItem.Size = new Size(149, 22);
             AboutProgramToolStripMenuItem.Text = "О программе";
             AboutProgramToolStripMenuItem.Click += AboutProgramToolStripMenuItem_Click;
+            // 
+            // unitBindingSource
+            // 
+            unitBindingSource.DataSource = typeof(DatabaseManager.Unit);
             // 
             // MainForm
             // 
@@ -191,6 +198,7 @@
             Text = "Учет выпуска и реализации продукции ООО«Вактайм»";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)unitBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -217,5 +225,6 @@
         private ToolStripMenuItem отчетыToolStripMenuItem;
         private ToolStripMenuItem справкаToolStripMenuItem;
         private ToolStripMenuItem AboutProgramToolStripMenuItem;
+        private BindingSource unitBindingSource;
     }
 }
