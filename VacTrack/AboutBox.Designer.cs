@@ -1,6 +1,6 @@
 ﻿namespace VacTrack
 {
-    partial class AboutBox1
+    partial class AboutBox
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -27,7 +27,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox));
             tableLayoutPanel = new TableLayoutPanel();
             logoPictureBox = new PictureBox();
             labelProductName = new Label();
@@ -151,8 +151,9 @@
             okButton.Size = new Size(88, 27);
             okButton.TabIndex = 24;
             okButton.Text = "&ОК";
+            okButton.Click += okButton_Click;
             // 
-            // AboutBox1
+            // AboutBox
             // 
             AcceptButton = okButton;
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -163,12 +164,12 @@
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "AboutBox1";
+            Name = "AboutBox";
             Padding = new Padding(10);
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "О программе";
+            Text = "AboutBox";
             tableLayoutPanel.ResumeLayout(false);
             tableLayoutPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();

@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace VacTrack
 {
-    partial class AboutBox1 : Form
+    partial class AboutBox : Form
     {
-        public AboutBox1()
+        public AboutBox()
         {
             InitializeComponent();
             this.Text = String.Format("О программе {0}", AssemblyTitle);
@@ -101,5 +101,10 @@ namespace VacTrack
             }
         }
         #endregion
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
