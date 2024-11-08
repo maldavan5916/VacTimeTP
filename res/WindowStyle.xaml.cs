@@ -1,13 +1,15 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 
-namespace VacTrack
+namespace WpfApplication
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : System.Windows.Application
+    public partial class WindowStyle : ResourceDictionary
     {
-        public App()
+        public WindowStyle()
         {
             InitializeComponent();
         }
@@ -37,5 +39,4 @@ namespace VacTrack
             window.WindowState = System.Windows.WindowState.Minimized;
         }
     }
-
 }

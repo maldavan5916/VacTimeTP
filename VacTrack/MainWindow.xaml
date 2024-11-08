@@ -4,9 +4,41 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VacTrack"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource CustomWindowStyle}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Учёт выпуска изделий ООО''ВакТайм''" Height="450" Width="800">
     <Grid>
-        
+        <Menu IsMainMenu="True" VerticalAlignment="Top" Height="20">
+            <MenuItem Header="Файл" Height="20">
+                <MenuItem Header="Настройки">
+                    <MenuItem x:Name="MenuThemeToggle" Header="Тёмная тема" IsCheckable="True" IsChecked="True" Click="MenuThemeToggle_Click"/>
+                </MenuItem>
+                <MenuItem Header="Выход" Click="Close"/>
+            </MenuItem>
+            <MenuItem Header="Справочники" Height="20">
+                <MenuItem Header="Сотрудники"/>
+                <MenuItem Header="Должности"/>
+                <MenuItem Header="Изделия"/>
+                <MenuItem Header="Единицы измерения"/>
+                <MenuItem Header="Места хранения"/>
+                <MenuItem Header="Места хранения"/>
+                <MenuItem Header="Подразделения"/>
+                <MenuItem Header="Материалы\Коплектуюшие"/>
+                <MenuItem Header="Контрагенты"/>
+            </MenuItem>
+            <MenuItem Header="Документы" Height="20">
+                <MenuItem Header="Договора"/>
+                <MenuItem Header="Поступления"/>
+                <MenuItem Header="Реализация"/>
+            </MenuItem>
+            <MenuItem Header="Отчёты" Height="20">
+                <MenuItem Header="..."/>
+            </MenuItem>
+            <MenuItem Header="Справка" Height="20">
+                <MenuItem Header="О программе" Click="OpenAboutProgram"/>
+                <MenuItem Header="Помощь"/>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
