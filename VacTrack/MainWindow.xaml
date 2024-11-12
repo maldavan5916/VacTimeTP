@@ -9,36 +9,37 @@
         mc:Ignorable="d"
         Title="Учёт выпуска изделий ООО''ВакТайм''" Height="450" Width="800">
     <Grid>
-        <Menu IsMainMenu="True" VerticalAlignment="Top" Height="20">
-            <MenuItem Header="Файл" Height="20">
+        <Menu IsMainMenu="True" VerticalAlignment="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="20">
+            <MenuItem Header="Файл">
                 <MenuItem Header="Настройки">
                     <MenuItem x:Name="MenuThemeToggle" Header="Тёмная тема" IsCheckable="True" IsChecked="True" Click="MenuThemeToggle_Click"/>
                 </MenuItem>
+                <MenuItem Header="Начальний экран" Click="NavigateToTable" Tag="Home"/>
                 <MenuItem Header="Выход" Click="Close"/>
             </MenuItem>
-            <MenuItem Header="Справочники" Height="20">
-                <MenuItem Header="Сотрудники"/>
-                <MenuItem Header="Должности"/>
-                <MenuItem Header="Изделия"/>
-                <MenuItem Header="Единицы измерения"/>
-                <MenuItem Header="Места хранения"/>
-                <MenuItem Header="Места хранения"/>
-                <MenuItem Header="Подразделения"/>
-                <MenuItem Header="Материалы\Коплектуюшие"/>
-                <MenuItem Header="Контрагенты"/>
+            <MenuItem Header="Справочники">
+                <MenuItem Header="Сотрудники" Click="NavigateToTable" Tag="Employee"/>
+                <MenuItem Header="Должности" Click="NavigateToTable" Tag="Post"/>
+                <MenuItem Header="Изделия" Click="NavigateToTable" Tag="Product"/>
+                <MenuItem Header="Единицы измерения" Click="NavigateToTable" Tag="Unit"/>
+                <MenuItem Header="Места хранения" Click="NavigateToTable" Tag="Location"/>
+                <MenuItem Header="Подразделения" Click="NavigateToTable" Tag="Division"/>
+                <MenuItem Header="Материалы\Коплектуюшие" Click="NavigateToTable" Tag="Material"/>
+                <MenuItem Header="Контрагенты" Click="NavigateToTable" Tag="Counterpartie"/>
             </MenuItem>
-            <MenuItem Header="Документы" Height="20">
-                <MenuItem Header="Договора"/>
-                <MenuItem Header="Поступления"/>
-                <MenuItem Header="Реализация"/>
+            <MenuItem Header="Документы">
+                <MenuItem Header="Договора" Click="NavigateToTable" Tag="Contract"/>
+                <MenuItem Header="Поступления" Click="NavigateToTable" Tag="Receipt"/>
+                <MenuItem Header="Реализация" Click="NavigateToTable" Tag="Sale"/>
             </MenuItem>
-            <MenuItem Header="Отчёты" Height="20">
+            <MenuItem Header="Отчёты">
                 <MenuItem Header="..."/>
             </MenuItem>
-            <MenuItem Header="Справка" Height="20">
+            <MenuItem Header="Справка">
                 <MenuItem Header="О программе" Click="OpenAboutProgram"/>
                 <MenuItem Header="Помощь"/>
             </MenuItem>
         </Menu>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="5,25,5,5" />
     </Grid>
 </Window>
