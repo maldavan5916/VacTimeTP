@@ -8,14 +8,10 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Unit">
+      Title="Единицы измерения">
     <Grid>
-        <DataGrid 
-            x:Name="UnitTable"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            HeadersVisibility="All"
-            >
+        <Label Content="Единицы измерения" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <DataGrid  x:Name="UnitTable" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="All" Margin="0,20,0,35" BorderThickness="3" BorderBrush="#19737171">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridCheckBoxColumn.Header>
@@ -24,23 +20,14 @@
                         </Border>
                     </DataGridCheckBoxColumn.Header>
                     <DataGridCheckBoxColumn.HeaderStyle>
-                        <Style
-                            TargetType="{x:Type DataGridColumnHeader}"
-                            BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
-                            <Setter
-                                Property="HorizontalContentAlignment"
-                                Value="Center" />
+                        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
                         </Style>
                     </DataGridCheckBoxColumn.HeaderStyle>
                 </DataGridCheckBoxColumn>
-                <materialDesign:DataGridTextColumn
-                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"
-                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
-                    Header="Наименование"
-                    >
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Наименование">
                     <materialDesign:DataGridTextColumn.Binding>
-                        <Binding
-                            Path="Name">
+                        <Binding Path="Name">
                             <Binding.ValidationRules>
                                 <validators:NotEmptyValidationRule/>
                             </Binding.ValidationRules>
@@ -49,5 +36,21 @@
                 </materialDesign:DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35">
+            <Button Content="Добавить" Style="{StaticResource MaterialDesignPaperButton}" ToolTip="Resource name: MaterialDesignPaperButton" Height="25" FontSize="12" Margin="0,0,5,0" Click="AddRow"/>
+            <Button Content="Удалить" Style="{StaticResource MaterialDesignPaperButton}" ToolTip="Resource name: MaterialDesignPaperButton" Height="25" FontSize="12" Margin="0,0,5,0" Click="DeleteRow"/>
+            <Button Content="Сохранить" Style="{StaticResource MaterialDesignPaperButton}" ToolTip="Resource name: MaterialDesignPaperButton" Height="25" FontSize="12" Margin="0,0,5,0" Click="SaveChange"/>
+            <TextBox 
+                x:Name="searchBox"
+                materialDesign:TextFieldAssist.HasClearButton="True"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                Width="200" 
+                materialDesign:HintAssist.Hint="Поиск"
+                Foreground="{DynamicResource MaterialDesignBody}" 
+                Margin="5,0,3,0"
+                TextChanged="SearchBox_TextChanged"/>
+            <Label x:Name="mesLabel" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" ToolTip="Resource name: MaterialDesignPaperButton" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Click="CancelChange"/>
+        </DockPanel>
     </Grid>
 </Page>
