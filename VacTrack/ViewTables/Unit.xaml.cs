@@ -21,7 +21,6 @@ namespace VacTrack.ViewTables
 
         private void SendMess(string text, System.Windows.Media.Brush brush)
         {
-            mesLabel.Content = "...";
             mesLabel.Foreground = brush;
             mesLabel.Content = text;
         }

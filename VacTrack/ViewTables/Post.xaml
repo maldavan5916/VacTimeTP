@@ -4,11 +4,53 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VacTrack.ViewTables"
+      xmlns:validators="clr-namespace:VacTrack.Validators"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Post">
-
+      Title="Должности">
     <Grid>
-        
+        <Label Content="Должности" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <DataGrid  x:Name="PostTable" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="All" Margin="0,20,0,35" BorderThickness="3" BorderBrush="#19737171">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridCheckBoxColumn.Header>
+                        <Border Background="Transparent">
+                            <CheckBox/>
+                        </Border>
+                    </DataGridCheckBoxColumn.Header>
+                    <DataGridCheckBoxColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridCheckBoxColumn.HeaderStyle>
+                </DataGridCheckBoxColumn>
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="Наименование">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Name">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35">
+            <Button Content="Добавить" Style="{StaticResource MaterialDesignPaperButton}" ToolTip="Resource name: MaterialDesignPaperButton" Height="25" FontSize="12" Margin="0,0,5,0" Click="AddRow"/>
+            <Button Content="Удалить" Style="{StaticResource MaterialDesignPaperButton}" ToolTip="Resource name: MaterialDesignPaperButton" Height="25" FontSize="12" Margin="0,0,5,0" Click="DeleteRow"/>
+            <Button Content="Сохранить" Style="{StaticResource MaterialDesignPaperButton}" ToolTip="Resource name: MaterialDesignPaperButton" Height="25" FontSize="12" Margin="0,0,5,0" Click="SaveChange"/>
+            <TextBox 
+        x:Name="searchBox"
+        materialDesign:TextFieldAssist.HasClearButton="True"
+        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+        Width="200" 
+        materialDesign:HintAssist.Hint="Поиск"
+        Foreground="{DynamicResource MaterialDesignBody}" 
+        Margin="5,0,3,0"
+        TextChanged="SearchBox_TextChanged"/>
+            <Label x:Name="mesLabel" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" ToolTip="Resource name: MaterialDesignPaperButton" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Click="CancelChange"/>
+        </DockPanel>
     </Grid>
 </Page>
