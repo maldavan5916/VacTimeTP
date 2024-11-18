@@ -41,7 +41,7 @@ namespace VacTrack
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e)
         {
-            new AboutBox().Show();
+           throw new NotImplementedException();
         }
 
         private void NavigateToTable(object sender, RoutedEventArgs e)
@@ -58,17 +58,17 @@ namespace VacTrack
                 // Создаем новую страницу, если её нет в кэше
                 targetPage = pageKey switch
                 {
-                    "Contract" => new ViewTables.Contract(),
-                    "Counterpartie" => new ViewTables.Counterpartie(),
-                    "Division" => new ViewTables.Division(),
-                    "Employee" => new ViewTables.Employee(),
-                    "Location" => new ViewTables.Location(),
-                    "Material" => new ViewTables.Material(),
-                    "Post" => new ViewTables.Post(Db),
-                    "Product" => new ViewTables.Product(),
-                    "Receipt" => new ViewTables.Receipt(),
-                    "Sale" => new ViewTables.Sale(),
-                    "Unit" => new ViewTables.Unit(Db),
+                    //"Contract" => new ViewTables.ContractViewTable(),
+                    //"Counterpartie" => new ViewTables.CounterpartieViewTable(),
+                    //"Division" => new ViewTables.DivisionViewTable(),
+                    //"Employee" => new ViewTables.EmployeeViewTable(),
+                    //"Location" => new ViewTables.LocationViewTable(),
+                    //"Material" => new ViewTables.MaterialViewTable(),
+                    "Post" => new ViewTables.PostViewTable(Db),
+                    //"Product" => new ViewTables.ProductViewTable(),
+                    //"Receipt" => new ViewTables.ReceiptViewTable(),
+                    //"Sale" => new ViewTables.SaleViewTable(),
+                    "Unit" => new ViewTables.UnitViewTable(Db),
                     "Home" => new HomePage(),
                     _ => new NotFoundPage("Запрашиваемая страница не найдена"),
                 };
