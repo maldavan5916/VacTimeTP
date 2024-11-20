@@ -12,7 +12,7 @@ namespace VacTrack.ViewTables
     public abstract class BaseViewModel<T> : INotifyPropertyChanged where T : class
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string? name = null) 
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         protected abstract T CreateNewItem();
@@ -37,9 +37,9 @@ namespace VacTrack.ViewTables
         {
             Db = db;
             DbSet = Db.Set<T>();
-            
+
             Db.Database.EnsureCreated();
-            
+
             DbSet.Load();
             Items = DbSet.Local.ToObservableCollection();
             AddCommand = new RelayCommand(AddItem);
@@ -130,7 +130,7 @@ namespace VacTrack.ViewTables
             }
         }
 
-        public void Search ()
+        public void Search()
         {
             try
             {
@@ -138,7 +138,8 @@ namespace VacTrack.ViewTables
                 : DbSet.Local.Where(item => FilterItem(item, SearchText)));
 
                 Items = new ObservableCollection<T>(filteredItems);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Message = $"Ошибка поиска: {ex.Message}";
                 MessageBrush = Brushes.Red;
