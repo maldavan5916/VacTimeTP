@@ -11,8 +11,8 @@ namespace VacTrack
     public partial class MainWindow : Window
     {
         readonly DatabaseContext Db = new();
-        private readonly Dictionary<string, Page> _pagesCache = new();
-        private readonly PaletteHelper _paletteHelper = new PaletteHelper();
+        private readonly Dictionary<string, Page> _pagesCache = [];
+        private readonly PaletteHelper _paletteHelper = new();
 
         public MainWindow()
         {
@@ -51,7 +51,6 @@ namespace VacTrack
 
             if (string.IsNullOrEmpty(pageKey))
                 return;
-
             // Проверяем, есть ли страница в кэше
             if (!_pagesCache.TryGetValue(pageKey, out Page? targetPage))
             {
@@ -72,11 +71,9 @@ namespace VacTrack
                     "Home" => new HomePage(),
                     _ => new NotFoundPage("Запрашиваемая страница не найдена"),
                 };
-
                 // Добавляем новую страницу в кэш
                 _pagesCache[pageKey] = targetPage;
             }
-
             // Навигация на найденную или созданную страницу
             MainFrame.Navigate(targetPage);
         }
