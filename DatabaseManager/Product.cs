@@ -1,19 +1,115 @@
 ﻿namespace DatabaseManager
 {
-    public class Product
+    public class Product : BaseModel
     {
-        public int Id { get; set; }
-        public required string Name { get; set; }
-        public required string SerialNo { get; set; }
+        private int _id;
+        public int Id
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
 
-        public int UnitId { get; set; }
-        public Unit? Unit { get; set; }
+        private string? _name;
+        public required string Name
+        {
+            get => _name ?? throw new InvalidOperationException("Name must be initialized.");
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
-        public int LocationId { get; set; }
-        public Location? Location { get; set; }
+        private string? _serialNo;
+        public required string SerialNo
+        {
+            get => _serialNo ?? throw new InvalidOperationException("SerialNo must be initialized.");
+            set
+            {
+                _serialNo = value;
+                OnPropertyChanged(nameof(SerialNo));
+            }
+        }
 
-        public List<Product_Material> ProductMaterials { get; set; } = new List<Product_Material>();
-        public List<Contract> Contracts { get; set; } = new List<Contract>();
-        public List<Sale> Sales { get; set; } = new List<Sale>();
+        private int _unitId;
+        public int UnitId
+        {
+            get => _unitId;
+            set
+            {
+                _unitId = value;
+                OnPropertyChanged(nameof(UnitId));
+            }
+        }
+
+        private Unit? _unit;
+        public Unit? Unit
+        {
+            get => _unit;
+            set
+            {
+                _unit = value;
+                OnPropertyChanged(nameof(Unit));
+            }
+        }
+
+        private int _locationId;
+        public int LocationId
+        {
+            get => _locationId;
+            set
+            {
+                _locationId = value;
+                OnPropertyChanged(nameof(LocationId));
+            }
+        }
+
+        private Location? _location;
+        public Location? Location
+        {
+            get => _location;
+            set
+            {
+                _location = value;
+                OnPropertyChanged(nameof(Location));
+            }
+        }
+
+        private List<Product_Material> _productMaterials = [];
+        public List<Product_Material> ProductMaterials
+        {
+            get => _productMaterials;
+            set
+            {
+                _productMaterials = value;
+                OnPropertyChanged(nameof(ProductMaterials));
+            }
+        }
+
+        private List<Contract> _contracts = [];
+        public List<Contract> Contracts
+        {
+            get => _contracts;
+            set
+            {
+                _contracts = value;
+                OnPropertyChanged(nameof(Contracts));
+            }
+        }
+
+        private List<Sale> _sales = [];
+        public List<Sale> Sales
+        {
+            get => _sales;
+            set
+            {
+                _sales = value;
+                OnPropertyChanged(nameof(Sales));
+            }
+        }
     }
 }

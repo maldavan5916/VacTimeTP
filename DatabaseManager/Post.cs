@@ -1,11 +1,38 @@
 ﻿namespace DatabaseManager
 {
-    public class Post
+    public class Post : BaseModel
     {
-        public int Id { get; set; }
-        public required string Name { get; set; }
+        private int _id;
+        public int Id
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
 
-        // Навигационное свойство: одна должность может быть у нескольких сотрудников
-        public List<Employee> Employees { get; set; } = new List<Employee>();
+        private string? _name;
+        public required string Name
+        {
+            get => _name ?? throw new InvalidOperationException("Name must be initialized.");
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        private List<Employee> _employees = new List<Employee>();
+        public List<Employee> Employees
+        {
+            get => _employees;
+            set
+            {
+                _employees = value;
+                OnPropertyChanged(nameof(Employees));
+            }
+        }
     }
 }

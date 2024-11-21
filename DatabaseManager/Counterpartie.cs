@@ -7,7 +7,7 @@
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string LegalAddress { get; set; }
-        public required string PhoneNomber { get; set; }
+        public required string PhoneNumber { get; set; }
         public required string PostalAddress { get; set; }
         public required string Unp { get; set; }
         public CounterpartieType Type { get; set; } = CounterpartieType.Fiz;
