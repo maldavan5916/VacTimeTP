@@ -10,7 +10,7 @@ namespace VacTrack.Converter
             if (value is double totalWidth)
             {
                 // Вычитаем ширину кнопок и других фиксированных элементов
-                double reservedWidth = 600; // Задайте ширину кнопок/отступов
+                double reservedWidth = 620; // Задайте ширину кнопок/отступов
                 return Math.Max(0, totalWidth - reservedWidth);
             }
             return 0;

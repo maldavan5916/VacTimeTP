@@ -59,15 +59,15 @@ namespace VacTrack
                 {
                     //"Contract" => new ViewTables.ContractViewTable(Db),
                     //"Counterpartie" => new ViewTables.CounterpartieViewTable(Db),
-                    "Division" => new ViewTables.DivisionViewTable(Db),
+                    "Division" => new ViewTables.DivisionViewTable(),
                     //"Employee" => new ViewTables.EmployeeViewTable(Db),
                     //"Location" => new ViewTables.LocationViewTable(Db),
                     //"Material" => new ViewTables.MaterialViewTable(Db),
-                    "Post" => new ViewTables.PostViewTable(Db),
+                    "Post" => new ViewTables.PostViewTable(),
                     //"Product" => new ViewTables.ProductViewTable(Db),
                     //"Receipt" => new ViewTables.ReceiptViewTable(Db),
                     //"Sale" => new ViewTables.SaleViewTable(Db),
-                    "Unit" => new ViewTables.UnitViewTable(Db),
+                    "Unit" => new ViewTables.UnitViewTable(),
                     "Home" => new HomePage(),
                     _ => new NotFoundPage("Запрашиваемая страница не найдена"),
                 };

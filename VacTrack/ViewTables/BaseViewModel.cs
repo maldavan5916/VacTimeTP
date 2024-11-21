@@ -27,6 +27,7 @@ namespace VacTrack.ViewTables
         private string? _Message; public string? Message { get => _Message; set { _Message = value; OnPropertyChanged(); StartResetTimer(); } }
         private Brush? _MessageBrush; public Brush? MessageBrush { get => _MessageBrush; set { _MessageBrush = value; OnPropertyChanged(); } }
         private string? _SearchText; public string? SearchText { get => _SearchText; set { _SearchText = value; OnPropertyChanged(); Search(); } }
+        private string? _TableName; public string? TableName { get => _TableName; set { _TableName = value; OnPropertyChanged(); } }
 
         public ICommand AddCommand { get; }
         public ICommand DeleteCommand { get; }
@@ -85,16 +86,38 @@ namespace VacTrack.ViewTables
         {
             try
             {
-                Db.SaveChanges();
-                Message = "Изменения сохранены.";
-                MessageBrush = Brushes.Green;
+                // Получаем все измененные, добавленные или удаленные записи для таблицы T
+                var changedEntries = Db.ChangeTracker.Entries<T>()
+                    .Where(e => e.State == EntityState.Modified || e.State == EntityState.Added || e.State == EntityState.Deleted)
+                    .ToList();
+
+                // Если изменения для таблицы T существуют, сохраняем их
+                if (changedEntries.Count != 0)
+                {
+                    Db.SaveChanges(); // Сохраняем только изменения для текущего контекста
+                    Message = $"Изменения для таблицы \"{TableName}\" успешно сохранены.";
+                    MessageBrush = Brushes.Green; // Устанавливаем зеленый цвет для сообщения об успехе
+                }
+                else
+                {
+                    Message = $"Нет изменений для сохранения в таблице \"{TableName}\".";
+                    MessageBrush = Brushes.Orange; // Устанавливаем оранжевый цвет для сообщения, если изменений нет
+                }
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Обрабатываем исключения, связанные с обновлением базы данных
+                Message = $"Ошибка обновления базы данных: {dbEx.Message}";
+                MessageBrush = Brushes.Red; // Устанавливаем красный цвет для сообщения об ошибке
             }
             catch (Exception ex)
             {
-                Message = $"Ошибка при сохранении: {ex.Message}";
-                MessageBrush = Brushes.Red;
+                // Обрабатываем все остальные исключения
+                Message = $"Ошибка сохранения изменений: {ex.Message}";
+                MessageBrush = Brushes.Red; // Устанавливаем красный цвет для сообщения об ошибке
             }
         }
+
 
         public void CancelChanges(object obj)
         {
@@ -102,6 +125,13 @@ namespace VacTrack.ViewTables
             {
                 var changedEntries = Db.ChangeTracker.Entries()
                     .Where(e => e.State == EntityState.Modified || e.State == EntityState.Added || e.State == EntityState.Deleted);
+
+                if (changedEntries.ToList().Count == 0)
+                {
+                    Message = "Нечего отменять";
+                    MessageBrush = Brushes.Orange;
+                    return;
+                }
 
                 foreach (var entry in changedEntries)
                 {
@@ -119,14 +149,17 @@ namespace VacTrack.ViewTables
                             break;
                     }
                 }
-
                 Message = "Изменения отменены.";
-                MessageBrush = Brushes.Orange;
+                MessageBrush = Brushes.Green;
             }
             catch (Exception ex)
             {
                 Message = $"Ошибка при отмене изменений: {ex.Message}";
                 MessageBrush = Brushes.Red;
+            }
+            finally
+            {
+                OnPropertyChanged(nameof(Items));
             }
         }
 
@@ -144,7 +177,10 @@ namespace VacTrack.ViewTables
                 Message = $"Ошибка поиска: {ex.Message}";
                 MessageBrush = Brushes.Red;
             }
-            OnPropertyChanged(nameof(Items));
+            finally
+            {
+                OnPropertyChanged(nameof(Items));
+            }
         }
 
         private void StartResetTimer()
