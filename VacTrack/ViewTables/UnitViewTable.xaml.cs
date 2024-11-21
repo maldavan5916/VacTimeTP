@@ -1,5 +1,4 @@
 ﻿using DatabaseManager;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace VacTrack.ViewTables
@@ -9,7 +8,6 @@ namespace VacTrack.ViewTables
     /// </summary>
     public partial class UnitViewTable : Page
     {
-
         public UnitViewTable()
         {
             InitializeComponent();

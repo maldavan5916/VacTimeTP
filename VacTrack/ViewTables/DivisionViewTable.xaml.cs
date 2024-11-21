@@ -1,5 +1,4 @@
 ﻿using DatabaseManager;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace VacTrack.ViewTables

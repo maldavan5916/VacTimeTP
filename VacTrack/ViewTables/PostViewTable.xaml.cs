@@ -1,8 +1,5 @@
 ﻿using DatabaseManager;
-using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace VacTrack.ViewTables
 {
@@ -11,7 +8,6 @@ namespace VacTrack.ViewTables
     /// </summary>
     public partial class PostViewTable : Page
     {
-
         public PostViewTable()
         {
             InitializeComponent();

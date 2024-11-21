@@ -15,19 +15,83 @@ namespace VacTrack.ViewTables
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        protected abstract T CreateNewItem();
-        protected abstract bool FilterItem(T item, string filter);
+        #region properties
 
         protected DatabaseContext Db;
         protected DbSet<T> DbSet;
         private System.Timers.Timer? _resetTimer;
 
-        public ObservableCollection<T> Items { get; set; }
-        private T? _SelectedItem; public T? SelectedItem { get => _SelectedItem; set { _SelectedItem = value; OnPropertyChanged(); } }
-        private string? _Message; public string? Message { get => _Message; set { _Message = value; OnPropertyChanged(); StartResetTimer(); } }
-        private Brush? _MessageBrush; public Brush? MessageBrush { get => _MessageBrush; set { _MessageBrush = value; OnPropertyChanged(); } }
-        private string? _SearchText; public string? SearchText { get => _SearchText; set { _SearchText = value; OnPropertyChanged(); Search(); } }
-        private string? _TableName; public string? TableName { get => _TableName; set { _TableName = value; OnPropertyChanged(); } }
+        private ObservableCollection<T> _Items;
+        public ObservableCollection<T> Items
+        {
+            get => _Items;
+            set
+            {
+                if (_Items != value)
+                {
+                    _Items = value;
+                    OnPropertyChanged(nameof(Items));
+                }
+            }
+        }
+
+        private T? _SelectedItem;
+        public T? SelectedItem
+        {
+            get => _SelectedItem;
+            set
+            {
+                _SelectedItem = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+
+        private string? _Message;
+        public string? Message
+        {
+            get => _Message;
+            set
+            {
+                _Message = value;
+                OnPropertyChanged();
+                StartResetTimer();
+            }
+        }
+
+        private Brush? _MessageBrush;
+        public Brush? MessageBrush
+        {
+            get => _MessageBrush;
+            set
+            {
+                _MessageBrush = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string? _SearchText;
+        public string? SearchText
+        {
+            get => _SearchText;
+            set
+            {
+                _SearchText = value;
+                OnPropertyChanged();
+                Search();
+            }
+        }
+
+        private string? _TableName;
+        public string? TableName
+        {
+            get => _TableName;
+            set
+            {
+                _TableName = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
 
         public ICommand AddCommand { get; }
         public ICommand DeleteCommand { get; }
@@ -37,17 +101,29 @@ namespace VacTrack.ViewTables
         public BaseViewModel(DatabaseContext db)
         {
             Db = db;
-            DbSet = Db.Set<T>();
-
             Db.Database.EnsureCreated();
+            LoadData();
 
-            DbSet.Load();
-            Items = DbSet.Local.ToObservableCollection();
+            if (DbSet == null || _Items == null)
+                throw new Exception("Data loading error");
+
             AddCommand = new RelayCommand(AddItem);
             DeleteCommand = new RelayCommand(DeleteItem);
             SaveCommand = new RelayCommand(SaveChanges);
             CancelCommand = new RelayCommand(CancelChanges);
         }
+
+        protected abstract T CreateNewItem();
+
+        protected abstract bool FilterItem(T item, string filter);
+
+        protected virtual void LoadData()
+        {
+            DbSet = Db.Set<T>();
+            DbSet.Load();
+            Items = DbSet.Local.ToObservableCollection();
+        }
+
         public void AddItem(object obj)
         {
             try
@@ -157,10 +233,6 @@ namespace VacTrack.ViewTables
                 Message = $"Ошибка при отмене изменений: {ex.Message}";
                 MessageBrush = Brushes.Red;
             }
-            finally
-            {
-                OnPropertyChanged(nameof(Items));
-            }
         }
 
         public void Search()
@@ -170,16 +242,17 @@ namespace VacTrack.ViewTables
                 var filteredItems = (string.IsNullOrWhiteSpace(SearchText) ? DbSet.Local
                 : DbSet.Local.Where(item => FilterItem(item, SearchText)));
 
-                Items = new ObservableCollection<T>(filteredItems);
+                // Обновляем содержимое `Items`:
+                Items.Clear();
+                foreach (var item in filteredItems)
+                {
+                    Items.Add(item);
+                }
             }
             catch (Exception ex)
             {
                 Message = $"Ошибка поиска: {ex.Message}";
                 MessageBrush = Brushes.Red;
-            }
-            finally
-            {
-                OnPropertyChanged(nameof(Items));
             }
         }
 
