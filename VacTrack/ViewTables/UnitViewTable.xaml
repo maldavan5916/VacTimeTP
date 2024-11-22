@@ -21,6 +21,9 @@
     
     <Grid>
         <Label Content="{Binding TableName}" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+        <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}" />
+
         <DataGrid ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedItem}"
                   AutoGenerateColumns="False" 
