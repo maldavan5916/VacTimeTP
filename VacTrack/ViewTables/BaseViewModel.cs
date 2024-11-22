@@ -11,9 +11,11 @@ namespace VacTrack.ViewTables
 {
     public abstract class BaseViewModel<T> : INotifyPropertyChanged where T : class
     {
+        #region interface implemented 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        #endregion
 
         #region properties
 
@@ -104,8 +106,7 @@ namespace VacTrack.ViewTables
             Db.Database.EnsureCreated();
             LoadData();
 
-            if (DbSet == null || _Items == null)
-                throw new Exception("Data loading error");
+            if (DbSet == null || _Items == null) throw new Exception("Data loading error");
 
             AddCommand = new RelayCommand(AddItem);
             DeleteCommand = new RelayCommand(DeleteItem);
@@ -124,12 +125,12 @@ namespace VacTrack.ViewTables
             Items = DbSet.Local.ToObservableCollection();
         }
 
-        public void AddItem(object obj)
+        private void AddItem(object obj)
         {
             try
             {
                 var newItem = CreateNewItem();
-                DbSet.Add(newItem);
+                Items.Add(newItem); //DbSet.Add(newItem);
                 Message = "Новая запись добавлена";
                 MessageBrush = Brushes.Green;
             }
@@ -139,13 +140,13 @@ namespace VacTrack.ViewTables
             }
         }
 
-        public void DeleteItem(object obj)
+        private void DeleteItem(object obj)
         {
             try
             {
                 if (SelectedItem != null)
                 {
-                    DbSet.Remove(SelectedItem);
+                    Items.Remove(SelectedItem); //DbSet.Remove(SelectedItem);
                     Message = "Запись удалена";
                     MessageBrush = Brushes.Green;
                 }
@@ -158,7 +159,7 @@ namespace VacTrack.ViewTables
             }
         }
 
-        public void SaveChanges(object obj)
+        private void SaveChanges(object obj)
         {
             try
             {
@@ -195,7 +196,7 @@ namespace VacTrack.ViewTables
         }
 
 
-        public void CancelChanges(object obj)
+        private void CancelChanges(object obj)
         {
             try
             {
@@ -209,22 +210,9 @@ namespace VacTrack.ViewTables
                     return;
                 }
 
-                foreach (var entry in changedEntries)
-                {
-                    switch (entry.State)
-                    {
-                        case EntityState.Modified:
-                            entry.CurrentValues.SetValues(entry.OriginalValues); // Отменяем изменения
-                            entry.State = EntityState.Unchanged;
-                            break;
-                        case EntityState.Added:
-                            entry.State = EntityState.Detached; // Удаляем добавленные записи
-                            break;
-                        case EntityState.Deleted:
-                            entry.State = EntityState.Unchanged; // Восстанавливаем удаленные записи
-                            break;
-                    }
-                }
+                Db.ChangeTracker.Clear();
+                LoadData(); // Перезагрузка данных, чтобы обновить коллекцию
+
                 Message = "Изменения отменены.";
                 MessageBrush = Brushes.Green;
             }
@@ -235,19 +223,11 @@ namespace VacTrack.ViewTables
             }
         }
 
-        public void Search()
+        private void Search()
         {
             try
             {
-                var filteredItems = (string.IsNullOrWhiteSpace(SearchText) ? DbSet.Local
-                : DbSet.Local.Where(item => FilterItem(item, SearchText)));
-
-                // Обновляем содержимое `Items`:
-                Items.Clear();
-                foreach (var item in filteredItems)
-                {
-                    Items.Add(item);
-                }
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {
@@ -268,10 +248,13 @@ namespace VacTrack.ViewTables
 
         private void ResetMessage(object? sender, ElapsedEventArgs e)
         {
-            // Очищаем сообщение после 30 секунд
-            Message = string.Empty;
-            // Останавливаем таймер после срабатывания
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                Message = string.Empty;
+            });
             _resetTimer?.Stop();
         }
+
+        public void OpenFromCache() => LoadData();
     }
 }

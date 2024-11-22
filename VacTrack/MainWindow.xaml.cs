@@ -74,6 +74,12 @@ namespace VacTrack
                 // Добавляем новую страницу в кэш
                 _pagesCache[pageKey] = targetPage;
             }
+            else
+            {
+                // Если страница из кэша, уведомляем её
+                if (targetPage is ICachedPage cachedPage)
+                    cachedPage.OnNavigatedFromCache();
+            }
             // Навигация на найденную или созданную страницу
             MainFrame.Navigate(targetPage);
         }

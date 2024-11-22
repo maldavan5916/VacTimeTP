@@ -8,12 +8,11 @@ namespace VacTrack.ViewTables
     /// <summary>
     /// Логика взаимодействия для EmployeeViewTable.xaml
     /// </summary>
-    public partial class EmployeeViewTable : Page
+    public partial class EmployeeViewTable : Page, ICachedPage
     {
-        public EmployeeViewTable()
-        {
-            InitializeComponent();
-        }
+        private EmployeeViewModel ThisViewModel => (EmployeeViewModel)DataContext;
+        public EmployeeViewTable() => InitializeComponent();
+        public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
     }
 
     public class EmployeeViewModel : BaseViewModel<Employee>
@@ -26,18 +25,16 @@ namespace VacTrack.ViewTables
         protected override void LoadData()
         {
             TableName = "Сотрудники";
-            DbSet = Db.Set<Employee>();
-            DbSet.Load();
             EmployDivisions = new ObservableCollection<Division>([.. Db.Divisions]);
             EmployPosts = new ObservableCollection<Post>([.. Db.Posts]);
-            
-            Items = new ObservableCollection<Employee>([.. Db.Employees
-                .Include(e => e.Division)
-                .Include(e => e.Post)
-                ]);
+
+            DbSet = Db.Set<Employee>();
+            DbSet.Include(e => e.Division).Include(e => e.Post).Load();
+
+            Items = DbSet.Local.ToObservableCollection();
         }
 
-        protected override Employee CreateNewItem() => new() { Fio = "Новый сотрудник" };
+        protected override Employee CreateNewItem() => new() { Fio = "Новый сотрудник", DateHire  = DateTime.Now };
         protected override bool FilterItem(Employee item, string filter) =>
             item.Fio != null && item.Fio.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
     }

@@ -90,7 +90,7 @@
             }
         }
 
-        private List<Sale> _sales = new List<Sale>();
+        private List<Sale> _sales = [];
         public List<Sale> Sales
         {
             get => _sales;
