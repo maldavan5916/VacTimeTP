@@ -35,7 +35,11 @@ namespace VacTrack.ViewTables
         }
 
         protected override Employee CreateNewItem() => new() { Fio = "Новый сотрудник", DateHire  = DateTime.Now };
-        protected override bool FilterItem(Employee item, string filter) =>
-            item.Fio != null && item.Fio.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
+        
+        protected override bool FilterItem(Employee item, string? searchText) => 
+            string.IsNullOrWhiteSpace(searchText) || 
+            item.Fio?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
+            item.Division?.Name?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
+            item.Post?.Name?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true;
     }
 }

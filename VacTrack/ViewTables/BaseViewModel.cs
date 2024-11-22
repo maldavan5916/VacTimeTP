@@ -116,7 +116,7 @@ namespace VacTrack.ViewTables
 
         protected abstract T CreateNewItem();
 
-        protected abstract bool FilterItem(T item, string filter);
+        protected abstract bool FilterItem(T item, string? searchText);
 
         protected virtual void LoadData()
         {
@@ -227,7 +227,18 @@ namespace VacTrack.ViewTables
         {
             try
             {
-                throw new NotImplementedException();
+                if (string.IsNullOrWhiteSpace(SearchText))
+                {
+                    LoadData(); // Перезагрузка данных, если строка поиска пустая
+                    Message = string.Empty;
+                    return;
+                }
+
+                var filteredItems = DbSet.Local.Where(item => FilterItem(item, SearchText)).ToList();
+                Items = new ObservableCollection<T>(filteredItems);
+
+                Message = $"Найдено записей: {filteredItems.Count}";
+                MessageBrush = filteredItems.Count != 0 ? Brushes.Green : Brushes.Orange;
             }
             catch (Exception ex)
             {
@@ -235,6 +246,7 @@ namespace VacTrack.ViewTables
                 MessageBrush = Brushes.Red;
             }
         }
+
 
         private void StartResetTimer()
         {

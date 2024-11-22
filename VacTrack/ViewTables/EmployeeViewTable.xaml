@@ -96,9 +96,9 @@
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
-                            <DatePicker Width="140" 
+                            <DatePicker Width="90" 
                                         SelectedDate="{Binding DateHire, UpdateSourceTrigger=PropertyChanged}"
-                                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                                         materialDesign:HintAssist.Hint="Выбор даты"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
@@ -112,9 +112,9 @@
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
-                            <DatePicker Width="140" 
+                            <DatePicker Width="90" 
                                         SelectedDate="{Binding DateDismissal, UpdateSourceTrigger=PropertyChanged, FallbackValue={x:Static sys:DateTime.Now}}"
-                                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                                         materialDesign:HintAssist.Hint="Выбор даты"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
@@ -130,7 +130,7 @@
             <TextBox
                 materialDesign:TextFieldAssist.HasClearButton="True"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                Width="200" 
+                Width="200"
                 materialDesign:HintAssist.Hint="Поиск"
                 Foreground="{DynamicResource MaterialDesignBody}" 
                 Text="{Binding SearchText,  UpdateSourceTrigger=PropertyChanged}"
