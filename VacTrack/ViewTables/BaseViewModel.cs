@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace VacTrack.ViewTables
 {
-    public abstract class BaseViewModel<T> : INotifyPropertyChanged where T : class
+    public abstract class BaseViewModel<T> : INotifyPropertyChanged where T : BaseModel
     {
         #region interface implemented 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -93,6 +93,24 @@ namespace VacTrack.ViewTables
                 OnPropertyChanged();
             }
         }
+
+        public bool? IsAllSelected
+        {
+            get
+            {
+                var selected = Items.Select(item => item.IsSelected).Distinct().ToList();
+                return selected.Count == 1 ? selected.Single() : null;
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    SelectAll(value.Value, Items);
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         #endregion
 
         public ICommand AddCommand { get; }
@@ -112,6 +130,15 @@ namespace VacTrack.ViewTables
             DeleteCommand = new RelayCommand(DeleteItem);
             SaveCommand = new RelayCommand(SaveChanges);
             CancelCommand = new RelayCommand(CancelChanges);
+
+            foreach (var model in Items)
+            {
+                model.PropertyChanged += (sender, args) =>
+                {
+                    if (args.PropertyName == nameof(Employee.IsSelected))
+                        OnPropertyChanged(nameof(IsAllSelected));
+                };
+            }
         }
 
         protected abstract T CreateNewItem();
@@ -268,5 +295,14 @@ namespace VacTrack.ViewTables
         }
 
         public void OpenFromCache() => LoadData();
+
+
+        private static void SelectAll(bool select, IEnumerable<T> models)
+        {
+            foreach (var model in models)
+            {
+                model.IsSelected = select;
+            }
+        }
     }
 }

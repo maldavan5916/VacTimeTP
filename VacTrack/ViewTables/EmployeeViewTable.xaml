@@ -22,6 +22,9 @@
     
     <Grid>
         <Label Content="{Binding TableName}" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+        <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}" />
+
         <DataGrid Margin="0,20,0,35"
                   ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedItem}"
@@ -31,10 +34,12 @@
                   BorderThickness="3" 
                   BorderBrush="#19737171">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}">
                     <DataGridCheckBoxColumn.Header>
                         <Border Background="Transparent">
-                            <CheckBox/>
+                            <CheckBox IsChecked="{Binding DataContext.IsAllSelected, Source={x:Reference DataContextProxy}}" />
                         </Border>
                     </DataGridCheckBoxColumn.Header>
                     <DataGridCheckBoxColumn.HeaderStyle>
@@ -43,7 +48,7 @@
                         </Style>
                     </DataGridCheckBoxColumn.HeaderStyle>
                 </DataGridCheckBoxColumn>
-                
+
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" Header="ФИО">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Fio">
@@ -127,23 +132,21 @@
             <Button Content="Добавить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding AddCommand}" Width="95" ToolTip="добавление новой записи"/>
             <Button Content="Удалить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding DeleteCommand}" Width="95" ToolTip="удаление выбраной записи"/>
             <Button Content="Сохранить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding SaveCommand}" Width="95" ToolTip="сохраняет внесеные изменения"/>
-            <TextBox
-                materialDesign:TextFieldAssist.HasClearButton="True"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                Width="200"
-                materialDesign:HintAssist.Hint="Поиск"
-                Foreground="{DynamicResource MaterialDesignBody}" 
-                Text="{Binding SearchText,  UpdateSourceTrigger=PropertyChanged}"
-                Margin="5,0,3,0"/>
-            <TextBlock 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center" 
-                ToolTip="{Binding Message}" 
-                Text="{Binding Message}" 
-                Foreground="{Binding MessageBrush}" 
-                TextTrimming="CharacterEllipsis" 
-                Margin="5,0,3,0"
-                MaxWidth="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}"/>
+            <TextBox materialDesign:TextFieldAssist.HasClearButton="True"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                     Width="200"
+                     materialDesign:HintAssist.Hint="Поиск"
+                     Foreground="{DynamicResource MaterialDesignBody}" 
+                     Text="{Binding SearchText,  UpdateSourceTrigger=PropertyChanged}"
+                     Margin="5,0,3,0"/>
+            <TextBlock HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       ToolTip="{Binding Message}" 
+                       Text="{Binding Message}" 
+                       Foreground="{Binding MessageBrush}" 
+                       TextTrimming="CharacterEllipsis" 
+                       Margin="5,0,3,0"
+                       MaxWidth="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}"/>
             <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Command="{Binding CancelCommand}" Width="95" ToolTip="отменяет не сохраненые изменения"/>
         </DockPanel>
     </Grid>
