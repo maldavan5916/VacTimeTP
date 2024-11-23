@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="#FFE64A1C" SecondaryColor="#03DAC6" />
+                <materialDesign:CustomColorTheme BaseTheme="Inherit" PrimaryColor="#FFE64A1C" SecondaryColor="#03DAC6" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}" BasedOn="{StaticResource MaterialDesignWindow}">
