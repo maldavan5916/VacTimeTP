@@ -17,6 +17,7 @@
 
     <Page.Resources>
         <converter:DockPanelWidthConverter x:Key="DockPanelWidthConverter"/>
+        <converter:CounterpartieTypeConverter x:Key="CounterpartieTypeConverter"/>
     </Page.Resources>
 
     <Grid>
@@ -103,16 +104,11 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
-                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                                   Header="Тип">
-                    <materialDesign:DataGridTextColumn.Binding>
-                        <Binding Path="Type">
-                            <Binding.ValidationRules>
-                                <validators:NotEmptyValidationRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </materialDesign:DataGridTextColumn.Binding>
-                </materialDesign:DataGridTextColumn>
+                <materialDesign:DataGridComboBoxColumn 
+                    Header="Тип"
+                    ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Types, Converter={StaticResource CounterpartieTypeConverter}}"
+                    SelectedValueBinding="{Binding Type, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CounterpartieTypeConverter}}"
+                    IsEditable="False"/>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
                                                    Header="ОКЮЛП">
