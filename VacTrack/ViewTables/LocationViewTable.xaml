@@ -25,17 +25,17 @@
         <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}" />
 
         <DataGrid Margin="0,20,0,35"
-          ItemsSource="{Binding Items}"
-          SelectedItem="{Binding SelectedItem}"
-          AutoGenerateColumns="False" 
-          CanUserAddRows="False" 
-          HeadersVisibility="All"  
-          BorderThickness="3" 
-          BorderBrush="#19737171">
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False" 
+                  HeadersVisibility="All"  
+                  BorderThickness="3" 
+                  BorderBrush="#19737171">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
-                                EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
-                                ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}">
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}">
                     <DataGridCheckBoxColumn.Header>
                         <Border Background="Transparent">
                             <CheckBox IsChecked="{Binding DataContext.IsAllSelected, Source={x:Reference DataContextProxy}}" />

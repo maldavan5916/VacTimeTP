@@ -58,7 +58,7 @@ namespace VacTrack
                 targetPage = pageKey switch
                 {
                     //"Contract" => new ViewTables.ContractViewTable(),
-                    //"Counterpartie" => new ViewTables.CounterpartieViewTable(),
+                    "Counterpartie" => new ViewTables.CounterpartieViewTable(),
                     "Division" => new ViewTables.DivisionViewTable(),
                     "Employee" => new ViewTables.EmployeeViewTable(),
                     "Location" => new ViewTables.LocationViewTable(),
