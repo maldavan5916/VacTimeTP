@@ -68,14 +68,15 @@
             }
         }
 
-        private int _count;
-        public int Count
+        private double _count;
+        public double Count
         {
             get => _count;
             set
             {
-                _count = value;
+                _count = value > 0 ? value : 0; ;
                 OnPropertyChanged(nameof(Count));
+                OnPropertyChanged(nameof(GetSum));
             }
         }
 
@@ -85,12 +86,13 @@
             get => _price;
             set
             {
-                _price = value;
+                _price = value > 0 ? value : 0; ;
                 OnPropertyChanged(nameof(Price));
+                OnPropertyChanged(nameof(GetSum));
             }
         }
 
-        private List<Product_Material> _productMaterials = new List<Product_Material>();
+        private List<Product_Material> _productMaterials = [];
         public List<Product_Material> ProductMaterials
         {
             get => _productMaterials;
@@ -101,7 +103,7 @@
             }
         }
 
-        private List<Receipt> _receipts = new List<Receipt>();
+        private List<Receipt> _receipts = [];
         public List<Receipt> Receipts
         {
             get => _receipts;
@@ -111,5 +113,8 @@
                 OnPropertyChanged(nameof(Receipts));
             }
         }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public double GetSum { get => Math.Round(Count * Price, 3); }
     }
 }

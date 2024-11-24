@@ -62,7 +62,7 @@ namespace VacTrack
                     "Division" => new ViewTables.DivisionViewTable(),
                     "Employee" => new ViewTables.EmployeeViewTable(),
                     "Location" => new ViewTables.LocationViewTable(),
-                    //"Material" => new ViewTables.MaterialViewTable(),
+                    "Material" => new ViewTables.MaterialViewTable(),
                     "Post" => new ViewTables.PostViewTable(),
                     //"Product" => new ViewTables.ProductViewTable(),
                     //"Receipt" => new ViewTables.ReceiptViewTable(),
