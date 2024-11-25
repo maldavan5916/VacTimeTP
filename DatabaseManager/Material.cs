@@ -74,7 +74,7 @@
             get => _count;
             set
             {
-                _count = value > 0 ? value : 0; ;
+                _count = value > 0 ? value : 0;
                 OnPropertyChanged(nameof(Count));
                 OnPropertyChanged(nameof(GetSum));
             }
@@ -86,7 +86,7 @@
             get => _price;
             set
             {
-                _price = value > 0 ? value : 0; ;
+                _price = value > 0 ? value : 0;
                 OnPropertyChanged(nameof(Price));
                 OnPropertyChanged(nameof(GetSum));
             }

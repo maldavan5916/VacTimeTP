@@ -20,9 +20,14 @@
     </Page.Resources>
 
     <Grid>
-        <Label Content="{Binding TableName}" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Label Content="{Binding TableName}" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
 
-        <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}" />
+        <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}" Grid.ColumnSpan="2" />
 
         <DataGrid Margin="0,20,0,35"
                   ItemsSource="{Binding Items}"
@@ -95,7 +100,51 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35" x:Name="MainDockPanel">
+        <Label Content="Материалы и Комлектуюшие для" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="1"/>
+        <Label Content="{Binding SelectedItem.Name}" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.Column="1" Margin="0,15,0,0"/>
+
+        <DataGrid Grid.Column="1"
+                  Margin="5,40,0,35"
+                  ItemsSource="{Binding ProdMater}"
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False" 
+                  HeadersVisibility="All"  
+                  BorderThickness="3" 
+                  BorderBrush="#19737171">
+            <DataGrid.Columns>
+
+                <materialDesign:DataGridTextColumn  
+                    Header="Наименование"
+                    IsReadOnly="True"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                    Binding="{Binding Material.Name}">
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                           Header="Количество">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Quantity">
+                            <Binding.ValidationRules>
+                                <validators:PositiveNumberValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button 
+            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
+            ToolTip="Добавление материала или комплектуюшиго к изделию"
+            Grid.Column="1"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Right"
+            Margin="0,0,15,50">
+            <materialDesign:PackIcon Kind="PlusCircleOutline" Width="30" Height="30"/>
+        </Button>
+
+        <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35" x:Name="MainDockPanel" Grid.ColumnSpan="2">
             <Button Content="Добавить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding AddCommand}" Width="95" ToolTip="добавление новой записи"/>
             <Button Content="Удалить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding DeleteCommand}" Width="95" ToolTip="удаление выбраной записи"/>
             <Button Content="Сохранить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding SaveCommand}" Width="95" ToolTip="сохраняет внесеные изменения"/>

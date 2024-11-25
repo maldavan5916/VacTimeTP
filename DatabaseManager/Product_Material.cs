@@ -63,7 +63,7 @@
             get => _quantity;
             set
             {
-                _quantity = value;
+                _quantity = value > 0 ? value : 0;
                 OnPropertyChanged(nameof(Quantity));
             }
         }
