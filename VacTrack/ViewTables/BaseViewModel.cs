@@ -163,7 +163,8 @@ namespace VacTrack.ViewTables
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Ошибка при добавлении: {ex.Message}");
+                Message = $"Ошибка при добавлении: {ex.Message}";
+                MessageBrush = Brushes.Red;
             }
         }
 
@@ -178,11 +179,15 @@ namespace VacTrack.ViewTables
                     MessageBrush = Brushes.Green;
                 }
                 else
-                    System.Windows.MessageBox.Show("Выберите строку для удаления.");
+                {
+                    Message = "Выберите строку для удаления.";
+                    MessageBrush = Brushes.Orange;
+                }
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show($"Ошибка при удалении: {ex.Message}");
+                MessageBrush = Brushes.Red;
             }
         }
 
@@ -191,7 +196,7 @@ namespace VacTrack.ViewTables
             try
             {
                 // Получаем все измененные, добавленные или удаленные записи для таблицы T
-                var changedEntries = Db.ChangeTracker.Entries<T>()
+                var changedEntries = Db.ChangeTracker.Entries()
                     .Where(e => e.State == EntityState.Modified || e.State == EntityState.Added || e.State == EntityState.Deleted)
                     .ToList();
 

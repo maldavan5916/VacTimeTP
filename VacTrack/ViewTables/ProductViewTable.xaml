@@ -105,6 +105,7 @@
 
         <DataGrid Grid.Column="1"
                   Margin="5,40,0,35"
+                  SelectedItem="{Binding SelectedMaterial}"
                   ItemsSource="{Binding ProdMater}"
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False" 
@@ -113,12 +114,13 @@
                   BorderBrush="#19737171">
             <DataGrid.Columns>
 
-                <materialDesign:DataGridTextColumn  
+                <materialDesign:DataGridComboBoxColumn
                     Header="Наименование"
-                    IsReadOnly="True"
-                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                    Binding="{Binding Material.Name}">
-                </materialDesign:DataGridTextColumn>
+                    IsEditable="True"
+                    ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ProductMaterials, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValueBinding="{Binding Material}"
+                    DisplayMemberPath="Name">
+                </materialDesign:DataGridComboBoxColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
                            Header="Количество">
@@ -134,15 +136,38 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button 
-            Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryDarkButton}"
-            ToolTip="Добавление материала или комплектуюшиго к изделию"
+        <materialDesign:PopupBox
+            ToolTip="Добавить или удалить материал"
             Grid.Column="1"
-            VerticalAlignment="Bottom"
+            VerticalAlignment="Top"
             HorizontalAlignment="Right"
-            Margin="0,0,15,50">
-            <materialDesign:PackIcon Kind="PlusCircleOutline" Width="30" Height="30"/>
-        </Button>
+            Margin="0,46,7,0" Width="30" Height="30"
+            PlacementMode="BottomAndAlignCentres"
+            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+            Background="Transparent">
+            <materialDesign:PopupBox.ToggleContent>
+                <materialDesign:PackIcon Kind="Pencil" Foreground="{DynamicResource MaterialDesignBody}"/>
+            </materialDesign:PopupBox.ToggleContent>
+            <StackPanel>
+                <Button Style="{StaticResource MaterialDesignIconButton}"
+                        ToolTip="Добавить материал к изделию"
+                        Command="{Binding AddMaterialCommand}"
+                        Margin="0,10,0,0" Width="30" Height="30"
+                        Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                        Foreground="{DynamicResource MaterialDesignBody}">
+                    <materialDesign:PackIcon Kind="Plus" Width="25" Height="25"/>
+                </Button>
+
+                <Button Style="{StaticResource MaterialDesignIconButton}"
+                        ToolTip="Удалить выбраный материал"
+                        Command="{Binding DeleteMaterialCommand}"
+                        Margin="0,10,0,0" Width="30" Height="30"
+                        Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                        Foreground="{DynamicResource MaterialDesignBody}">
+                    <materialDesign:PackIcon Kind="DeleteForeverOutline" Width="25" Height="25"/>
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
 
         <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35" x:Name="MainDockPanel" Grid.ColumnSpan="2">
             <Button Content="Добавить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding AddCommand}" Width="95" ToolTip="добавление новой записи"/>

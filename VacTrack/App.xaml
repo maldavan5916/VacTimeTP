@@ -9,7 +9,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:CustomColorTheme BaseTheme="Inherit" PrimaryColor="#FFE64A1C" SecondaryColor="#03DAC6" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
             <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}" BasedOn="{StaticResource MaterialDesignWindow}">
                 <Setter Property="WindowChrome.WindowChrome">
                     <Setter.Value>

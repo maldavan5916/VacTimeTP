@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace VacTrack.ViewTables
 {
@@ -21,41 +22,104 @@ namespace VacTrack.ViewTables
     {
         public ObservableCollection<Unit>? ProductUnit { get; set; }
         public ObservableCollection<Location>? ProductLocation { get; set; }
+        public ObservableCollection<Material>? ProductMaterials { get; set; }
 
         protected DbSet<Product_Material>? DbSetProdMater;
         public ObservableCollection<Product_Material>? ProdMater { get; set; }
+       
+        private Product_Material? _SelectedMaterial;
+        public Product_Material? SelectedMaterial
+        {
+            get => _SelectedMaterial;
+            set
+            {
+                _SelectedMaterial = value;
+                OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+
+        private Product? LastSelectedMaterial;
 
         public ICommand AddMaterialCommand { get; }
+        public ICommand DeleteMaterialCommand { get; }
 
         public ProductViewModel() : base(new DatabaseContext())
         {
             AddMaterialCommand = new RelayCommand(AddMaterial);
+            DeleteMaterialCommand = new RelayCommand(DeleteMaterial);
         }
 
         private void OnPropertyChangedHandler(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(SelectedItem) && sender is ProductViewModel pvm && pvm.SelectedItem != null)
+            if (e.PropertyName == nameof(SelectedItem) && sender is ProductViewModel pvm)
                 LoadProdMater(pvm.SelectedItem);
         }
 
-        private void LoadProdMater(Product product)
+        private void LoadProdMater(Product? product)
         {
-            // Выполняем один запрос к базе данных с учетом всех связанных данных
-            var productMaterials = Db.Product_Materials
-                .Include(e => e.Material) // Подгружаем связанные материалы
-                .Where(e => e.ProductId == product.Id) // Фильтруем по нужному продукту
-                .ToList(); // Выполняем запрос и загружаем данные в память
+            if (product == null)
+                ProdMater?.Clear();
+            else
+            {
+                if (LastSelectedMaterial == product) return;
+                // Выполняем один запрос к базе данных с учетом всех связанных данных
+                var productMaterials = Db.Product_Materials
+                    .Include(e => e.Material) // Подгружаем связанные материалы
+                    .Where(e => e.ProductId == product.Id) // Фильтруем по нужному продукту
+                    .ToList(); // Выполняем запрос и загружаем данные в память
 
-            // Создаем ObservableCollection на основе загруженных данных
-            ProdMater = new ObservableCollection<Product_Material>(productMaterials);
-
+                // Создаем ObservableCollection на основе загруженных данных
+                ProdMater = new ObservableCollection<Product_Material>(productMaterials);
+                LastSelectedMaterial = product;
+            }
             // Уведомляем об изменении свойства
             OnPropertyChanged(nameof(ProdMater));
         }
 
-        private void AddMaterial(object obj)
+        private void AddMaterial(object obj) 
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (ProdMater != null || ProdMater?.Count == 0)
+                {
+                    ProdMater.Add(new Product_Material());
+                    Message = "Материал добавлен";
+                    MessageBrush = Brushes.Green;
+                }
+                else
+                {
+                    Message = "Выберите изделие";
+                    MessageBrush = Brushes.Orange;
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = $"Ошибка при добавлении материала: {ex.Message}";
+                MessageBrush = Brushes.Red;
+            }
+        }
+
+        private void DeleteMaterial(object obj) 
+        {
+            try
+            {
+                if (SelectedMaterial != null && ProdMater != null)
+                {
+                    ProdMater.Remove(SelectedMaterial); //DbSet.Remove(SelectedItem);
+                    Message = "Материал удален";
+                    MessageBrush = Brushes.Green;
+                }
+                else
+                {
+                    Message = "Выберите материал для удаления.";
+                    MessageBrush = Brushes.Orange;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Ошибка при удалении материала: {ex.Message}");
+                MessageBrush = Brushes.Red;
+            }
         }
 
         protected override void LoadData()
@@ -63,6 +127,7 @@ namespace VacTrack.ViewTables
             TableName = "Изделия";
             ProductUnit = new ObservableCollection<Unit>([.. Db.Units]);
             ProductLocation = new ObservableCollection<Location>([.. Db.Locations]);
+            ProductMaterials = new ObservableCollection<Material>([.. Db.Materials]);
 
             DbSet = Db.Set<Product>();
             DbSet.Include(e => e.Unit).Include(e => e.Location).Load();
