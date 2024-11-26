@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Timers;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -43,8 +44,11 @@ namespace VacTrack.ViewTables
             get => _SelectedItem;
             set
             {
-                _SelectedItem = value;
-                OnPropertyChanged(nameof(SelectedItem));
+                if (!EqualityComparer<T?>.Default.Equals(_SelectedItem, value)) // Проверка на изменение значения
+                {
+                    _SelectedItem = value;
+                    OnPropertyChanged(nameof(SelectedItem));
+                }
             }
         }
 
@@ -117,6 +121,7 @@ namespace VacTrack.ViewTables
         public ICommand DeleteCommand { get; }
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
+        public ICommand MessageToClipboardCommand { get; }
 
         public BaseViewModel(DatabaseContext db)
         {
@@ -130,6 +135,7 @@ namespace VacTrack.ViewTables
             DeleteCommand = new RelayCommand(DeleteItem);
             SaveCommand = new RelayCommand(SaveChanges);
             CancelCommand = new RelayCommand(CancelChanges);
+            MessageToClipboardCommand = new RelayCommand(MessageToClipboard);
 
             foreach (var model in Items)
             {
@@ -309,5 +315,10 @@ namespace VacTrack.ViewTables
                 model.IsSelected = select;
             }
         }
+
+        private void MessageToClipboard(object obj)
+        {
+            Clipboard.SetText(Message);
+        } 
     }
 }

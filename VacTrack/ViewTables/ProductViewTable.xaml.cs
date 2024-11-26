@@ -24,7 +24,6 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Location>? ProductLocation { get; set; }
         public ObservableCollection<Material>? ProductMaterials { get; set; }
 
-        protected DbSet<Product_Material>? DbSetProdMater;
         public ObservableCollection<Product_Material>? ProdMater { get; set; }
        
         private Product_Material? _SelectedMaterial;
@@ -33,8 +32,11 @@ namespace VacTrack.ViewTables
             get => _SelectedMaterial;
             set
             {
-                _SelectedMaterial = value;
-                OnPropertyChanged(nameof(SelectedItem));
+                if (!EqualityComparer<Product_Material?>.Default.Equals(_SelectedMaterial, value))
+                {
+                    _SelectedMaterial = value;
+                    OnPropertyChanged(nameof(SelectedItem));
+                }
             }
         }
 
@@ -47,6 +49,8 @@ namespace VacTrack.ViewTables
         {
             AddMaterialCommand = new RelayCommand(AddMaterial);
             DeleteMaterialCommand = new RelayCommand(DeleteMaterial);
+            
+            PropertyChanged += OnPropertyChangedHandler;
         }
 
         private void OnPropertyChangedHandler(object? sender, PropertyChangedEventArgs e)
@@ -71,9 +75,9 @@ namespace VacTrack.ViewTables
                 // Создаем ObservableCollection на основе загруженных данных
                 ProdMater = new ObservableCollection<Product_Material>(productMaterials);
                 LastSelectedMaterial = product;
+                // Уведомляем об изменении свойства
+                OnPropertyChanged(nameof(ProdMater));
             }
-            // Уведомляем об изменении свойства
-            OnPropertyChanged(nameof(ProdMater));
         }
 
         private void AddMaterial(object obj) 
@@ -82,7 +86,12 @@ namespace VacTrack.ViewTables
             {
                 if (ProdMater != null || ProdMater?.Count == 0)
                 {
-                    ProdMater.Add(new Product_Material());
+                    if (SelectedItem == null) throw new Exception();
+                    var newPM = new Product_Material() { ProductId = SelectedItem.Id, Product = SelectedItem };
+
+                    ProdMater.Add(newPM);
+                    Db.Product_Materials.Add(newPM);
+
                     Message = "Материал добавлен";
                     MessageBrush = Brushes.Green;
                 }
@@ -105,7 +114,9 @@ namespace VacTrack.ViewTables
             {
                 if (SelectedMaterial != null && ProdMater != null)
                 {
-                    ProdMater.Remove(SelectedMaterial); //DbSet.Remove(SelectedItem);
+                    Db.Product_Materials.Remove(SelectedMaterial);
+                    ProdMater.Remove(SelectedMaterial);
+
                     Message = "Материал удален";
                     MessageBrush = Brushes.Green;
                 }
@@ -133,7 +144,6 @@ namespace VacTrack.ViewTables
             DbSet.Include(e => e.Unit).Include(e => e.Location).Load();
 
             Items = DbSet.Local.ToObservableCollection();
-            PropertyChanged += OnPropertyChangedHandler;
         }
 
         protected override Product CreateNewItem() => new() { Name = "Новое изделие", SerialNo = "Серийный номер" };
