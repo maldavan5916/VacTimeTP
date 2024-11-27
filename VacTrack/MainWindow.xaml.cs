@@ -57,7 +57,7 @@ namespace VacTrack
                 // Создаем новую страницу, если её нет в кэше
                 targetPage = pageKey switch
                 {
-                    //"Contract" => new ViewTables.ContractViewTable(),
+                    "Contract" => new ViewTables.ContractViewTable(),
                     "Counterpartie" => new ViewTables.CounterpartieViewTable(),
                     "Division" => new ViewTables.DivisionViewTable(),
                     "Employee" => new ViewTables.EmployeeViewTable(),
