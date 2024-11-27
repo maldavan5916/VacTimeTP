@@ -101,17 +101,6 @@
             }
         }
 
-        private List<Sale> _sales = [];
-        public List<Sale> Sales
-        {
-            get => _sales;
-            set
-            {
-                _sales = value;
-                OnPropertyChanged(nameof(Sales));
-            }
-        }
-
         private int _count;
         public int Count
         {

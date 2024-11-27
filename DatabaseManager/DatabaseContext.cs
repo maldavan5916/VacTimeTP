@@ -126,13 +126,6 @@ namespace DatabaseManager
                 .WithMany(c => c.Sales)
                 .HasForeignKey(s => s.ContractId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            // Product - Sale (один ко многим)
-            modelBuilder.Entity<Sale>()
-                .HasOne(s => s.Product)
-                .WithMany(p => p.Sales)
-                .HasForeignKey(s => s.ProductId)
-                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

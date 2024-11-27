@@ -70,7 +70,6 @@
 			*контрагент - Counterparties_id)
 
 - реализация - Sales (
-			*изделие - Products_id
 			*договор - Contracts_id
 			сумма - summ, 
 			дата реализация - date

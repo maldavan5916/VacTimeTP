@@ -13,28 +13,6 @@
             }
         }
 
-        private int _productId;
-        public int ProductId
-        {
-            get => _productId;
-            set
-            {
-                _productId = value;
-                OnPropertyChanged(nameof(ProductId));
-            }
-        }
-
-        private Product? _product;
-        public Product? Product
-        {
-            get => _product;
-            set
-            {
-                _product = value;
-                OnPropertyChanged(nameof(Product));
-            }
-        }
-
         private int _contractId;
         public int ContractId
         {
@@ -76,6 +54,17 @@
             {
                 _date = value;
                 OnPropertyChanged(nameof(Date));
+            }
+        }
+
+        private int _count;
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                _count = value > 0 ? value : 0;
+                OnPropertyChanged(nameof(Count));
             }
         }
     }

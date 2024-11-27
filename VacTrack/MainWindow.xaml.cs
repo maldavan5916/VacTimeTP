@@ -66,7 +66,7 @@ namespace VacTrack
                     "Post" => new ViewTables.PostViewTable(),
                     "Product" => new ViewTables.ProductViewTable(),
                     "Receipt" => new ViewTables.ReceiptViewTable(),
-                    //"Sale" => new ViewTables.SaleViewTable(),
+                    "Sale" => new ViewTables.SaleViewTable(),
                     "Unit" => new ViewTables.UnitViewTable(),
                     "Home" => new HomePage(),
                     _ => new NotFoundPage("Запрашиваемая страница не найдена"),
