@@ -13,6 +13,17 @@
             }
         }
 
+        private string? _name;
+        public required string Name
+        {
+            get => _name ?? throw new InvalidOperationException("Name must be initialized.");
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
         private int _counterpartyId;
         public int CounterpartyId
         {

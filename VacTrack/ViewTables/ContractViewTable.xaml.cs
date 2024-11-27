@@ -34,7 +34,7 @@ namespace VacTrack.ViewTables
             Items = DbSet.Local.ToObservableCollection();
         }
 
-        protected override Contract CreateNewItem() => new() { Date = DateTime.Now };
+        protected override Contract CreateNewItem() => new() { Name="Новый договор", Date = DateTime.Now };
 
         protected override bool FilterItem(Contract item, string? searchText) =>
             string.IsNullOrWhiteSpace(searchText) ||
