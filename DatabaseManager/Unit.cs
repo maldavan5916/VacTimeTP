@@ -45,5 +45,16 @@
                 OnPropertyChanged(nameof(Materials));
             }
         }
+
+        private string? _Description;
+        public string? Description
+        {
+            get => _Description;
+            set
+            {
+                _Description = value;
+                OnPropertyChanged(nameof(Description));
+            }
+        }
     }
 }
