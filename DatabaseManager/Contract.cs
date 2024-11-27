@@ -85,7 +85,7 @@
             get => _count;
             set
             {
-                _count = value;
+                _count = value > 0 ? value : 0;
                 OnPropertyChanged(nameof(Count));
             }
         }

@@ -114,7 +114,7 @@
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Count">
                             <Binding.ValidationRules>
-                                <validators:NotEmptyValidationRule/>
+                                <validators:PositiveNumberValidationRule/>
                             </Binding.ValidationRules>
                         </Binding>
                     </materialDesign:DataGridTextColumn.Binding>
