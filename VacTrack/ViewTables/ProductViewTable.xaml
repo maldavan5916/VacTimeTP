@@ -64,6 +64,17 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                                                   Header="Серийный номер">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="SerialNo">
+                            <Binding.ValidationRules>
+                                <validators:LengthRangeValidationRule MinLength="5" MaxLength="10"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
                 <DataGridTemplateColumn Header="Единица измерения">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -97,6 +108,18 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                           Header="Количество">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Count">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 

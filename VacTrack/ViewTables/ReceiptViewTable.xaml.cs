@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+
 namespace VacTrack.ViewTables
 {
     /// <summary>

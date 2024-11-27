@@ -111,5 +111,16 @@
                 OnPropertyChanged(nameof(Sales));
             }
         }
+
+        private int _count;
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                _count = value;
+                OnPropertyChanged(nameof(Count));
+            }
+        }
     }
 }
