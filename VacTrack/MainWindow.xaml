@@ -14,26 +14,30 @@
                 <MenuItem Header="Настройки">
                     <MenuItem x:Name="MenuThemeToggle" Header="Тёмная тема" IsCheckable="True" IsChecked="True" Click="MenuThemeToggle_Click"/>
                 </MenuItem>
-                <MenuItem Header="Начальний экран" Click="NavigateToTable" Tag="Home"/>
+                <MenuItem Header="Начальний экран" Click="NavigateToPage" Tag="Home"/>
                 <MenuItem Header="Выход" Click="Close"/>
             </MenuItem>
             <MenuItem Header="Справочники">
-                <MenuItem Header="Сотрудники" Click="NavigateToTable" Tag="Employee"/>
-                <MenuItem Header="Должности" Click="NavigateToTable" Tag="Post"/>
-                <MenuItem Header="Изделия" Click="NavigateToTable" Tag="Product"/>
-                <MenuItem Header="Единицы измерения" Click="NavigateToTable" Tag="Unit"/>
-                <MenuItem Header="Места хранения" Click="NavigateToTable" Tag="Location"/>
-                <MenuItem Header="Подразделения" Click="NavigateToTable" Tag="Division"/>
-                <MenuItem Header="Материалы\Коплектуюшие" Click="NavigateToTable" Tag="Material"/>
-                <MenuItem Header="Контрагенты" Click="NavigateToTable" Tag="Counterpartie"/>
+                <MenuItem Header="Сотрудники" Click="NavigateToPage" Tag="Employee"/>
+                <MenuItem Header="Должности" Click="NavigateToPage" Tag="Post"/>
+                <MenuItem Header="Изделия" Click="NavigateToPage" Tag="Product"/>
+                <MenuItem Header="Единицы измерения" Click="NavigateToPage" Tag="Unit"/>
+                <MenuItem Header="Места хранения" Click="NavigateToPage" Tag="Location"/>
+                <MenuItem Header="Подразделения" Click="NavigateToPage" Tag="Division"/>
+                <MenuItem Header="Материалы\Коплектуюшие" Click="NavigateToPage" Tag="Material"/>
+                <MenuItem Header="Контрагенты" Click="NavigateToPage" Tag="Counterpartie"/>
             </MenuItem>
             <MenuItem Header="Документы">
-                <MenuItem Header="Договора" Click="NavigateToTable" Tag="Contract"/>
-                <MenuItem Header="Поступления" Click="NavigateToTable" Tag="Receipt"/>
-                <MenuItem Header="Реализация" Click="NavigateToTable" Tag="Sale"/>
+                <MenuItem Header="Договора" Click="NavigateToPage" Tag="Contract"/>
+                <MenuItem Header="Поступления" Click="NavigateToPage" Tag="Receipt"/>
+                <MenuItem Header="Реализация" Click="NavigateToPage" Tag="Sale"/>
             </MenuItem>
             <MenuItem Header="Отчёты">
-                <MenuItem Header="..."/>
+                <MenuItem Header="Отчет по использованию материалов на изделия" Click="NavigateToPage" Tag="MaterialUsageReport" ToolTip="Показывает, какие материалы использовались для производства определенных изделий, их количество и стоимость."/>
+                <MenuItem Header="Отчет по сотрудникам и их подразделениям" Click="NavigateToPage" Tag="EmployeeDivisionReport" ToolTip="Список всех сотрудников с указанием их подразделений, должностей, даты приема и даты увольнения (если есть)."/>
+                <MenuItem Header="Отчет по остаткам материалов и комплектуюших" Click="NavigateToPage" Tag="StockBalanceReport" ToolTip="Информация о текущих остатках материалов и комплектуюших с указанием мест хранения."/>
+                <MenuItem Header="Отчет по договорам с контрагентами" Click="NavigateToPage" Tag="ContractorContractsReport" ToolTip="Информация о заключенных договорах с контрагентами, их суммах и изделиях."/>
+                <MenuItem Header="Отчет по реализации продукции" Click="NavigateToPage" Tag="ProductSalesReport" ToolTip="Детализация продаж продукции: что было продано, кому, за какую сумму и в каком количестве."/>
             </MenuItem>
             <MenuItem Header="Справка">
                 <MenuItem Header="О программе" Click="OpenAboutProgram"/>

@@ -44,7 +44,7 @@ namespace VacTrack
            throw new NotImplementedException();
         }
 
-        private void NavigateToTable(object sender, RoutedEventArgs e)
+        private void NavigateToPage(object sender, RoutedEventArgs e)
         {
             var menuItem = sender as MenuItem;
             string? pageKey = menuItem?.Tag.ToString();
@@ -69,6 +69,11 @@ namespace VacTrack
                     "Sale" => new ViewTables.SaleViewTable(),
                     "Unit" => new ViewTables.UnitViewTable(),
                     "Home" => new HomePage(),
+                    "MaterialUsageReport" => new ViewReport.MaterialUsageReport(),
+                    //"EmployeeDivisionReport" => new ViewReport.EmployeeDivisionReport(),
+                    //"StockBalanceReport" => new ViewReport.StockBalanceReport(),
+                    //"ContractorContractsReport" => new ViewReport.ContractorContractsReport(),
+                    //"ProductSalesReport" => new ViewReport.ProductSalesReport(),
                     _ => new NotFoundPage("Запрашиваемая страница не найдена"),
                 };
                 // Добавляем новую страницу в кэш

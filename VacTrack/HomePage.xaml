@@ -42,6 +42,6 @@
         </DrawingImage>
     </Page.Resources>
     <Grid>
-        <Image Source="{StaticResource VacTimeLogoDrawingImage}"/>
+        <Image Source="{StaticResource VacTimeLogoDrawingImage}" MaxHeight="400" MaxWidth="400"/>
     </Grid>
 </Page>

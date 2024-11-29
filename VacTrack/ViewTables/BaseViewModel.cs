@@ -307,7 +307,6 @@ namespace VacTrack.ViewTables
 
         public void OpenFromCache() => LoadData();
 
-
         private static void SelectAll(bool select, IEnumerable<T> models)
         {
             foreach (var model in models)
