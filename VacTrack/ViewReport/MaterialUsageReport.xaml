@@ -45,8 +45,20 @@
                 <ListBoxItem Content="Итого группы" IsSelected="{Binding IsGroupTotalEnabled}" IsEnabled="{Binding IsGroupingEnabled}"/>
                 <ListBoxItem Content="Общие итоги"  IsSelected="{Binding AreOverallTotalsEnabled}"/>
             </ListBox>
-            
-            <TextBlock DockPanel.Dock="Right" Width="200" Height="25" HorizontalAlignment="Right" Text="{Binding Message}" Foreground="{Binding MessageBrush}"/>
+
+            <ComboBox 
+                ItemsSource="{Binding Products}" 
+                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                Width="130" 
+                DisplayMemberPath="Name" 
+                materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
+                SelectedItem="{Binding SelectedProduct}"  
+                Margin="20,0,0,0"
+                Foreground="{DynamicResource MaterialDesignBody}"
+                materialDesign:HintAssist.Hint="Фильтр по изделию"
+                materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+            <TextBlock DockPanel.Dock="Right" Height="25" Text="{Binding Message}" ToolTip="{Binding Message}" Foreground="{Binding MessageBrush}" Margin="10,0,0,0"/>
         </DockPanel>
 
         <FlowDocumentReader Document="{Binding Document}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ViewingMode="Scroll" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,40,0,0" BorderThickness="5" BorderBrush="#19737171"/>

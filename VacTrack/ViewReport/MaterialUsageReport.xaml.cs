@@ -1,5 +1,6 @@
 ﻿using DatabaseManager;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -19,12 +20,17 @@ namespace VacTrack.ViewReport
 
     public class MaterialUsageReportViewModel : BaseReportViewModel<Product_Material>
     {
+        public List<Product>? Products { get; set; }
+        private readonly Product NoProduct = new() { Name = "Все", SerialNo = "" };
+
+        #region properties
         private bool _IsGroupingEnabled = true;
         public bool IsGroupingEnabled
         {
             get => _IsGroupingEnabled;
             set
             {
+
                 SetProperty(ref _IsGroupingEnabled, value);
                 Refresh(null);
             }
@@ -52,22 +58,41 @@ namespace VacTrack.ViewReport
             }
         }
 
+        private Product? _SelectedProduct;
+        public Product? SelectedProduct
+        {
+            get => _SelectedProduct;
+            set
+            {
+                SetProperty(ref _SelectedProduct, value == NoProduct ? null : value);
+                LoadData();
+            }
+        }
+        #endregion
+
         protected override void LoadData()
         {
+            Products = new List<Product>([.. Db.Products]) { NoProduct };
+
             DbSet = Db.Set<Product_Material>();
             DbSet.Include(e => e.Material).ThenInclude(c => c != null ? c.Unit : null).Include(e => e.Product).Load();
-            Items = DbSet.Local.ToObservableCollection();
+
+            if (SelectedProduct == null)
+                Items = DbSet.Local.ToObservableCollection();
+            else
+                Items = new ObservableCollection<Product_Material>(DbSet.Local.Where(
+                    item => item.Product?.Id == SelectedProduct.Id).ToList());
         }
 
         public override FlowDocument CreateReport()
         {
             FlowDocument doc = new() { FontFamily = new FontFamily("Times New Roman"), FontSize = 12, PagePadding = new Thickness(50) };
-            
-            AddHeader(ref doc); // Добавляем заголовок Отчёта
-            
-            Table table = new() { CellSpacing = 3, BorderBrush = Brushes.Gray, BorderThickness = new Thickness(1) }; 
+
+            AddHeader(ref doc, SelectedProduct); // Добавляем заголовок Отчёта
+
+            Table table = new() { CellSpacing = 3, BorderBrush = Brushes.Gray, BorderThickness = new Thickness(1) };
             table.Columns.Add(new TableColumn { Width = new GridLength(40) });
-                       
+
             AddTableHeader(ref table);  // Добавляем заголовок таблицы
 
             // Данные таблицы
@@ -142,7 +167,7 @@ namespace VacTrack.ViewReport
         {
             TableRowGroup headerGroup = new();
             TableRow headerRow = new();
-            
+
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Код"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Наименование изделия"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Наименование материала"))) { FontWeight = FontWeights.Bold });
@@ -150,12 +175,12 @@ namespace VacTrack.ViewReport
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Единица измерения"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость за единицу"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость"))) { FontWeight = FontWeights.Bold });
-            
+
             headerGroup.Rows.Add(headerRow);
             table.RowGroups.Add(headerGroup);
         }
 
-        private static void AddHeader(ref FlowDocument doc)
+        private static void AddHeader(ref FlowDocument doc, Product? SelectedProduct)
         {
             // Добавляем заголовок отчета
             Paragraph header = new(new Run("ООО \"ВакТайм\""))
@@ -174,7 +199,10 @@ namespace VacTrack.ViewReport
             };
             doc.Blocks.Add(title);
 
-            string headerText = $"Дата формирования: {DateTime.Now:dd.MM.yyyy}";
+
+            string filteredText = SelectedProduct == null ? "" : $"\nДля изделия: {SelectedProduct.Name}";
+
+            string headerText = $"Дата формирования: {DateTime.Now:dd.MM.yyyy}" + filteredText;
 
             Paragraph headerParagraph = new(new Run(headerText))
             {
