@@ -3,7 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Timers;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace VacTrack.ViewReport
 {
@@ -26,15 +31,58 @@ namespace VacTrack.ViewReport
         #region properties
         protected DatabaseContext Db;
         protected DbSet<T> DbSet;
+        private System.Timers.Timer? _resetTimer;
 
 
         private ObservableCollection<T> _Items;
         public ObservableCollection<T> Items
         {
             get => _Items;
-            set => SetProperty(ref _Items, value);
+            set
+            {
+                if (_Items != value)
+                {
+                    _Items = value;
+                    Refresh(null);
+                    SetProperty(ref _Items, value);
+                }
+            }
+        }
+
+        private FlowDocument? _Document;
+        public FlowDocument? Document
+        {
+            get => _Document;
+            set => SetProperty(ref _Document, value);
+        }
+
+        private string? _Message;
+        public string? Message
+        {
+            get => _Message;
+            set
+            {
+                _Message = value;
+                OnPropertyChanged();
+                StartResetTimer();
+            }
+        }
+
+        private Brush? _MessageBrush;
+        public Brush? MessageBrush
+        {
+            get => _MessageBrush;
+            set
+            {
+                _MessageBrush = value;
+                OnPropertyChanged();
+            }
         }
         #endregion
+
+        public ICommand RefreshCommand { get; }
+        public ICommand PrintCommand { get; }
+        public ICommand RotateDocCommand { get; }
 
         public BaseReportViewModel()
         {
@@ -42,6 +90,23 @@ namespace VacTrack.ViewReport
             Db.Database.EnsureCreated();
             LoadData();
             if (DbSet == null || _Items == null) throw new Exception("Data loading error");
+
+            RefreshCommand = new RelayCommand(Refresh);
+            PrintCommand = new RelayCommand(PrintReport);
+            RotateDocCommand = new RelayCommand(SwapPageDimensions);
+        }
+
+        public abstract FlowDocument CreateReport();
+
+        protected void Refresh(object? obj)
+        {
+            Document = CreateReport();
+            
+            // Настройка размеров документа
+            Document.PageWidth = 793.7; // A4 ширина в пикселях (96 DPI)
+            Document.PageHeight = 1122.52; // A4 высота в пикселях (96 DPI)
+            Document.PagePadding = new Thickness(50); // Поля страницы
+            Document.ColumnWidth = double.PositiveInfinity; // Убрать колонки
         }
 
         protected virtual void LoadData()
@@ -51,6 +116,65 @@ namespace VacTrack.ViewReport
             Items = DbSet.Local.ToObservableCollection();
         }
 
+        private void PrintReport(object obj)
+        {
+            if (Document == null)
+            {
+                Message = "Документ пуст";
+                MessageBrush = Brushes.Orange;
+                return;
+            }
+
+            PrintDialog printDialog = new();
+
+            if (printDialog.ShowDialog() == true)
+            {
+                // Установка размера печатной области
+                Document.PageWidth = printDialog.PrintableAreaWidth;
+                Document.PageHeight = printDialog.PrintableAreaHeight;
+
+                // Печать документа
+                printDialog.PrintDocument(((IDocumentPaginatorSource)Document).DocumentPaginator, "Печать отчёта");
+            }
+        }
+
         public void OpenFromCache() => LoadData();
+
+        private void StartResetTimer()
+        {
+            // Останавливаем предыдущий таймер, если он существует
+            _resetTimer?.Stop();
+            // Создаем новый таймер, который сработает через 10 секунд
+            _resetTimer = new System.Timers.Timer(10000); // 10 секунд
+            _resetTimer.Elapsed += ResetMessage;
+            _resetTimer.Start();
+        }
+
+        private void ResetMessage(object? sender, ElapsedEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                Message = string.Empty;
+            });
+            _resetTimer?.Stop();
+        }
+
+        private void SwapPageDimensions(object obj)
+        {
+            if (Document == null)
+            {
+                Message = "Документ пуст";
+                MessageBrush = Brushes.Orange;
+                return;
+            }
+
+            // Сохраняем текущие значения
+            double tempWidth = Document.PageWidth;
+            double tempHeight = Document.PageHeight;
+
+            // Меняем местами ширину и высоту
+            Document.PageWidth = tempHeight;
+            Document.PageHeight = tempWidth;
+        }
     }
 }

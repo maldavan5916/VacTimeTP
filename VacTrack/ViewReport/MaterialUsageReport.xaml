@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VacTrack.ViewReport"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MaterialUsageReport">
@@ -11,8 +12,43 @@
     <Page.DataContext>
         <local:MaterialUsageReportViewModel/>
     </Page.DataContext>
-        
+
+    <Page.InputBindings>
+        <KeyBinding Key="P" Modifiers="Control" Command="{Binding PrintCommand}" />
+    </Page.InputBindings>
+
     <Grid>
-       
+        <DockPanel VerticalAlignment="Top" Height="40">
+            <Button Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                    Style="{StaticResource MaterialDesignIconButton}" Width="30" Height="30" Margin="10,0,0,0"
+                    Command="{Binding RefreshCommand}"
+                    ToolTip="Обновить">
+                <materialDesign:PackIcon Kind="Refresh" />
+            </Button>
+           
+            <Button Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                    Style="{StaticResource MaterialDesignIconButton}" Width="30" Height="30" Margin="10,0,0,0"
+                    Command="{Binding PrintCommand}"
+                    ToolTip="Печать отчёта">
+                <materialDesign:PackIcon Kind="Printer" />
+            </Button>
+
+            <Button Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                    Style="{StaticResource MaterialDesignIconButton}" Width="30" Height="30" Margin="10,0,0,0"
+                    Command="{Binding RotateDocCommand}"
+                    ToolTip="Смена ориентации страницы">
+                <materialDesign:PackIcon Kind="FileRotateRightOutline" />
+            </Button>
+
+            <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryListBox}" Height="46" Margin="20,0,0,0">
+                <ListBoxItem Content="Группировка"  IsSelected="{Binding IsGroupingEnabled}"/>
+                <ListBoxItem Content="Итого группы" IsSelected="{Binding IsGroupTotalEnabled}" IsEnabled="{Binding IsGroupingEnabled}"/>
+                <ListBoxItem Content="Общие итоги"  IsSelected="{Binding AreOverallTotalsEnabled}"/>
+            </ListBox>
+            
+            <TextBlock DockPanel.Dock="Right" Width="200" Height="25" HorizontalAlignment="Right" Text="{Binding Message}" Foreground="{Binding MessageBrush}"/>
+        </DockPanel>
+
+        <FlowDocumentReader Document="{Binding Document}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ViewingMode="Scroll" Foreground="{DynamicResource MaterialDesignBody}" Margin="0,40,0,0" BorderThickness="5" BorderBrush="#19737171"/>
     </Grid>
 </Page>

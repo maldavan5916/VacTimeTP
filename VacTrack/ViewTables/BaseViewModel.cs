@@ -315,9 +315,6 @@ namespace VacTrack.ViewTables
             }
         }
 
-        private void MessageToClipboard(object obj)
-        {
-            Clipboard.SetText(Message);
-        } 
+        private void MessageToClipboard(object obj) => Clipboard.SetText(Message); 
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace DatabaseManager
+﻿using System.Diagnostics;
+
+namespace DatabaseManager
 {
     public class Product_Material : BaseModel
     {
@@ -67,5 +69,8 @@
                 OnPropertyChanged(nameof(Quantity));
             }
         }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public double GetSum { get => Material == null ? 0 : Quantity * Material.Price; }
     }
 }
