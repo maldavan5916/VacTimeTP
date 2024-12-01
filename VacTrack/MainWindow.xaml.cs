@@ -70,7 +70,7 @@ namespace VacTrack
                     "Unit" => new ViewTables.UnitViewTable(),
                     "Home" => new HomePage(),
                     "MaterialUsageReport" => new ViewReport.MaterialUsageReport(),
-                    //"EmployeeDivisionReport" => new ViewReport.EmployeeDivisionReport(),
+                    "EmployeeDivisionReport" => new ViewReport.EmployeeDivisionReport(),
                     //"StockBalanceReport" => new ViewReport.StockBalanceReport(),
                     //"ContractorContractsReport" => new ViewReport.ContractorContractsReport(),
                     //"ProductSalesReport" => new ViewReport.ProductSalesReport(),

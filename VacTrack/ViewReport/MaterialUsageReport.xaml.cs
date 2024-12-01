@@ -21,7 +21,6 @@ namespace VacTrack.ViewReport
     public class MaterialUsageReportViewModel : BaseReportViewModel<Product_Material>
     {
         public List<Product>? Products { get; set; }
-        private readonly Product NoProduct = new() { Name = "Все", SerialNo = "" };
 
         #region properties
         private bool _IsGroupingEnabled = true;
@@ -64,7 +63,7 @@ namespace VacTrack.ViewReport
             get => _SelectedProduct;
             set
             {
-                SetProperty(ref _SelectedProduct, value == NoProduct ? null : value);
+                SetProperty(ref _SelectedProduct, value);
                 LoadData();
             }
         }
@@ -72,7 +71,7 @@ namespace VacTrack.ViewReport
 
         protected override void LoadData()
         {
-            Products = new List<Product>([.. Db.Products]) { NoProduct };
+            Products = new List<Product>([.. Db.Products]);
 
             DbSet = Db.Set<Product_Material>();
             DbSet.Include(e => e.Material).ThenInclude(c => c != null ? c.Unit : null).Include(e => e.Product).Load();
