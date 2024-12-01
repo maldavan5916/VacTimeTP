@@ -276,9 +276,23 @@ namespace VacTrack.ViewReport
             doc.Blocks.Add(title);
 
 
-            string filterByPost = FilterByPost == null ? "" : $"\nПо должности: {FilterByPost.Name}";
-            string filterByDivision = FilterByDivision == null ? "" : $"\nПо подразделению: {FilterByDivision.Name}";
-            string filteredText = filterByPost + filterByDivision;
+            string filterByPost = FilterByPost == null ? string.Empty : $"\nПо должности: {FilterByPost.Name}";
+            string filterByDivision = FilterByDivision == null ? string.Empty : $"\nПо подразделению: {FilterByDivision.Name}";
+
+            //string periodFilter =
+            //    FilterStartDate != null && FilterEndDate != null ? $"\nЗа период с {FilterStartDate:dd.MM.yyyy} по {FilterEndDate:dd.MM.yyyy}" :
+            //    FilterStartDate != null && FilterEndDate == null ? $"\nНа день {FilterStartDate:dd.MM.yyyy}" :
+            //    FilterStartDate == null && FilterEndDate != null ? $"\nНа день {FilterEndDate:dd.MM.yyyy}" : string.Empty;
+
+            string periodFilter = (FilterStartDate, FilterEndDate) switch
+            {
+                (not null, not null) => $"\nЗа период с {FilterStartDate:dd.MM.yyyy} по {FilterEndDate:dd.MM.yyyy}",
+                (not null, null) => $"\nНа день {FilterStartDate:dd.MM.yyyy}",
+                (null, not null) => $"\nНа день {FilterEndDate:dd.MM.yyyy}",
+                _ => string.Empty
+            };
+
+            string filteredText = filterByPost + filterByDivision + periodFilter;
 
             string headerText = $"Дата формирования: {DateTime.Now:dd.MM.yyyy}" + filteredText;
 
