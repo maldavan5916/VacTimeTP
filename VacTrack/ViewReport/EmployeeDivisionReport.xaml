@@ -75,14 +75,13 @@
                 <materialDesign:PopupBox.ToggleContent>
                     <materialDesign:PackIcon Kind="FilterSettingsOutline" Width="30" Foreground="{DynamicResource MaterialDesignBody}"/>
                 </materialDesign:PopupBox.ToggleContent>
-                <StackPanel Orientation="Vertical" Width="200">
+                <StackPanel Orientation="Vertical" Width="200" Background="{DynamicResource MaterialDesign.Brush.Background}">
                     <ComboBox 
                         Margin="0,10,0,0"
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
                         ItemsSource="{Binding EmployPosts}"
-                        SelectedItem="{Binding FilterByPost}"
+                        SelectedItem="{Binding FilterByPost, UpdateSourceTrigger=PropertyChanged}"
                         DisplayMemberPath="Name"
-                        Background="{DynamicResource MaterialDesignDarkSeparatorBackground}"
                         materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                         Foreground="{DynamicResource MaterialDesignBody}"
                         materialDesign:HintAssist.Hint="Фильтр по должности"
@@ -92,13 +91,34 @@
                         Margin="0,10,0,0"
                         Style="{StaticResource MaterialDesignOutlinedComboBox}"
                         ItemsSource="{Binding EmployDivisions}"
-                        SelectedItem="{Binding FilterByDivision}"
+                        SelectedItem="{Binding FilterByDivision, UpdateSourceTrigger=PropertyChanged}"
                         DisplayMemberPath="Name" 
-                        Background="{DynamicResource MaterialDesignDarkSeparatorBackground}"
                         materialDesign:ComboBoxAssist.ShowSelectedItem="True" 
                         Foreground="{DynamicResource MaterialDesignBody}"
                         materialDesign:HintAssist.Hint="Фильтр по подразделению"
                         materialDesign:TextFieldAssist.HasClearButton="True"/>
+
+                    <Label Content="За период" Margin="0,15,0,0"/>
+                    <DatePicker
+                        SelectedDate="{Binding FilterStartDate, UpdateSourceTrigger=PropertyChanged}"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        materialDesign:HintAssist.Hint="С"
+                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                        />
+                    <DatePicker
+                        SelectedDate="{Binding FilterEndDate, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="0,5,0,0"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        materialDesign:HintAssist.Hint="По"
+                        Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                        />
+
+                    <Button
+                        Content="Очистить фильтр"
+                        Margin="0,15,0,0"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Command="{Binding ClearFilterCommand}"
+                        />
                 </StackPanel>
             </materialDesign:PopupBox>
 

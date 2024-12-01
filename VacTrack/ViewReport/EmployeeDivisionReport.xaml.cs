@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace VacTrack.ViewReport
@@ -26,9 +27,10 @@ namespace VacTrack.ViewReport
         public ObservableCollection<Post>? EmployPosts { get; set; }
 
         #region properties
-        private GroupedType GroupedType;
-        public bool IsGroupedTypeNoGrouped 
-        { 
+        private GroupedType GroupedType = GroupedType.NoGrouped;
+
+        public bool IsGroupedTypeNoGrouped
+        {
             get => GroupedType == GroupedType.NoGrouped;
             set
             {
@@ -90,7 +92,36 @@ namespace VacTrack.ViewReport
                 LoadData();
             }
         }
+
+        private DateTime? _FilterStartDate;
+        public DateTime? FilterStartDate
+        {
+            get => _FilterStartDate;
+            set
+            {
+                SetProperty(ref _FilterStartDate, value);
+                LoadData();
+            }
+        }
+
+        private DateTime? _FilterEndDate;
+        public DateTime? FilterEndDate
+        {
+            get => _FilterEndDate;
+            set
+            {
+                SetProperty(ref _FilterEndDate, value);
+                LoadData();
+            }
+        }
         #endregion
+
+        public ICommand ClearFilterCommand { get; }
+
+        public EmployeeDivisionReportViewModel()
+        {
+            ClearFilterCommand = new RelayCommand(ClearFilter);
+        }
 
         protected override void LoadData()
         {
@@ -102,8 +133,28 @@ namespace VacTrack.ViewReport
 
             Items = new ObservableCollection<Employee>(
                 DbSet.Local.Where(item =>
+                // Фильтрация по должности
                 (FilterByPost == null || item.Post?.Id == FilterByPost.Id) &&
-                (FilterByDivision == null || item.Division?.Id == FilterByDivision.Id)
+
+                // Фильтрация по подразделению
+                (FilterByDivision == null || item.Division?.Id == FilterByDivision.Id) &&
+
+                // Проверка на наличие фильтров по датам
+                ((FilterStartDate == null && FilterEndDate == null) ||
+
+                // Если заданы оба фильтра (FilterStartDate и FilterEndDate)
+                (FilterStartDate != null && FilterEndDate != null &&
+                    // Проверяем, что DateHire или DateDismissal попадают в указанный диапазон
+                    ((item.DateHire >= FilterStartDate && item.DateHire <= FilterEndDate) ||
+                     (item.DateDismissal >= FilterStartDate && item.DateDismissal <= FilterEndDate))) ||
+
+                // Если задан только FilterStartDate, фильтруем по точному совпадению с этой датой
+                (FilterStartDate != null && FilterEndDate == null &&
+                    (item.DateHire == FilterStartDate || item.DateDismissal == FilterStartDate)) ||
+
+                // Если задан только FilterEndDate, фильтруем по точному совпадению с этой датой
+                (FilterStartDate == null && FilterEndDate != null &&
+                    (item.DateHire == FilterEndDate || item.DateDismissal == FilterEndDate)))
                 ).ToList());
         }
 
@@ -224,9 +275,9 @@ namespace VacTrack.ViewReport
             };
             doc.Blocks.Add(title);
 
-            
+
             string filterByPost = FilterByPost == null ? "" : $"\nПо должности: {FilterByPost.Name}";
-            string filterByDivision = FilterByDivision== null ? "" : $"\nПо подразделению: {FilterByDivision.Name}";
+            string filterByDivision = FilterByDivision == null ? "" : $"\nПо подразделению: {FilterByDivision.Name}";
             string filteredText = filterByPost + filterByDivision;
 
             string headerText = $"Дата формирования: {DateTime.Now:dd.MM.yyyy}" + filteredText;
@@ -249,6 +300,14 @@ namespace VacTrack.ViewReport
             row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col4))));
             row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col5))));
             return row;
+        }
+
+        private void ClearFilter(object obj)
+        {
+            FilterByDivision = null;
+            FilterByPost = null;
+            FilterStartDate = null;
+            FilterEndDate = null;
         }
     }
 }
