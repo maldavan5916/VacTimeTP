@@ -74,7 +74,11 @@ namespace VacTrack.ViewReport
             MaterialLocation = new ObservableCollection<Location>([.. Db.Locations]);
 
             DbSet = Db.Set<Material>();
-            DbSet.Include(e => e.Unit).Include(e => e.Location).Load();
+
+            DbSet.Include(e => e.Unit)
+                .Include(e => e.Location)
+                .ThenInclude(e => e != null ? e.Employee : null)
+                .Load();
 
             Items = new ObservableCollection<Material>(DbSet.Local.Where(item =>
                 FilterByLocation == null || item.Location?.Id == FilterByLocation.Id
@@ -190,7 +194,9 @@ namespace VacTrack.ViewReport
             doc.Blocks.Add(title);
 
 
-            string filteredText = FilterByLocation != null ? $"\nПо месту хранения: {FilterByLocation.Name}" : string.Empty;
+            string filteredText = FilterByLocation != null ? 
+                $"\nПо месту хранения: {FilterByLocation.Name}, Ответственный: {FilterByLocation.Employee?.Fio}" 
+                : string.Empty;
 
             string headerText = $"Дата формирования: {DateTime.Now:dd.MM.yyyy}" + filteredText;
 
