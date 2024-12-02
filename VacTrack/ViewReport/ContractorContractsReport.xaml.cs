@@ -1,6 +1,7 @@
 ﻿using DatabaseManager;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -203,8 +204,9 @@ namespace VacTrack.ViewReport
                 ref dataGroup,
                 item => item.Product?.Name,
                 item => item.Summ,
+                item => item.Count,
                 key => ["", "", "", $"{key}", "", ""],
-                total => ["Итого", "", "", "", "", $"{total}"],
+                cntTotal => ["Итого", "", "", "", $"{cntTotal.Item1}", $"{cntTotal.Item2}"],
                 item => [
                     $"{item.Name}",
                     $"{item.Counterpartie?.Name}",
@@ -318,6 +320,39 @@ namespace VacTrack.ViewReport
             FilterByProduct = null;
             FilterStartDate = null;
             FilterEndDate = null;
+        }
+
+        public void CreateGroupedRows<TKey>(
+            ref TableRowGroup dataGroup,
+            Func<Contract, TKey> keySelector, // Функция для определения ключа группировки
+            Func<Contract, double> getSum,  // Функция для определения суммы
+            Func<Contract, double> getCount, 
+            Func<TKey, IEnumerable<string>> groupHeaderSelector, // Формат заголовка группы
+            Func<(double, double), IEnumerable<string>> groupTotalSelector, // Формат Итога группы
+            Func<Contract, IEnumerable<string>> rowSelector, // Формат строки данных
+            ref double totalSum,
+            bool IsGroupTotalEnabled
+        )
+        {
+            var groupedItems = Items.GroupBy(keySelector);
+
+            foreach (var group in groupedItems)
+            {
+                dataGroup.Rows.Add(CreateRow(groupHeaderSelector(group.Key))); // Добавляем заголовок группы
+                double summ = 0;
+                double count = 0;
+
+                foreach (var item in group)
+                {
+                    dataGroup.Rows.Add(CreateRow(rowSelector(item))); // Добавляем строку данных
+                    summ += getSum(item);
+                    count += getCount(item);
+                }
+
+                if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(groupTotalSelector((count, summ))));
+
+                totalSum += summ;
+            }
         }
     }
 }
