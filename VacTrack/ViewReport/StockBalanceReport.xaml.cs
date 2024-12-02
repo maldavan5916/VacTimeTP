@@ -103,7 +103,7 @@ namespace VacTrack.ViewReport
                 CreateNoGroupedRows(ref dataGroup, ref totalSum);
 
             if (AreOverallTotalsEnabled)
-                dataGroup.Rows.Add(CreateRow(("Итого", "", "", "", "", $"{totalSum}")));
+                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", $"{totalSum}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
@@ -112,33 +112,22 @@ namespace VacTrack.ViewReport
 
         private void CreateGroupedRows(ref TableRowGroup dataGroup, ref double totalSum)
         {
-            var groupedItems = Items.GroupBy(item => item.Location?.Name);
-
-            foreach (var group in groupedItems)
-            {
-                dataGroup.Rows.Add(CreateRow(("", $"{group.Key}", "", "", "", "")));
-
-                double summ = 0;
-                foreach (var item in group)
-                {
-                    TableRow row = new();
-
-                    double itemSum = item.GetSum;
-                    summ += itemSum;
-
-                    dataGroup.Rows.Add(CreateRow((
-                        $"{item.Name}",
-                        "", // Пустая ячейка , т.к. уже указано в заголовке группы
-                        $"{item.Count}",
-                        $"{item.Unit?.Name}",
-                        $"{item.Price}",
-                        $"{itemSum}")));
-
-                    dataGroup.Rows.Add(row);
-                }
-                totalSum += summ;
-                if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(("Итого", "", "", "", "", $"{summ}")));
-            }
+            CreateGroupedRows(
+                ref dataGroup,
+                item => item.Location?.Name,
+                item => item.GetSum,
+                key => ["", $"{key}", "", "", "", ""],
+                total => ["Итого", "", "", "", "", $"{total}"],
+                item => [
+                    $"{item.Name}",
+                    String.Empty,
+                    $"{item.Count}",
+                    $"{item.Unit?.Name}",
+                    $"{item.Price}",
+                    $"{item.GetSum}"
+                    ],
+                ref totalSum,
+                IsGroupTotalEnabled);
         }
 
         private void CreateNoGroupedRows(ref TableRowGroup dataGroup, ref double totalSum)
@@ -148,13 +137,13 @@ namespace VacTrack.ViewReport
                 double summ = item.GetSum;
                 totalSum += summ;
 
-                dataGroup.Rows.Add(CreateRow((
+                dataGroup.Rows.Add(CreateRow([
                     $"{item.Name}",
                     $"{item.Location?.Name}",
                     $"{item.Count}",
                     $"{item.Unit?.Name}",
                     $"{item.Price}",
-                    $"{summ}")));
+                    $"{summ}"]));
             }
         }
 
@@ -207,18 +196,6 @@ namespace VacTrack.ViewReport
                 LineHeight = 1.5 // Можно добавить межстрочный интервал
             };
             doc.Blocks.Add(headerParagraph);
-        }
-
-        static private TableRow CreateRow((string Col1, string Col2, string Col3, string Col4, string Col5, string Col6) data)
-        {
-            TableRow row = new();
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col1))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col2))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col3))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col4))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col5))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col6))));
-            return row;
         }
     }
 }

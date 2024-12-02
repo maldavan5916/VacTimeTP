@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using static MaterialDesignThemes.Wpf.Theme.ToolBar;
 
 namespace VacTrack.ViewReport
 {
@@ -201,6 +202,7 @@ namespace VacTrack.ViewReport
             CreateGroupedRows(
                 ref dataGroup,
                 item => item.Product?.Name,
+                item => item.Summ,
                 key => ["", "", "", $"{key}", "", ""],
                 total => ["Итого", "", "", "", "", $"{total}"],
                 item => [
@@ -220,6 +222,7 @@ namespace VacTrack.ViewReport
             CreateGroupedRows(
                 ref dataGroup,
                 item => item.Counterpartie?.Name,
+                item => item.Summ,
                 key => ["", $"{key}", "", "", "", ""],
                 total => ["Итого", "", "", "", "", $"{total}"],
                 item => [

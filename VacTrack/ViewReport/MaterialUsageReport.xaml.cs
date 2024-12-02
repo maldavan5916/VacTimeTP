@@ -103,45 +103,32 @@ namespace VacTrack.ViewReport
                 CreateUngroupedRows(ref dataGroup, ref totalSumm);
 
 
-            if (AreOverallTotalsEnabled) dataGroup.Rows.Add(CreateRow(("Итого", "", "", "", "", "", $"{totalSumm}")));
+            if (AreOverallTotalsEnabled) dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", "", $"{totalSumm}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
             return doc;
         }
 
-        private void CreateGroupedRows(ref TableRowGroup dataGroup, ref double totalSumm)
+        private void CreateGroupedRows(ref TableRowGroup dataGroup, ref double totalSum)
         {
-            // Группируем элементы по названию изделия
-            var groupedItems = Items.GroupBy(item => item.Product?.Name);
-
-            foreach (var group in groupedItems)
-            {
-                dataGroup.Rows.Add(CreateRow(("", $"{group.Key}", "", "", "", "", "")));
-
-                double summ = 0;
-                // Добавляем строки для каждого материала в группе
-                foreach (var item in group)
-                {
-                    TableRow row = new();
-
-                    double price = item.GetSum;
-                    summ += price;
-
-                    dataGroup.Rows.Add(CreateRow((
-                        $"{item.Id}",
-                        "", // Пустая ячейка для "Изделие", т.к. уже указано в заголовке группы
-                        $"{item.Material?.Name}",
-                        $"{item.Quantity}",
-                        $"{item.Material?.Unit?.Name}",
-                        $"{item.Material?.Price}",
-                        $"{price}")));
-
-                    dataGroup.Rows.Add(row);
-                }
-                totalSumm += summ;
-                if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(("Итого", "", "", "", "", "", $"{summ}")));
-            }
+            CreateGroupedRows(
+                ref dataGroup,
+                item => item.Product?.Name,
+                item => item.GetSum,
+                key => ["", $"{key}", "", "", "", "", ""],
+                total => ["Итого", "", "", "", "", "", $"{total}"],
+                item => [
+                    $"{item.Id}",
+                    String.Empty,
+                    $"{item.Material?.Name}",
+                    $"{item.Quantity}",
+                    $"{item.Material?.Unit?.Name}",
+                    $"{item.Material?.Price}",
+                    $"{item.GetSum}"
+                    ],
+                ref totalSum,
+                IsGroupTotalEnabled);
         }
 
         private void CreateUngroupedRows(ref TableRowGroup dataGroup, ref double totalSumm)
@@ -151,14 +138,14 @@ namespace VacTrack.ViewReport
                 double price = item.GetSum;
                 totalSumm += price;
 
-                dataGroup.Rows.Add(CreateRow((
+                dataGroup.Rows.Add(CreateRow([
                     $"{item.Id}",
                     $"{item.Product?.Name}",
                     $"{item.Material?.Name}",
                     $"{item.Quantity}",
                     $"{item.Material?.Unit?.Name}",
                     $"{item.Material?.Price}",
-                    $"{price}")));
+                    $"{price}"]));
             }
         }
 
@@ -210,19 +197,6 @@ namespace VacTrack.ViewReport
                 LineHeight = 1.5 // Можно добавить межстрочный интервал
             };
             doc.Blocks.Add(headerParagraph);
-        }
-
-        static private TableRow CreateRow((string Col1, string Col2, string Col3, string Col4, string Col5, string Col6, string Col7) data)
-        {
-            TableRow row = new();
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col1))) { TextAlignment = TextAlignment.Center });
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col2))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col3))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col4))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col5))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col6))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col7))));
-            return row;
         }
     }
 }

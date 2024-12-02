@@ -200,6 +200,7 @@ namespace VacTrack.ViewReport
         public void CreateGroupedRows<TKey>(
             ref TableRowGroup dataGroup,
             Func<T, TKey> keySelector, // Функция для определения ключа группировки
+            Func<T, double> getSum,  // Функция для определения суммы
             Func<TKey, IEnumerable<string>> groupHeaderSelector, // Формат заголовка группы
             Func<double, IEnumerable<string>> groupTotalSelector, // Формат Итога группы
             Func<T, IEnumerable<string>> rowSelector, // Формат строки данных
@@ -217,10 +218,7 @@ namespace VacTrack.ViewReport
                 foreach (var item in group)
                 {
                     dataGroup.Rows.Add(CreateRow(rowSelector(item))); // Добавляем строку данных
-                    summ += 
-                        item is Material material ? material.GetSum : 
-                        item is Product_Material prodMater ? prodMater.GetSum : 
-                        item is Contract contract ? contract.Summ : 0;
+                    summ += getSum(item);
                 }
                 
                 if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(groupTotalSelector(summ)));
