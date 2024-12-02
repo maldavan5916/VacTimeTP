@@ -9,33 +9,33 @@ using System.Windows.Media;
 namespace VacTrack.ViewReport
 {
     /// <summary>
-    /// Логика взаимодействия для ContractorContractsReport.xaml
+    /// Логика взаимодействия для ProductSalesReport.xaml
     /// </summary>
-    public partial class ContractorContractsReport : Page
+    public partial class ProductSalesReport : Page
     {
-        private ContractorContractsReportViewModel ThisViewModel => (ContractorContractsReportViewModel)DataContext;
-        public ContractorContractsReport() => InitializeComponent();
+        private ProductSalesReportViewModel ThisViewModel => (ProductSalesReportViewModel)DataContext;
+        public ProductSalesReport() => InitializeComponent();
         public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
     }
 
-    public enum ContractGroupedType { NoGrouped, GroupedByCounterpartie, GroupedByProduct }
+    public enum SaleGroupedType { NoGrouped, GroupedByCounterpartie, GroupedByProduct }
 
-    public class ContractorContractsReportViewModel : BaseReportViewModel<Contract>
+    public class ProductSalesReportViewModel : BaseReportViewModel<Sale>
     {
         public ObservableCollection<Counterpartie>? ContractCounterpartie { get; set; }
         public ObservableCollection<Product>? ContractProduct { get; set; }
 
         #region properties
-        private ContractGroupedType GroupedType = ContractGroupedType.NoGrouped;
+        private SaleGroupedType GroupedType = SaleGroupedType.NoGrouped;
 
         public bool IsGroupedTypeNoGrouped
         {
-            get => GroupedType == ContractGroupedType.NoGrouped;
+            get => GroupedType == SaleGroupedType.NoGrouped;
             set
             {
                 if (value)
                 {
-                    GroupedType = ContractGroupedType.NoGrouped;
+                    GroupedType = SaleGroupedType.NoGrouped;
                     Refresh(null);
                     OnPropertyChanged(nameof(IsGroupedTypeNoGrouped));
                 }
@@ -44,12 +44,12 @@ namespace VacTrack.ViewReport
 
         public bool IsGroupedTypeGroupedByCounterpartie
         {
-            get => GroupedType == ContractGroupedType.GroupedByCounterpartie;
+            get => GroupedType == SaleGroupedType.GroupedByCounterpartie;
             set
             {
                 if (value)
                 {
-                    GroupedType = ContractGroupedType.GroupedByCounterpartie;
+                    GroupedType = SaleGroupedType.GroupedByCounterpartie;
                     Refresh(null);
                     OnPropertyChanged(nameof(IsGroupedTypeGroupedByCounterpartie));
                     OnPropertyChanged(nameof(IsGroupedTypeNoGrouped));
@@ -59,19 +59,18 @@ namespace VacTrack.ViewReport
 
         public bool IsGroupedTypeGroupedByProduct
         {
-            get => GroupedType == ContractGroupedType.GroupedByProduct;
+            get => GroupedType == SaleGroupedType.GroupedByProduct;
             set
             {
                 if (value)
                 {
-                    GroupedType = ContractGroupedType.GroupedByProduct;
+                    GroupedType = SaleGroupedType.GroupedByProduct;
                     Refresh(null);
                     OnPropertyChanged(nameof(IsGroupedTypeGroupedByProduct));
                     OnPropertyChanged(nameof(IsGroupedTypeNoGrouped));
                 }
             }
         }
-
         private bool _IsGroupTotalEnabled = true;
         public bool IsGroupTotalEnabled
         {
@@ -141,7 +140,7 @@ namespace VacTrack.ViewReport
 
         public System.Windows.Input.ICommand ClearFilterCommand { get; }
 
-        public ContractorContractsReportViewModel()
+        public ProductSalesReportViewModel()
         {
             ClearFilterCommand = new RelayCommand(ClearFilter);
         }
@@ -151,16 +150,17 @@ namespace VacTrack.ViewReport
             ContractCounterpartie = new ObservableCollection<Counterpartie>([.. Db.Counterparties]);
             ContractProduct = new ObservableCollection<Product>([.. Db.Products]);
 
-            DbSet = Db.Set<Contract>();
-            DbSet.Include(e => e.Counterpartie)
-                .Include(e => e.Product)
+            DbSet = Db.Set<Sale>();
+            DbSet.Include(e => e.Contract)
+                .Include(c => c.Contract != null ? c.Contract.Product : null)
                 .ThenInclude(e => e != null ? e.Unit : null)
+                .Include(c => c.Contract != null ? c.Contract.Counterpartie : null)
                 .Load();
 
-            Items = new ObservableCollection<Contract>(
+            Items = new ObservableCollection<Sale>(
                 DbSet.Local.Where(item =>
-                (FilterByCounterpartie == null || item.Counterpartie?.Id == FilterByCounterpartie.Id) &&
-                (FilterByProduct == null || item.Product?.Id == FilterByProduct.Id) &&
+                (FilterByCounterpartie == null || item.Contract?.Counterpartie?.Id == FilterByCounterpartie.Id) &&
+                (FilterByProduct == null || item.Contract?.Product?.Id == FilterByProduct.Id) &&
 
                 ((FilterStartDate == null && FilterEndDate == null) ||
 
@@ -186,56 +186,54 @@ namespace VacTrack.ViewReport
 
             switch (GroupedType)
             {
-                case ContractGroupedType.GroupedByCounterpartie: CreateGroupedByCounterpartie(ref dataGroup, ref totalSum); break;
-                case ContractGroupedType.GroupedByProduct: CreateGroupedByProduct(ref dataGroup, ref totalSum); break;
-                case ContractGroupedType.NoGrouped: CreateNoGroupedRows(ref dataGroup, ref totalSum); break;
+                case SaleGroupedType.GroupedByCounterpartie: CreateGroupedByCounterpartie(ref dataGroup, ref totalSum); break;
+                case SaleGroupedType.GroupedByProduct: CreateGroupedByProduct(ref dataGroup, ref totalSum); break;
+                case SaleGroupedType.NoGrouped: CreateNoGroupedRows(ref dataGroup, ref totalSum); break;
             }
 
             if (AreOverallTotalsEnabled)
-                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", "", $"{totalSum}"]));
+                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", $"{totalSum}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
             return doc;
         }
 
-        private void CreateGroupedByProduct(ref TableRowGroup dataGroup, ref double totalSum)
+        private void CreateGroupedByCounterpartie(ref TableRowGroup dataGroup, ref double totalSum)
         {
             CreateGroupedRows(
                 ref dataGroup,
-                item => item.Product?.Name,
+                item => item.Contract?.Counterpartie?.Name,
                 item => item.Summ,
-                item => item.Count,
-                key => ["", "", "", $"{key}", "", "", ""],
-                cntTotal => ["Итого", "", "", "", $"{cntTotal.Item1}", "", $"{cntTotal.Item2}"],
+                key => ["", $"{key}", "", "", "", ""],
+                total => ["Итого", "", "", "", "", $"{total}"],
                 item => [
-                    $"{item.Name}",
-                    $"{item.Counterpartie?.Name}",
                     $"{item.Date:dd.MM.yyyy}",
-                    string.Empty,
+                    String.Empty,
+                    $"{item.Contract?.Product?.Name}",
                     $"{item.Count}",
-                    $"{item.Product?.Unit?.Name}",
+                    $"{item.Contract?.Product?.Unit?.Name}",
                     $"{item.Summ}"
                     ],
                 ref totalSum,
                 IsGroupTotalEnabled);
         }
 
-        private void CreateGroupedByCounterpartie(ref TableRowGroup dataGroup, ref double totalSum)
+        private void CreateGroupedByProduct(ref TableRowGroup dataGroup, ref double totalSum)
         {
             CreateGroupedRows(
                 ref dataGroup,
-                item => item.Counterpartie?.Name,
+                item => item.Contract?.Product?.Name,
                 item => item.Summ,
-                key => ["", $"{key}", "", "", "", "", ""],
-                total => ["Итого", "", "", "", "", "", $"{total}"],
+                item => item.Count,
+                key => ["", "", $"{key}", "", "", ""],
+                cntTotal => ["Итого", "", "", $"{cntTotal.Item1}", "", $"{cntTotal.Item2}"],
                 item => [
-                    $"{item.Name}",
-                    String.Empty,
                     $"{item.Date:dd.MM.yyyy}",
-                    $"{item.Product?.Name}",
+                    $"{item.Contract?.Counterpartie?.Name}",
+                    String.Empty,
                     $"{item.Count}",
-                    $"{item.Product?.Unit?.Name}",
+                    $"{item.Contract?.Product?.Unit?.Name}",
                     $"{item.Summ}"
                     ],
                 ref totalSum,
@@ -247,12 +245,11 @@ namespace VacTrack.ViewReport
             foreach (var item in Items)
             {
                 dataGroup.Rows.Add(CreateRow([
-                    $"{item.Name}",
-                    $"{item.Counterpartie?.Name}",
                     $"{item.Date:dd.MM.yyyy}",
-                    $"{item.Product?.Name}",
+                    $"{item.Contract?.Counterpartie?.Name}",
+                    $"{item.Contract?.Product?.Name}",
                     $"{item.Count}",
-                    $"{item.Product?.Unit?.Name}",
+                    $"{item.Contract?.Product?.Unit?.Name}",
                     $"{item.Summ}"]));
                 totalSum += item.Summ;
             }
@@ -263,13 +260,12 @@ namespace VacTrack.ViewReport
             TableRowGroup headerGroup = new();
             TableRow headerRow = new();
 
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Название договора"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Дата реализации"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Контрагент"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Дата заключения"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Изделие"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Наименование изделия"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Количество"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Единица измерения"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма договора"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма реализации"))) { FontWeight = FontWeights.Bold });
 
             headerGroup.Rows.Add(headerRow);
             table.RowGroups.Add(headerGroup);
@@ -286,14 +282,13 @@ namespace VacTrack.ViewReport
             };
             doc.Blocks.Add(header);
 
-            Paragraph title = new(new Run("Отчет по договорам с контрагентами"))
+            Paragraph title = new(new Run("Отчет по реализации продукции"))
             {
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
                 TextAlignment = TextAlignment.Center
             };
             doc.Blocks.Add(title);
-
 
             string filterByPost = FilterByCounterpartie == null ? string.Empty : $"\nПо контрагенту: {FilterByCounterpartie.Name}";
             string filterByDivision = FilterByProduct == null ? string.Empty : $"\nПо изделию: {FilterByProduct.Name}";

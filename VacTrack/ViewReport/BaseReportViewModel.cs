@@ -220,8 +220,41 @@ namespace VacTrack.ViewReport
                     dataGroup.Rows.Add(CreateRow(rowSelector(item))); // Добавляем строку данных
                     summ += getSum(item);
                 }
-                
+
                 if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(groupTotalSelector(summ)));
+
+                totalSum += summ;
+            }
+        }
+
+        public void CreateGroupedRows<TKey>(
+            ref TableRowGroup dataGroup,
+            Func<T, TKey> keySelector, // Функция для определения ключа группировки
+            Func<T, double> getSum,  // Функция для определения суммы
+            Func<T, double> getCount,
+            Func<TKey, IEnumerable<string>> groupHeaderSelector, // Формат заголовка группы
+            Func<(double, double), IEnumerable<string>> groupTotalSelector, // Формат Итога группы
+            Func<T, IEnumerable<string>> rowSelector, // Формат строки данных
+            ref double totalSum,
+            bool IsGroupTotalEnabled
+        )
+        {
+            var groupedItems = Items.GroupBy(keySelector);
+
+            foreach (var group in groupedItems)
+            {
+                dataGroup.Rows.Add(CreateRow(groupHeaderSelector(group.Key))); // Добавляем заголовок группы
+                double summ = 0;
+                double count = 0;
+
+                foreach (var item in group)
+                {
+                    dataGroup.Rows.Add(CreateRow(rowSelector(item))); // Добавляем строку данных
+                    summ += getSum(item);
+                    count += getCount(item);
+                }
+
+                if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(groupTotalSelector((count, summ))));
 
                 totalSum += summ;
             }
