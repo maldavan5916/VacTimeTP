@@ -13,7 +13,7 @@ namespace VacTrack.ViewReport
     /// </summary>
     public partial class StockBalanceReport : Page, ICachedPage
     {
-        private EmployeeDivisionReportViewModel ThisViewModel => (EmployeeDivisionReportViewModel)DataContext;
+        private StockBalanceReportViewModel ThisViewModel => (StockBalanceReportViewModel)DataContext;
         public StockBalanceReport() => InitializeComponent();
         public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
     }
