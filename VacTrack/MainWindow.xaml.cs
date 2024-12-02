@@ -72,7 +72,7 @@ namespace VacTrack
                     "MaterialUsageReport" => new ViewReport.MaterialUsageReport(),
                     "EmployeeDivisionReport" => new ViewReport.EmployeeDivisionReport(),
                     "StockBalanceReport" => new ViewReport.StockBalanceReport(),
-                    //"ContractorContractsReport" => new ViewReport.ContractorContractsReport(),
+                    "ContractorContractsReport" => new ViewReport.ContractorContractsReport(),
                     //"ProductSalesReport" => new ViewReport.ProductSalesReport(),
                     _ => new NotFoundPage("Запрашиваемая страница не найдена"),
                 };

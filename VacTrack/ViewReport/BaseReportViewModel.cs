@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Timers;
 using System.Windows;
@@ -176,5 +177,39 @@ namespace VacTrack.ViewReport
             Document.PageWidth = tempHeight;
             Document.PageHeight = tempWidth;
         }
+
+        public void CreateGroupedRows<TKey>(
+            ref TableRowGroup dataGroup,
+            Func<T, TKey> keySelector, // Функция для определения ключа группировки
+            Func<TKey, IEnumerable<string>> groupHeaderSelector, // Формат заголовка группы
+            Func<T, IEnumerable<string>> rowSelector // Формат строки данных
+        )
+        {
+            var groupedItems = Items.GroupBy(keySelector);
+
+            foreach (var group in groupedItems)
+            {
+                // Добавляем заголовок группы
+                dataGroup.Rows.Add(CreateRow(groupHeaderSelector(group.Key)));
+
+                foreach (var item in group)
+                {
+                    // Добавляем строку данных
+                    dataGroup.Rows.Add(CreateRow(rowSelector(item)));
+                }
+            }
+        }
+
+
+        static public TableRow CreateRow(IEnumerable<string> columns)
+        {
+            TableRow row = new();
+
+            foreach (var column in columns)
+                row.Cells.Add(new TableCell(new Paragraph(new Run(column ?? string.Empty))));
+
+            return row;
+        }
+
     }
 }

@@ -182,62 +182,44 @@ namespace VacTrack.ViewReport
 
         private void CreateGroupedByDivisionRows(ref TableRowGroup dataGroup)
         {
-            var groupedItems = Items.GroupBy(item => item.Division?.Name);
-
-            foreach (var group in groupedItems)
-            {
-                dataGroup.Rows.Add(CreateRow(("", $"{group.Key}", "", "", "")));
-
-                foreach (var item in group)
-                {
-                    TableRow row = new();
-
-                    dataGroup.Rows.Add(CreateRow((
-                        $"{item.Fio}",
-                        "", // Пустая ячейка, т.к. уже указано в заголовке группы
-                        $"{item.Post?.Name}",
-                        $"{item.DateHire:dd.MM.yyyy}",
-                        $"{item.DateDismissal:dd.MM.yyyy}")));
-
-                    dataGroup.Rows.Add(row);
-                }
-            }
+            CreateGroupedRows(
+                ref dataGroup,
+                item => item.Division?.Name,
+                key => ["", $"{key}", "", "", ""], // Заголовок группы
+                item => [
+                    $"{item.Fio}",
+                    string.Empty,
+                    $"{item.Post?.Name}",
+                    $"{item.DateHire:dd.MM.yyyy}",
+                    $"{item.DateDismissal:dd.MM.yyyy}"]
+            );
         }
 
         private void CreateGroupedByPostRows(ref TableRowGroup dataGroup)
         {
-            var groupedItems = Items.GroupBy(item => item.Post?.Name);
-
-            foreach (var group in groupedItems)
-            {
-                dataGroup.Rows.Add(CreateRow(("", "", $"{group.Key}", "", "")));
-
-                foreach (var item in group)
-                {
-                    TableRow row = new();
-
-                    dataGroup.Rows.Add(CreateRow((
-                        $"{item.Fio}",
-                        $"{item.Division?.Name}",
-                        "", // Пустая ячейка, т.к. уже указано в заголовке группы
-                        $"{item.DateHire:dd.MM.yyyy}",
-                        $"{item.DateDismissal:dd.MM.yyyy}")));
-
-                    dataGroup.Rows.Add(row);
-                }
-            }
+            CreateGroupedRows(
+                ref dataGroup,
+                item => item.Post?.Name,
+                key => ["", "", $"{key}", "", ""], // Заголовок группы
+                item => [
+                    $"{item.Fio}",
+                    $"{item.Division?.Name}",
+                    string.Empty,
+                    $"{item.DateHire:dd.MM.yyyy}",
+                    $"{item.DateDismissal:dd.MM.yyyy}"]
+            );
         }
 
         private void CreateNoGroupedRows(ref TableRowGroup dataGroup)
         {
             foreach (var item in Items)
             {
-                dataGroup.Rows.Add(CreateRow((
+                dataGroup.Rows.Add(CreateRow([
                     $"{item.Fio}",
                     $"{item.Division?.Name}",
                     $"{item.Post?.Name}",
                     $"{item.DateHire:dd.MM.yyyy}",
-                    $"{item.DateDismissal:dd.MM.yyyy}")));
+                    $"{item.DateDismissal:dd.MM.yyyy}"]));
             }
         }
 
@@ -303,17 +285,6 @@ namespace VacTrack.ViewReport
                 LineHeight = 1.5 // Можно добавить межстрочный интервал
             };
             doc.Blocks.Add(headerParagraph);
-        }
-
-        static private TableRow CreateRow((string Col1, string Col2, string Col3, string Col4, string Col5) data)
-        {
-            TableRow row = new();
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col1))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col2))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col3))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col4))));
-            row.Cells.Add(new TableCell(new Paragraph(new Run(data.Col5))));
-            return row;
         }
 
         private void ClearFilter(object obj)
