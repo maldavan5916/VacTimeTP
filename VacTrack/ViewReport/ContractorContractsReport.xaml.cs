@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace VacTrack.ViewReport
@@ -53,6 +52,7 @@ namespace VacTrack.ViewReport
                     GroupedType = ContractGroupedType.GroupedByCounterpartie;
                     Refresh(null);
                     OnPropertyChanged(nameof(IsGroupedTypeGroupedByCounterpartie));
+                    OnPropertyChanged(nameof(IsGroupedTypeNoGrouped));
                 }
             }
         }
@@ -67,7 +67,30 @@ namespace VacTrack.ViewReport
                     GroupedType = ContractGroupedType.GroupedByProduct;
                     Refresh(null);
                     OnPropertyChanged(nameof(IsGroupedTypeGroupedByProduct));
+                    OnPropertyChanged(nameof(IsGroupedTypeNoGrouped));
                 }
+            }
+        }
+
+        private bool _IsGroupTotalEnabled = true;
+        public bool IsGroupTotalEnabled
+        {
+            get => _IsGroupTotalEnabled;
+            set
+            {
+                SetProperty(ref _IsGroupTotalEnabled, value);
+                Refresh(null);
+            }
+        }
+
+        private bool _AreOverallTotalsEnabled = true;
+        public bool AreOverallTotalsEnabled
+        {
+            get => _AreOverallTotalsEnabled;
+            set
+            {
+                SetProperty(ref _AreOverallTotalsEnabled, value);
+                Refresh(null);
             }
         }
 
@@ -116,7 +139,7 @@ namespace VacTrack.ViewReport
         }
         #endregion
 
-        public ICommand ClearFilterCommand { get; }
+        public System.Windows.Input.ICommand ClearFilterCommand { get; }
 
         public ContractorContractsReportViewModel()
         {
@@ -156,24 +179,30 @@ namespace VacTrack.ViewReport
 
             TableRowGroup dataGroup = new();
 
+            double totalSum = 0;
+
             switch (GroupedType)
             {
-                case ContractGroupedType.GroupedByCounterpartie: CreateGroupedByCounterpartie(ref dataGroup); break;
-                case ContractGroupedType.GroupedByProduct: CreateGroupedByProduct(ref dataGroup); break;
-                case ContractGroupedType.NoGrouped: CreateNoGroupedRows(ref dataGroup); break;
+                case ContractGroupedType.GroupedByCounterpartie: CreateGroupedByCounterpartie(ref dataGroup, ref totalSum); break;
+                case ContractGroupedType.GroupedByProduct: CreateGroupedByProduct(ref dataGroup, ref totalSum); break;
+                case ContractGroupedType.NoGrouped: CreateNoGroupedRows(ref dataGroup, ref totalSum); break;
             }
+
+            if (AreOverallTotalsEnabled)
+                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", $"{totalSum}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
             return doc;
         }
 
-        private void CreateGroupedByProduct(ref TableRowGroup dataGroup)
+        private void CreateGroupedByProduct(ref TableRowGroup dataGroup, ref double totalSum)
         {
             CreateGroupedRows(
                 ref dataGroup,
                 item => item.Product?.Name,
                 key => ["", "", "", $"{key}", "", ""],
+                total => ["Итого", "", "", "", "", $"{total}"],
                 item => [
                     $"{item.Name}",
                     $"{item.Counterpartie?.Name}",
@@ -181,15 +210,18 @@ namespace VacTrack.ViewReport
                     string.Empty,
                     $"{item.Count}",
                     $"{item.Summ}"
-                    ]);
+                    ],
+                ref totalSum,
+                IsGroupTotalEnabled);
         }
 
-        private void CreateGroupedByCounterpartie(ref TableRowGroup dataGroup)
+        private void CreateGroupedByCounterpartie(ref TableRowGroup dataGroup, ref double totalSum)
         {
             CreateGroupedRows(
                 ref dataGroup,
                 item => item.Counterpartie?.Name,
                 key => ["", $"{key}", "", "", "", ""],
+                total => ["Итого", "", "", "", "", $"{total}"],
                 item => [
                     $"{item.Name}",
                     String.Empty,
@@ -197,10 +229,12 @@ namespace VacTrack.ViewReport
                     $"{item.Product?.Name}",
                     $"{item.Count}",
                     $"{item.Summ}"
-                    ]);
+                    ],
+                ref totalSum,
+                IsGroupTotalEnabled);
         }
 
-        private void CreateNoGroupedRows(ref TableRowGroup dataGroup)
+        private void CreateNoGroupedRows(ref TableRowGroup dataGroup, ref double totalSum)
         {
             foreach (var item in Items)
             {
@@ -211,6 +245,7 @@ namespace VacTrack.ViewReport
                     $"{item.Product?.Name}",
                     $"{item.Count}",
                     $"{item.Summ}"]));
+                totalSum += item.Summ;
             }
         }
 

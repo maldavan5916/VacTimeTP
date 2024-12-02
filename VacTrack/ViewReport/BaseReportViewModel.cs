@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Timers;
 using System.Windows;
@@ -102,7 +101,7 @@ namespace VacTrack.ViewReport
         protected void Refresh(object? obj)
         {
             Document = CreateReport();
-            
+
             // Настройка размеров документа
             Document.PageWidth = 793.7; // A4 ширина в пикселях (96 DPI)
             Document.PageHeight = 1122.52; // A4 высота в пикселях (96 DPI)
@@ -189,17 +188,46 @@ namespace VacTrack.ViewReport
 
             foreach (var group in groupedItems)
             {
-                // Добавляем заголовок группы
-                dataGroup.Rows.Add(CreateRow(groupHeaderSelector(group.Key)));
+                dataGroup.Rows.Add(CreateRow(groupHeaderSelector(group.Key))); // Добавляем заголовок группы
 
                 foreach (var item in group)
                 {
-                    // Добавляем строку данных
-                    dataGroup.Rows.Add(CreateRow(rowSelector(item)));
+                    dataGroup.Rows.Add(CreateRow(rowSelector(item))); // Добавляем строку данных
                 }
             }
         }
 
+        public void CreateGroupedRows<TKey>(
+            ref TableRowGroup dataGroup,
+            Func<T, TKey> keySelector, // Функция для определения ключа группировки
+            Func<TKey, IEnumerable<string>> groupHeaderSelector, // Формат заголовка группы
+            Func<double, IEnumerable<string>> groupTotalSelector, // Формат Итога группы
+            Func<T, IEnumerable<string>> rowSelector, // Формат строки данных
+            ref double totalSum,
+            bool IsGroupTotalEnabled
+        )
+        {
+            var groupedItems = Items.GroupBy(keySelector);
+
+            foreach (var group in groupedItems)
+            {
+                dataGroup.Rows.Add(CreateRow(groupHeaderSelector(group.Key))); // Добавляем заголовок группы
+                double summ = 0;
+
+                foreach (var item in group)
+                {
+                    dataGroup.Rows.Add(CreateRow(rowSelector(item))); // Добавляем строку данных
+                    summ += 
+                        item is Material material ? material.GetSum : 
+                        item is Product_Material prodMater ? prodMater.GetSum : 
+                        item is Contract contract ? contract.Summ : 0;
+                }
+                
+                if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(groupTotalSelector(summ)));
+
+                totalSum += summ;
+            }
+        }
 
         static public TableRow CreateRow(IEnumerable<string> columns)
         {
@@ -210,6 +238,5 @@ namespace VacTrack.ViewReport
 
             return row;
         }
-
     }
 }

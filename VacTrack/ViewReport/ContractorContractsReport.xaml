@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VacTrack.ViewReport"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:converter="clr-namespace:VacTrack.Converter"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ContractorContractsReport">
@@ -65,6 +66,16 @@
                         IsChecked="{Binding IsGroupedTypeNoGrouped}"
                         Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
                         />
+
+                    <Border Margin="0,15,0,0" Background="{DynamicResource MaterialDesign.Brush.Background}" CornerRadius="15">
+                        <StackPanel>
+                            <Label Content="Настройка итогов"/>
+                            <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryListBox}" Height="46">
+                                <ListBoxItem Content="Итого группы" IsSelected="{Binding IsGroupTotalEnabled}" IsEnabled="{Binding IsGroupedTypeNoGrouped, Converter={StaticResource InvertBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                                <ListBoxItem Content="Общие итоги"  IsSelected="{Binding AreOverallTotalsEnabled}"/>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </materialDesign:PopupBox>
 
