@@ -46,6 +46,13 @@
             set => SetProperty(ref _Unp, value); 
         }
 
+        private string _bankAccount;
+        public required string BankAccount
+        {
+            get => _bankAccount;
+            set => SetProperty(ref _bankAccount, value);
+        }
+
         private CounterpartieType _Type = CounterpartieType.Fiz;
         public CounterpartieType Type
         {

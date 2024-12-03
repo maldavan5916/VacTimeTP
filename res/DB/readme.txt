@@ -46,6 +46,7 @@
 			phoneNomber - номер телефона
 			postalAddress - почтовый адресс
 			ynp - УНП
+			bankAccount - расчётный счёт 
 			type [fiz/yr] - тип [физ/юр]
 			okulp - ОКЮЛП
 			okpo - ОКПО

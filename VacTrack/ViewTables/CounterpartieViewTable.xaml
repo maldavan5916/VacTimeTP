@@ -104,6 +104,19 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
+                <DataGridTemplateColumn Header="Расчетный счет" Width="130">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding BankAccount}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding BankAccount}" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
                 <materialDesign:DataGridComboBoxColumn 
                     Header="Тип"
                     ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Types, Converter={StaticResource CounterpartieTypeConverter}}"

@@ -24,7 +24,8 @@ namespace VacTrack.ViewTables
             LegalAddress = "Юридический адрес",
             PhoneNomber = "Номер телефона",
             PostalAddress = "Почтовый адрес",
-            Unp = "УНП"
+            Unp = "УНП",
+            BankAccount = "Счёт"
         };
 
         protected override bool FilterItem(Counterpartie item, string? searchText) =>
