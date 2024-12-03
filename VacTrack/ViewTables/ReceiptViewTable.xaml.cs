@@ -34,7 +34,10 @@ namespace VacTrack.ViewTables
         {
             TableName = "Поступления";
             ReceiptCounterpartie = new ObservableCollection<Counterpartie>([.. Db.Counterparties]);
-            ReceiptMaterial = new ObservableCollection<Material>([.. Db.Materials]);
+
+            var MaterDbSet = Db.Set<Material>();
+            MaterDbSet.Include(m => m.Unit).Load();
+            ReceiptMaterial = MaterDbSet.Local.ToObservableCollection();
 
             DbSet = Db.Set<Receipt>();
             DbSet.Include(e => e.Counterpartie)
