@@ -17,7 +17,7 @@
     </Page.DataContext>
 
     <Page.Resources>
-        <converter:DockPanelWidthConverter x:Key="DockPanelWidthConverter" />
+        <converter:DockPanelWidthConverter x:Key="DockPanelWidthConverter" Length="715"/>
     </Page.Resources>
 
     <Grid>
@@ -73,17 +73,6 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
-                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                           Header="Cумма">
-                    <materialDesign:DataGridTextColumn.Binding>
-                        <Binding Path="Summ">
-                            <Binding.ValidationRules>
-                                <validators:PositiveNumberValidationRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </materialDesign:DataGridTextColumn.Binding>
-                </materialDesign:DataGridTextColumn>
-
                 <materialDesign:DataGridComboBoxColumn
                     Header="Материал"
                     IsEditable="True"
@@ -96,6 +85,21 @@
                                            Header="Количество">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Count">
+                            <Binding.ValidationRules>
+                                <validators:PositiveNumberValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <DataGridTextColumn IsReadOnly="True" Header="Ед.Изм." Binding="{Binding Material.Unit.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                <DataGridTextColumn IsReadOnly="True" Header="Цена" Binding="{Binding Material.Price, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                           Header="Cумма">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Summ" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validators:PositiveNumberValidationRule/>
                             </Binding.ValidationRules>
@@ -125,7 +129,9 @@
                        TextTrimming="CharacterEllipsis" 
                        Margin="5,0,3,0"
                        MaxWidth="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}"/>
+
             <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Command="{Binding CancelCommand}" Width="95" ToolTip="отменяет не сохраненые изменения"/>
+            <Button Content="Печать" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Command="{Binding PrintCommand}" Width="95" ToolTip="Печать выбраного документа"/>
         </DockPanel>
     </Grid>
 </Page>

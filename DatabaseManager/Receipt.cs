@@ -32,6 +32,7 @@
             {
                 _material = value;
                 OnPropertyChanged(nameof(Material));
+                Summ = Count * (Material != null ? Material.Price : 0);
             }
         }
 
@@ -65,6 +66,7 @@
             {
                 _count = value;
                 OnPropertyChanged(nameof(Count));
+                Summ = Count * (Material != null ? Material.Price : 0);
             }
         }
 

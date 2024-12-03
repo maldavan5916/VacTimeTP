@@ -8,7 +8,7 @@
         Style="{StaticResource CustomWindowStyle}"
         mc:Ignorable="d"
         Title="Учёт выпуска изделий ООО''ВакТайм''" Height="450" Width="800">
-    <Grid>
+    <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
         <Menu IsMainMenu="True" VerticalAlignment="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="20">
             <MenuItem Header="Файл">
                 <MenuItem Header="Настройки">
