@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Style="{StaticResource CustomWindowStyle}"
         mc:Ignorable="d"
-        Title="О программе" Height="250" Width="400" ResizeMode="NoResize">
+        Title="О программе" Height="300" Width="500" ResizeMode="NoResize">
 
     <Window.Resources>
         <DrawingImage x:Key="VacTimeLogoDrawingImage">
@@ -46,10 +46,10 @@
 
     <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
         <Image Source="{StaticResource VacTimeLogoDrawingImage}" HorizontalAlignment="Left" Width="160" Stretch="UniformToFill"/>
-        <TextBlock Text="ПС «Учет выпуска и реализации продукции ООО«ВакТайм»" TextWrapping="WrapWithOverflow" Margin="165,5,5,0"  Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock Text="ПС «Учет выпуска и реализации продукции ООО«ВакТайм»" TextWrapping="WrapWithOverflow" Margin="165,5,5,0"  Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" FontSize="14" Width="230" HorizontalAlignment="Left"/>
         <Label Content="Разработал: Грачёв Денис Сергеевич" Margin="165,45,5,0" VerticalAlignment="Top"/>
 
-        <ScrollViewer Margin="165,99,5,45" Foreground="{DynamicResource MaterialDesignBody}">
+        <ScrollViewer Foreground="{DynamicResource MaterialDesignBody}" Width="300" Margin="165,100,0,50">
             <TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." TextWrapping="WrapWithOverflow"/>
         </ScrollViewer>
 

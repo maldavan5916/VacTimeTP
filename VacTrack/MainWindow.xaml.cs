@@ -49,18 +49,6 @@ namespace VacTrack
             throw new NotImplementedException();
         }
 
-        private void GitHubOpen(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo("https://github.com/maldavan5916/VacTimeTP") { UseShellExecute = true });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         private void NavigateToPage(object sender, RoutedEventArgs e)
         {
             try

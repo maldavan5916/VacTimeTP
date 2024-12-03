@@ -16,11 +16,11 @@
                 <Setter Property="WindowChrome.WindowChrome">
                     <Setter.Value>
                         <WindowChrome CaptionHeight="30"
-                          CornerRadius="4"
-                          GlassFrameThickness="0"
+                          CornerRadius="15"
+                          GlassFrameThickness="1"
                           NonClientFrameEdges="None"
-                          ResizeBorderThickness="5"
-                          UseAeroCaptionButtons="False" />
+                          ResizeBorderThickness="10"
+                          UseAeroCaptionButtons="True" />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignPaper}" />

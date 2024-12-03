@@ -43,7 +43,6 @@
             </MenuItem>
             <MenuItem Header="Справка">
                 <MenuItem Header="О программе" Click="OpenAboutProgram"/>
-                <MenuItem Header="GitHub" Click="GitHubOpen"/>
                 <MenuItem Header="Помощь" Click="OpenHelp"/>
             </MenuItem>
         </Menu>
