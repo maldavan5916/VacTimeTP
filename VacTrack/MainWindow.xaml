@@ -7,13 +7,15 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Style="{StaticResource CustomWindowStyle}"
         mc:Ignorable="d"
-        Title="Учёт выпуска изделий ООО''ВакТайм''" Height="450" Width="800">
+        Title="Учёт выпуска изделий ООО''ВакТайм''" Height="500" Width="900" MinHeight="450" MinWidth="800">
+
     <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
         <Menu IsMainMenu="True" VerticalAlignment="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="20">
             <MenuItem Header="Файл">
                 <MenuItem Header="Настройки">
                     <MenuItem x:Name="MenuThemeToggle" Header="Тёмная тема" IsCheckable="True" IsChecked="True" Click="MenuThemeToggle_Click"/>
                 </MenuItem>
+                <MenuItem Header="Создать новое окно" Click="CreateNewWindow"/>
                 <MenuItem Header="Начальний экран" Click="NavigateToPage" Tag="Home"/>
                 <MenuItem Header="Выход" Click="Close"/>
             </MenuItem>
@@ -41,7 +43,8 @@
             </MenuItem>
             <MenuItem Header="Справка">
                 <MenuItem Header="О программе" Click="OpenAboutProgram"/>
-                <MenuItem Header="Помощь"/>
+                <MenuItem Header="GitHub" Click="GitHubOpen"/>
+                <MenuItem Header="Помощь" Click="OpenHelp"/>
             </MenuItem>
         </Menu>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="5,25,5,5" />

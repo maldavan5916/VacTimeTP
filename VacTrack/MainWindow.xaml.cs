@@ -1,5 +1,6 @@
 ﻿using DatabaseManager;
 using MaterialDesignThemes.Wpf;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -39,54 +40,77 @@ namespace VacTrack
             Close();
         }
 
-        private void OpenAboutProgram(object sender, RoutedEventArgs e)
+        private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();
+
+        private void CreateNewWindow(object sender, RoutedEventArgs e) => new MainWindow().Show();
+
+        private void OpenHelp(object sender, RoutedEventArgs e)
         {
-           throw new NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        private void GitHubOpen(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo("https://github.com/maldavan5916/VacTimeTP") { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void NavigateToPage(object sender, RoutedEventArgs e)
         {
-            var menuItem = sender as MenuItem;
-            string? pageKey = menuItem?.Tag.ToString();
+            try
+            {
+                var menuItem = sender as MenuItem;
+                string? pageKey = menuItem?.Tag.ToString();
 
-            if (string.IsNullOrEmpty(pageKey))
-                return;
-            // Проверяем, есть ли страница в кэше
-            if (!_pagesCache.TryGetValue(pageKey, out Page? targetPage))
-            {
-                // Создаем новую страницу, если её нет в кэше
-                targetPage = pageKey switch
+                if (string.IsNullOrEmpty(pageKey))
+                    return;
+                // Проверяем, есть ли страница в кэше
+                if (!_pagesCache.TryGetValue(pageKey, out Page? targetPage))
                 {
-                    "Contract" => new ViewTables.ContractViewTable(),
-                    "Counterpartie" => new ViewTables.CounterpartieViewTable(),
-                    "Division" => new ViewTables.DivisionViewTable(),
-                    "Employee" => new ViewTables.EmployeeViewTable(),
-                    "Location" => new ViewTables.LocationViewTable(),
-                    "Material" => new ViewTables.MaterialViewTable(),
-                    "Post" => new ViewTables.PostViewTable(),
-                    "Product" => new ViewTables.ProductViewTable(),
-                    "Receipt" => new ViewTables.ReceiptViewTable(),
-                    "Sale" => new ViewTables.SaleViewTable(),
-                    "Unit" => new ViewTables.UnitViewTable(),
-                    "Home" => new HomePage(),
-                    "MaterialUsageReport" => new ViewReport.MaterialUsageReport(),
-                    "EmployeeDivisionReport" => new ViewReport.EmployeeDivisionReport(),
-                    "StockBalanceReport" => new ViewReport.StockBalanceReport(),
-                    "ContractorContractsReport" => new ViewReport.ContractorContractsReport(),
-                    "ProductSalesReport" => new ViewReport.ProductSalesReport(),
-                    _ => new NotFoundPage("Запрашиваемая страница не найдена"),
-                };
-                // Добавляем новую страницу в кэш
-                _pagesCache[pageKey] = targetPage;
+                    // Создаем новую страницу, если её нет в кэше
+                    targetPage = pageKey switch
+                    {
+                        "Contract" => new ViewTables.ContractViewTable(),
+                        "Counterpartie" => new ViewTables.CounterpartieViewTable(),
+                        "Division" => new ViewTables.DivisionViewTable(),
+                        "Employee" => new ViewTables.EmployeeViewTable(),
+                        "Location" => new ViewTables.LocationViewTable(),
+                        "Material" => new ViewTables.MaterialViewTable(),
+                        "Post" => new ViewTables.PostViewTable(),
+                        "Product" => new ViewTables.ProductViewTable(),
+                        "Receipt" => new ViewTables.ReceiptViewTable(),
+                        "Sale" => new ViewTables.SaleViewTable(),
+                        "Unit" => new ViewTables.UnitViewTable(),
+                        "Home" => new HomePage(),
+                        "MaterialUsageReport" => new ViewReport.MaterialUsageReport(),
+                        "EmployeeDivisionReport" => new ViewReport.EmployeeDivisionReport(),
+                        "StockBalanceReport" => new ViewReport.StockBalanceReport(),
+                        "ContractorContractsReport" => new ViewReport.ContractorContractsReport(),
+                        "ProductSalesReport" => new ViewReport.ProductSalesReport(),
+                        _ => new NotFoundPage("Запрашиваемая страница не найдена"),
+                    };
+                    // Добавляем новую страницу в кэш
+                    _pagesCache[pageKey] = targetPage;
+                }
+                else
+                {
+                    // Если страница из кэша, уведомляем её
+                    if (targetPage is ICachedPage cachedPage)
+                        cachedPage.OnNavigatedFromCache();
+                }
+                // Навигация на найденную или созданную страницу
+                MainFrame.Navigate(targetPage);
             }
-            else
+            catch (Exception ex)
             {
-                // Если страница из кэша, уведомляем её
-                if (targetPage is ICachedPage cachedPage)
-                    cachedPage.OnNavigatedFromCache();
+                MessageBox.Show(ex.Message);
             }
-            // Навигация на найденную или созданную страницу
-            MainFrame.Navigate(targetPage);
         }
     }
 }

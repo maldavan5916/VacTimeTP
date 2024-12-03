@@ -1,0 +1,62 @@
+﻿<Window x:Class="VacTrack.AboutProgram"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VacTrack"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource CustomWindowStyle}"
+        mc:Ignorable="d"
+        Title="О программе" Height="250" Width="400" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <DrawingImage x:Key="VacTimeLogoDrawingImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V1171 H1171 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <DrawingGroup.ClipGeometry>
+                            <RectangleGeometry RadiusX="0" RadiusY="0" Rect="0,0,1171,1171" />
+                        </DrawingGroup.ClipGeometry>
+                        <GeometryDrawing Brush="#66FFFFFF">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="#FF000000" Thickness="15" StartLineCap="Flat" EndLineCap="Flat" LineJoin="Miter" />
+                            </GeometryDrawing.Pen>
+                            <GeometryDrawing.Geometry>
+                                <EllipseGeometry RadiusX="578" RadiusY="578" Center="585.5,585.5" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF6EBFAC" Geometry="F0 M1171,1171z M0,0z M406.648,491L342.008,359.494C346.429,351.451,354.982,346,364.808,346L994.24,346C1002.71,346,1010.24,350.055,1014.99,356.331L951.135,491 406.648,491z" />
+                        <GeometryDrawing Brush="#FF6EBFAC">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="33" RadiusY="33" Rect="613,467,147,537" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF475653">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="21" RadiusY="21" Rect="436,531,127,472" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <GeometryDrawing Brush="#FF475653" Geometry="F0 M1171,1171z M0,0z M122.646,346C116.225,362.487,116.411,381.495,124.716,398.683L397.327,962.822C412.586,994.398 450.554,1007.63 482.13,992.368 513.707,977.109 526.935,939.141 511.676,907.565L240.309,346 122.646,346z" />
+                        <GeometryDrawing Brush="#FF475653" Geometry="F1 M1171,1171z M0,0z M558.501,911.722C558.501,961.98 551,1002.72 467.001,1002.72 414.5,1002.72 417.411,1001 375.5,916 340,844 416.467,820.722 467.001,820.722 517.535,820.722 558.501,861.464 558.501,911.722z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
+        <Image Source="{StaticResource VacTimeLogoDrawingImage}" HorizontalAlignment="Left" Width="160" Stretch="UniformToFill"/>
+        <TextBlock Text="ПС «Учет выпуска и реализации продукции ООО«ВакТайм»" TextWrapping="WrapWithOverflow" Margin="165,5,5,0"  Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" FontSize="14"/>
+        <Label Content="Разработал: Грачёв Денис Сергеевич" Margin="165,45,5,0" VerticalAlignment="Top"/>
+
+        <ScrollViewer Margin="165,99,5,45" Foreground="{DynamicResource MaterialDesignBody}">
+            <TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." TextWrapping="WrapWithOverflow"/>
+        </ScrollViewer>
+
+        <Button Style="{StaticResource MaterialDesignIconForegroundButton}" Foreground="{StaticResource MaterialDesign.Brush.Secondary}" Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,10" Click="GitHubOpen">
+            <materialDesign:PackIcon Kind="Github" Width="30" Height="30"/>
+        </Button>
+
+        <Button Content="OK" Style="{StaticResource MaterialDesignOutlinedSecondaryButton}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,8" Height="32" Click="OK_BtnClick"/>
+    </Grid>
+</Window>
