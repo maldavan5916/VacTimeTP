@@ -71,6 +71,7 @@ namespace VacTrack.ViewReport
                 }
             }
         }
+
         private bool _IsGroupTotalEnabled = true;
         public bool IsGroupTotalEnabled
         {

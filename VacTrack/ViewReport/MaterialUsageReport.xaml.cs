@@ -11,7 +11,7 @@ namespace VacTrack.ViewReport
     /// <summary>
     /// Логика взаимодействия для MaterialUsageReport.xaml
     /// </summary>
-    public partial class MaterialUsageReport : Page
+    public partial class MaterialUsageReport : Page, ICachedPage
     {
         private MaterialUsageReportViewModel ThisViewModel => (MaterialUsageReportViewModel)DataContext;
         public MaterialUsageReport() => InitializeComponent();

@@ -11,13 +11,12 @@ namespace VacTrack
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly DatabaseContext Db = new();
         private readonly Dictionary<string, Page> _pagesCache = [];
         private readonly PaletteHelper _paletteHelper = new();
 
         public MainWindow()
         {
-            Db.Database.EnsureCreated();
+            new DatabaseContext().Database.EnsureCreated();
             InitializeComponent();
 
             MainFrame.Navigate(new HomePage());
@@ -35,10 +34,7 @@ namespace VacTrack
             _paletteHelper.SetTheme(theme);
         }
 
-        private void Close(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void Close(object sender, RoutedEventArgs e) =>  Close();
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();
 

@@ -233,7 +233,6 @@ namespace VacTrack.ViewTables
             }
         }
 
-
         private void CancelChanges(object obj)
         {
             try
@@ -284,7 +283,6 @@ namespace VacTrack.ViewTables
                 MessageBrush = Brushes.Red;
             }
         }
-
 
         private void StartResetTimer()
         {
