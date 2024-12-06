@@ -1,6 +1,5 @@
 ﻿using DatabaseManager;
 using MaterialDesignThemes.Wpf;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -34,15 +33,44 @@ namespace VacTrack
             _paletteHelper.SetTheme(theme);
         }
 
-        private void Close(object sender, RoutedEventArgs e) =>  Close();
+        private void Close(object sender, RoutedEventArgs e) => Close();
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();
 
         private void CreateNewWindow(object sender, RoutedEventArgs e) => new MainWindow().Show();
 
-        private void OpenHelp(object sender, RoutedEventArgs e)
+        private void OpenHelp(object sender, RoutedEventArgs e) => OpenChmFile(@"UserGuide.chm");
+
+        static void OpenChmFile(string filePath)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(filePath))
+            {
+                MessageBox.Show("Путь к файлу справки не указан.");
+                return;
+            }
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                MessageBox.Show($"Файл справки не найден: {filePath}");
+                return;
+            }
+
+            try
+            {
+                // Запускаем файл
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "hh.exe", // Команда для открытия CHM
+                    Arguments = filePath, // Передаем путь к файлу
+                    UseShellExecute = true // Используем оболочку Windows
+                });
+            }
+            catch (Exception ex)
+            {
+                // Обрабатываем возможные ошибки
+                System.Diagnostics.Debug.WriteLine($"Не удалось открыть файл: {ex.Message}");
+                MessageBox.Show($"Не удалось открыть файл: {ex.Message}");
+            }
         }
 
         private void NavigateToPage(object sender, RoutedEventArgs e)

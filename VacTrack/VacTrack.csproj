@@ -20,6 +20,7 @@
     <RepositoryUrl>https://github.com/maldavan5916/VacTimeTP</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/maldavan5916/VacTimeTP</PackageProjectUrl>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +34,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DatabaseManager\DatabaseManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="UserGuide.chm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
