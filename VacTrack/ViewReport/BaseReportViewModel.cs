@@ -129,12 +129,21 @@ namespace VacTrack.ViewReport
 
             if (printDialog.ShowDialog() == true)
             {
+                var foreground = Document.Foreground;
+                var background = Document.Background;
+
                 // Установка размера печатной области
                 Document.PageWidth = printDialog.PrintableAreaWidth;
                 Document.PageHeight = printDialog.PrintableAreaHeight;
 
+                Document.Foreground = Brushes.Black;
+                Document.Background = Brushes.White;
+
                 // Печать документа
                 printDialog.PrintDocument(((IDocumentPaginatorSource)Document).DocumentPaginator, "Печать отчёта");
+
+                Document.Foreground = foreground;
+                Document.Background = background;
             }
         }
 
