@@ -34,5 +34,29 @@ namespace VacTrack.Properties {
                 this["AppTheme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ResponsibleStorekeeper {
+            get {
+                return ((int)(this["ResponsibleStorekeeper"]));
+            }
+            set {
+                this["ResponsibleStorekeeper"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ResponsibleAccountant {
+            get {
+                return ((int)(this["ResponsibleAccountant"]));
+            }
+            set {
+                this["ResponsibleAccountant"] = value;
+            }
+        }
     }
 }

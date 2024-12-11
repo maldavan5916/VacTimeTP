@@ -18,15 +18,39 @@
                         <RadioButton
                             Content="Тёмная" Height="22"
                             GroupName="GroupChoiceChipOutline"
-                            Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
-                            Click="MenuThemeSwitched" Tag="Dark" x:Name="DarkRb"
-                            />
+                           Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
+                           Click="MenuThemeSwitched" Tag="Dark" x:Name="DarkRb"
+                           />
                         <RadioButton
                             Content="Светлая" Height="22"
                             GroupName="GroupChoiceChipOutline"
                             Style="{StaticResource MaterialDesignChoiceChipSecondaryRadioButton}"
                             Click="MenuThemeSwitched" Tag="Light" x:Name="LightRB"
                             />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Ответственный кладовщик:" VerticalAlignment="Center"/>
+                        <ComboBox 
+                            x:Name="CBResponsibleStorekeeper"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                            materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                            Foreground="{DynamicResource MaterialDesignBody}"
+                            DisplayMemberPath="Fio"
+                            SelectionChanged="ResponsibleSave"
+                            materialDesign:HintAssist.Hint="Сотрудник"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Ответственный бухгалтер:" VerticalAlignment="Center"/>
+                        <ComboBox 
+                            x:Name="CBResponsibleAccountant"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                            materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                            Foreground="{DynamicResource MaterialDesignBody}"
+                            DisplayMemberPath="Fio"
+                            SelectionChanged="ResponsibleSave"
+                            materialDesign:HintAssist.Hint="Сотрудник"/>
                     </StackPanel>
                 </MenuItem>
                 <MenuItem Header="Создать новое окно" Click="CreateNewWindow"/>

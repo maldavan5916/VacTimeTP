@@ -1,5 +1,6 @@
 ﻿using DatabaseManager;
 using MaterialDesignThemes.Wpf;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -15,8 +16,20 @@ namespace VacTrack
 
         public MainWindow()
         {
-            new DatabaseContext().Database.EnsureCreated();
+            var Db = new DatabaseContext();
+            Db.Database.EnsureCreated();
             InitializeComponent();
+
+            var accountant = new ObservableCollection<Employee>([.. Db.Employees]);
+            var storekeeper = new ObservableCollection<Employee>([.. Db.Employees]);
+
+            CBResponsibleAccountant.ItemsSource = accountant;
+            CBResponsibleAccountant.SelectedItem = accountant
+                .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleAccountant);
+            
+            CBResponsibleStorekeeper.ItemsSource = storekeeper;
+            CBResponsibleStorekeeper.SelectedItem = storekeeper
+                .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper);
 
             MainFrame.Navigate(new HomePage());
 
@@ -33,6 +46,16 @@ namespace VacTrack
             {
                 ChangeTheme(themeRB.Tag.ToString());
             }            
+        }
+
+        private void ResponsibleSave(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ComboBox cb && cb.SelectedItem is Employee emp)
+            {
+                if (cb.Name == CBResponsibleAccountant.Name) Properties.Settings.Default.ResponsibleAccountant = emp.Id;
+                if (cb.Name == CBResponsibleStorekeeper.Name) Properties.Settings.Default.ResponsibleStorekeeper = emp.Id;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void ChangeTheme(string? toTheme)
