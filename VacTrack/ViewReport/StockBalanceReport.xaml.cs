@@ -107,6 +107,15 @@ namespace VacTrack.ViewReport
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
+
+            doc.Blocks.Add( new Paragraph(
+                new Run(FilterByLocation != null ? $"      _____________   { FilterByLocation.Employee?.Fio}" : String.Empty))
+            {
+                FontSize = 12,
+                TextAlignment = TextAlignment.Left,
+                LineHeight = 1.5 // Можно добавить межстрочный интервал
+            });
+
             return doc;
         }
 
