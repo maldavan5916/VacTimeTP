@@ -109,7 +109,8 @@ namespace VacTrack.ViewReport
             doc.Blocks.Add(table);
 
             doc.Blocks.Add( new Paragraph(
-                new Run(FilterByLocation != null ? $"      _____________   { FilterByLocation.Employee?.Fio}" : String.Empty))
+                new Run(FilterByLocation != null ? $"      _____________   { FilterByLocation.Employee?.Fio}" :
+                $"      _____________   {new ObservableCollection<Employee>([.. Db.Employees]).FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper)?.Fio}"))
             {
                 FontSize = 12,
                 TextAlignment = TextAlignment.Left,

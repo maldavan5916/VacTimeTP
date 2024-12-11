@@ -107,6 +107,15 @@ namespace VacTrack.ViewReport
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
+
+            doc.Blocks.Add(new Paragraph(
+                new Run($"      _____________   {new ObservableCollection<Employee>([.. Db.Employees]).FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleAccountant)?.Fio}"))
+            {
+                FontSize = 12,
+                TextAlignment = TextAlignment.Left,
+                LineHeight = 1.5 // Можно добавить межстрочный интервал
+            });
+
             return doc;
         }
 

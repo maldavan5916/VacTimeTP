@@ -20,13 +20,12 @@ namespace VacTrack
             Db.Database.EnsureCreated();
             InitializeComponent();
 
-            var accountant = new ObservableCollection<Employee>([.. Db.Employees]);
-            var storekeeper = new ObservableCollection<Employee>([.. Db.Employees]);
-
+            var accountant = new ObservableCollection<Employee>([.. Db.Employees]);     
             CBResponsibleAccountant.ItemsSource = accountant;
             CBResponsibleAccountant.SelectedItem = accountant
                 .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleAccountant);
-            
+
+            var storekeeper = new ObservableCollection<Employee>([.. Db.Employees]);
             CBResponsibleStorekeeper.ItemsSource = storekeeper;
             CBResponsibleStorekeeper.SelectedItem = storekeeper
                 .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper);
