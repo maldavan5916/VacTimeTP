@@ -19,20 +19,37 @@ namespace VacTrack
             InitializeComponent();
 
             MainFrame.Navigate(new HomePage());
+
+            switch (Properties.Settings.Default.AppTheme)
+            {
+                case "Dark": DarkRb.IsChecked = true; ChangeTheme("Dark"); break;
+                case "Light": LightRB.IsChecked = true; ChangeTheme("Light"); break;
+            }
         }
 
-        private void MenuThemeToggle_Click(object sender, RoutedEventArgs e)
+        private void MenuThemeSwitched(object sender, RoutedEventArgs e)
+        {            
+            if (sender is RadioButton themeRB)
+            {
+                ChangeTheme(themeRB.Tag.ToString());
+            }            
+        }
+
+        private void ChangeTheme(string? toTheme)
         {
             var theme = _paletteHelper.GetTheme();
 
-            if (MenuThemeToggle.IsChecked)
-                theme.SetDarkTheme();
-            else
-                theme.SetLightTheme();
+            switch (toTheme)
+            {
+                case "Dark": theme.SetDarkTheme(); Properties.Settings.Default.AppTheme = "Dark"; break;
+                case "Light": theme.SetLightTheme(); Properties.Settings.Default.AppTheme = "Light"; break;
+                default: return;
+            }
 
+            Properties.Settings.Default.Save();
             _paletteHelper.SetTheme(theme);
         }
-
+       
         private void Close(object sender, RoutedEventArgs e) => Close();
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();

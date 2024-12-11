@@ -13,7 +13,21 @@
         <Menu IsMainMenu="True" VerticalAlignment="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="20">
             <MenuItem Header="Файл">
                 <MenuItem Header="Настройки">
-                    <MenuItem x:Name="MenuThemeToggle" Header="Тёмная тема" IsCheckable="True" IsChecked="True" Click="MenuThemeToggle_Click"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Тема:" VerticalAlignment="Center"/>
+                        <RadioButton
+                            Content="Тёмная" Height="22"
+                            GroupName="GroupChoiceChipOutline"
+                            Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
+                            Click="MenuThemeSwitched" Tag="Dark" x:Name="DarkRb"
+                            />
+                        <RadioButton
+                            Content="Светлая" Height="22"
+                            GroupName="GroupChoiceChipOutline"
+                            Style="{StaticResource MaterialDesignChoiceChipSecondaryRadioButton}"
+                            Click="MenuThemeSwitched" Tag="Light" x:Name="LightRB"
+                            />
+                    </StackPanel>
                 </MenuItem>
                 <MenuItem Header="Создать новое окно" Click="CreateNewWindow"/>
                 <MenuItem Header="Начальний экран" Click="NavigateToPage" Tag="Home"/>
