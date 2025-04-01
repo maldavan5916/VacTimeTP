@@ -18,6 +18,10 @@
         <KeyBinding Key="P" Modifiers="Control" Command="{Binding PrintCommand}" />
     </Page.InputBindings>
 
+    <Page.Resources>
+        <converter:InvertBooleanConverter x:Key="InvertBooleanConverter" />
+    </Page.Resources>
+
     <Grid>
         <DockPanel VerticalAlignment="Top" Height="40">
             <Button Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
