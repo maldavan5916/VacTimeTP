@@ -111,5 +111,16 @@
                 OnPropertyChanged(nameof(Count));
             }
         }
+
+        private int _price;
+        public int Price
+        {
+            get => _price;
+            set
+            {
+                _price = value > 0 ? value : 0;
+                OnPropertyChanged(nameof(Price));
+            }
+        }
     }
 }

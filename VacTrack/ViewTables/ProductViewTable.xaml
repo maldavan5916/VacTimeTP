@@ -65,6 +65,17 @@
                 </materialDesign:DataGridTextColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                           Header="Цена">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Price">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
                                                    Header="Серийный номер">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="SerialNo">

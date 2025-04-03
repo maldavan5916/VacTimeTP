@@ -1,4 +1,6 @@
-﻿namespace DatabaseManager
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DatabaseManager
 {
     public class Employee : BaseModel
     {
@@ -87,6 +89,84 @@
             {
                 _dateDismissal = value;
                 OnPropertyChanged(nameof(DateDismissal));
+            }
+        }
+
+        private DateTime _dateOfBirth;
+        public DateTime DateOfBirth
+        {
+            get => _dateOfBirth;
+            set
+            {
+                _dateOfBirth = value;
+                OnPropertyChanged(nameof(DateOfBirth));
+            }
+        }
+
+        [StringLength(13, MinimumLength = 10, ErrorMessage = "The line length must be exactly 10-13 characters.")]
+        private string? _phoneNumber;
+        public required string PhoneNumber
+        {
+            get => _phoneNumber ?? throw new InvalidOperationException("PhoneNumber must be initialized.");
+            set
+            {
+                _phoneNumber = value;
+                OnPropertyChanged(nameof(PhoneNumber));
+            }
+        }
+
+        private string? _address;
+        public required string Address
+        {
+            get => _address ?? throw new InvalidOperationException("Address must be initialized.");
+            set
+            {
+                _address = value;
+                OnPropertyChanged(nameof(Address));
+            }
+        }
+
+        private string? _passportData;
+        public required string PassportData
+        {
+            get => _passportData ?? throw new InvalidOperationException("PassportData must be initialized.");
+            set
+            {
+                _passportData = value;
+                OnPropertyChanged(nameof(PassportData));
+            }
+        }
+
+        private double _salary;
+        public double Salary
+        {
+            get => _salary;
+            set
+            {
+                _salary = value;
+                OnPropertyChanged(nameof(Salary));
+            }
+        }
+
+        private double? _bonuses;
+        public double? Bonuses
+        {
+            get => _bonuses;
+            set
+            {
+                _bonuses = value;
+                OnPropertyChanged(nameof(Bonuses));
+            }
+        }
+
+        private string? _bankDetails;
+        public required string BankDetails
+        {
+            get => _bankDetails ?? throw new InvalidOperationException("BankDetails must be initialized.");
+            set
+            {
+                _bankDetails = value;
+                OnPropertyChanged(nameof(BankDetails));
             }
         }
     }

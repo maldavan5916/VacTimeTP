@@ -108,7 +108,85 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                
+
+                <DataGridTemplateColumn Header="Дата рождения">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding DateOfBirth, StringFormat={}{0:dd.MM.yyyy}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <DatePicker Width="90" 
+                        SelectedDate="{Binding DateOfBirth, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        materialDesign:HintAssist.Hint="Выбор даты"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                                                   Header="Телефон">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="PhoneNumber">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                                   Header="Адрес проживания">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Address">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                                   Header="Паспортные данные">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="PassportData">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                   Header="Оклад">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Salary">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                   Header="Дополнительные выплаты">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Bonuses"></Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                   Header="Банковские реквизиты">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="BankDetails">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
                 <DataGridTemplateColumn Header="Дата увольнения">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

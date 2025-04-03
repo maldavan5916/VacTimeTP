@@ -34,7 +34,8 @@ namespace VacTrack.ViewTables
             Items = DbSet.Local.ToObservableCollection();
         }
 
-        protected override Employee CreateNewItem() => new() { Fio = "Новый сотрудник", DateHire  = DateTime.Now };
+        protected override Employee CreateNewItem() => new() { Fio = "Новый сотрудник", DateHire = DateTime.Now, DateOfBirth = DateTime.Now, 
+            PhoneNumber =  "+375", Address = "Адрес", BankDetails = "номер счёта", PassportData = "паспорт"};
         
         protected override bool FilterItem(Employee item, string? searchText) => 
             string.IsNullOrWhiteSpace(searchText) || 

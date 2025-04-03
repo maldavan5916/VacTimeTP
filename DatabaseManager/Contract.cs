@@ -57,6 +57,17 @@
             }
         }
 
+        private int _term;
+        public int Term
+        {
+            get => _term;
+            set
+            {
+                _term = value;
+                OnPropertyChanged(nameof(Term));
+            }
+        }
+
         private double _summ;
         public double Summ
         {
