@@ -157,8 +157,7 @@ namespace VacTrack.ViewReport
                 .ThenInclude(e => e != null ? e.Unit : null)
                 .Load();
 
-            Items = new ObservableCollection<Contract>(
-                DbSet.Local.Where(item =>
+            Items = [.. DbSet.Local.Where(item =>
                 (FilterByCounterpartie == null || item.Counterpartie?.Id == FilterByCounterpartie.Id) &&
                 (FilterByProduct == null || item.Product?.Id == FilterByProduct.Id) &&
 
@@ -169,7 +168,7 @@ namespace VacTrack.ViewReport
 
                 (FilterStartDate != null && FilterEndDate == null && item.Date == FilterStartDate) ||
                 (FilterStartDate == null && FilterEndDate != null && item.Date == FilterEndDate))
-                ).ToList());
+                ).ToList()];
         }
 
         public override FlowDocument CreateReport()
@@ -197,8 +196,12 @@ namespace VacTrack.ViewReport
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
 
+            Employee? responsible = Db.Employees
+                .Include(e => e.Post)
+                .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleAccountant);
+
             doc.Blocks.Add(new Paragraph(
-                new Run($"      _____________   {new ObservableCollection<Employee>([.. Db.Employees]).FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleAccountant)?.Fio}"))
+                new Run($"{responsible?.Post?.Name}    _____________   {responsible?.Fio}"))
             {
                 FontSize = 12,
                 TextAlignment = TextAlignment.Left,

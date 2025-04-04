@@ -108,9 +108,13 @@ namespace VacTrack.ViewReport
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
 
+            Employee? responsible = Db.Employees
+                .Include(e => e.Post)
+                .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper);
+
             doc.Blocks.Add( new Paragraph(
                 new Run(FilterByLocation != null ? $"      _____________   { FilterByLocation.Employee?.Fio}" :
-                $"      _____________   {new ObservableCollection<Employee>([.. Db.Employees]).FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper)?.Fio}"))
+                $"{responsible?.Post?.Name}    _____________   {responsible?.Fio}"))
             {
                 FontSize = 12,
                 TextAlignment = TextAlignment.Left,
