@@ -11,5 +11,8 @@
     <Setting Name="ResponsibleAccountant" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="Nds" Type="System.Double" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

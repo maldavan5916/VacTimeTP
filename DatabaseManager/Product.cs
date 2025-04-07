@@ -1,4 +1,6 @@
-﻿namespace DatabaseManager
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DatabaseManager
 {
     public class Product : BaseModel
     {
@@ -112,15 +114,24 @@
             }
         }
 
-        private int _price;
-        public int Price
+        private double _price;
+        public double Price
         {
             get => _price;
             set
             {
-                _price = value > 0 ? value : 0;
+                _price = Math.Round(value > 0 ? value : 0, 3);
                 OnPropertyChanged(nameof(Price));
+                OnPropertyChanged(nameof(SummNds));
+                OnPropertyChanged(nameof(Summ));
             }
         }
+
+        [NotMapped]
+        public double Nds;
+        [NotMapped]
+        public double SummNds { get => Math.Round(Price * (Nds / 100), 3); }
+        [NotMapped]
+        public double Summ { get => Math.Round(Price + SummNds, 3); }
     }
 }

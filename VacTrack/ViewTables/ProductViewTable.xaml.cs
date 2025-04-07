@@ -73,7 +73,7 @@ namespace VacTrack.ViewTables
                     .ToList(); // Выполняем запрос и загружаем данные в память
 
                 // Создаем ObservableCollection на основе загруженных данных
-                ProdMater = new ObservableCollection<Product_Material>(productMaterials);
+                ProdMater = [.. productMaterials];
                 LastSelectedMaterial = product;
                 // Уведомляем об изменении свойства
                 OnPropertyChanged(nameof(ProdMater));
@@ -144,6 +144,7 @@ namespace VacTrack.ViewTables
             DbSet.Include(e => e.Unit).Include(e => e.Location).Load();
 
             Items = DbSet.Local.ToObservableCollection();
+            foreach (var item in Items) { item.Nds = Properties.Settings.Default.Nds; }
         }
 
         protected override Product CreateNewItem() => new() { Name = "Новое изделие", SerialNo = "Серийный номер" };
