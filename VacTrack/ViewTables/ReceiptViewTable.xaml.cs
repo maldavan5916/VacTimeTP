@@ -1,10 +1,10 @@
-﻿using DatabaseManager;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
+using VacTrack.DialogWindows;
 
 namespace VacTrack.ViewTables
 {
@@ -24,12 +24,14 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Material>? ReceiptMaterial { get; set; }
 
         public ICommand PrintCommand { get; }
+        public ICommand AddMultiItems { get; }
 
         public ReceiptViewModel() : base(new DatabaseContext())
         {
             PrintCommand = new RelayCommand(PrintDoc);
+            AddMultiItems = new RelayCommand(AddMulti);
         }
-        
+
         protected override void LoadData()
         {
             TableName = "Поступления";
@@ -66,6 +68,44 @@ namespace VacTrack.ViewTables
             {
                 Message = "Выберете поступление";
                 MessageBrush = Brushes.Orange;
+            }
+        }
+
+        private void AddMulti(object obj)
+        {
+            var ReceiptsWindow = new ReceiptsAdd();
+            bool? dialogResult = ReceiptsWindow.ShowDialog();
+
+            if (dialogResult == true)
+            {
+                var newItems = ReceiptsWindow.NewItems;
+
+                if (newItems == null) {
+                    Message = "Нет элементов для добавления";
+                    MessageBrush = Brushes.Orange;
+                    return;
+                }
+
+                foreach (var item in newItems)
+                {
+                    if (item.Material == null ||
+                        item.Counterpartie == null)
+                    {
+                        Message = "Сведения о материале или контрагенте не были получены";
+                        MessageBrush = Brushes.Red;
+                        return;
+                    }
+
+                    Items.Add(new Receipt
+                    {
+                        Id = item.Id,
+                        MaterialId = item.Material.Id,
+                        Date = item.Date,
+                        Count = item.Count,
+                        CounterpartyId = item.Counterpartie.Id,
+                        Summ = item.Summ
+                    });
+                }
             }
         }
     }

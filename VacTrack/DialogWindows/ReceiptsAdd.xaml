@@ -1,0 +1,168 @@
+﻿<Window x:Class="VacTrack.DialogWindows.ReceiptsAdd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VacTrack.DialogWindows"
+        xmlns:validators="clr-namespace:VacTrack.Validators"
+        xmlns:converter="clr-namespace:VacTrack.Converter"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource CustomWindowStyle}"
+        Title="Добавление" Height="450" Width="800">
+
+    <Window.DataContext>
+        <local:ReceiptsAddVM/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <converter:DockPanelWidthConverter x:Key="DockPanelWidthConverter" Length="300"/>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <FrameworkElement x:Name="DataContextProxy" DataContext="{Binding}" />
+
+        <StackPanel Margin="15,15,15,15">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Контрагент:"  Width="150" VerticalAlignment="Center"/>
+                <ComboBox
+                    Width="200"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    materialDesign:HintAssist.Hint="От кого"
+                    ItemsSource="{Binding ReceiptCounterpartie}"
+                    DisplayMemberPath="Name"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    <ComboBox.SelectedValue>
+                        <Binding Path="SelectCounterpartie" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedValue>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Дата:" Width="150" VerticalAlignment="Center"/>
+                <DatePicker
+                    Width="200"
+                    materialDesign:HintAssist.Hint="Дата поступления"
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                    Foreground="{DynamicResource MaterialDesignBody}">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="SelectDate" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Склад назначения:" Width="150" VerticalAlignment="Center"/>
+                <ComboBox
+                    Width="200"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    materialDesign:HintAssist.Hint="Склад"
+                    ItemsSource="{Binding ReceiptLocation}"
+                    DisplayMemberPath="Name"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                    <ComboBox.SelectedValue>
+                        <Binding Path="SelectLocation" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:NotEmptyValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.SelectedValue>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+
+        <DataGrid 
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding SelectedItem}"
+            AutoGenerateColumns="False" 
+            CanUserAddRows="False" 
+            HeadersVisibility="All"  
+            BorderThickness="3" 
+            BorderBrush="#19737171" 
+            Grid.Row="1" Margin="5,0,5,0">
+            <DataGrid.Columns>
+
+                <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                        ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}">
+                    <DataGridCheckBoxColumn.Header>
+                        <Border Background="Transparent">
+                            <CheckBox IsChecked="{Binding DataContext.IsAllSelected, Source={x:Reference DataContextProxy}}" />
+                        </Border>
+                    </DataGridCheckBoxColumn.Header>
+                    <DataGridCheckBoxColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridCheckBoxColumn.HeaderStyle>
+                </DataGridCheckBoxColumn>
+
+                <materialDesign:DataGridComboBoxColumn
+                    Header="Материал"
+                    IsEditable="True"
+                    ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.ReceiptMaterial, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValueBinding="{Binding Material}"
+                    DisplayMemberPath="Name">
+                </materialDesign:DataGridComboBoxColumn>
+
+                <DataGridTextColumn IsReadOnly="True" Header="Ед.Изм." Binding="{Binding Material.Unit.Name, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn IsReadOnly="True" Header="Цена" Binding="{Binding Material.Price, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                           Header="Количество">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Count">
+                            <Binding.ValidationRules>
+                                <validators:PositiveNumberValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                                                   Header="Cумма">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="Summ" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validators:PositiveNumberValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35" x:Name="MainDockPanel" Grid.Row="2" Margin="5,0,5,0">
+            <Button Content="Добавить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding AddCommand}" Width="95" ToolTip="добавление новой записи"/>
+            <Button Content="Удалить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding DeleteCommand}" Width="95" ToolTip="удаление выбраной записи"/>
+
+            <TextBlock HorizontalAlignment="Center" 
+               VerticalAlignment="Center" 
+               ToolTip="{Binding Message}" 
+               Text="{Binding Message}" 
+               Foreground="{Binding MessageBrush}" 
+               TextTrimming="CharacterEllipsis" 
+               Margin="5,0,3,0"
+               MaxWidth="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}"/>
+            
+            <Button Content="Подвердить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Width="95" ToolTip="Подверждает добаление поступлений" Click="AcceptClick"/>
+            <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Width="95" ToolTip="Подверждает добаление поступлений" Click="CancelClick"/>
+        </DockPanel>
+    </Grid>
+</Window>

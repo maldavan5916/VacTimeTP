@@ -163,7 +163,7 @@ namespace VacTrack.ViewTables
             try
             {
                 var newItem = CreateNewItem();
-                Items.Add(newItem); //DbSet.Add(newItem);
+                Items.Add(newItem);
                 Message = "Новая запись добавлена";
                 MessageBrush = Brushes.Green;
             }
@@ -180,7 +180,7 @@ namespace VacTrack.ViewTables
             {
                 if (SelectedItem != null)
                 {
-                    Items.Remove(SelectedItem); //DbSet.Remove(SelectedItem);
+                    Items.Remove(SelectedItem);
                     Message = "Запись удалена";
                     MessageBrush = Brushes.Green;
                 }
@@ -272,7 +272,7 @@ namespace VacTrack.ViewTables
                 }
 
                 var filteredItems = DbSet.Local.Where(item => FilterItem(item, SearchText)).ToList();
-                Items = new ObservableCollection<T>(filteredItems);
+                Items = [.. filteredItems];
 
                 Message = $"Найдено записей: {filteredItems.Count}";
                 MessageBrush = filteredItems.Count != 0 ? Brushes.Green : Brushes.Orange;
