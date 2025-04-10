@@ -1,0 +1,86 @@
+﻿<Window x:Class="VacTrack.DialogWindows.ReceiptsPrint"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VacTrack.DialogWindows"
+        xmlns:validators="clr-namespace:VacTrack.Validators"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource CustomWindowStyle}"
+        Title="Печать накладной" Height="270" Width="420" ResizeMode="NoResize">
+
+    <Window.DataContext>
+        <local:ReceiptsPrintVM/>
+    </Window.DataContext>
+
+    <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
+        <StackPanel Margin="10,10,10,50">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Дата:" Width="100" VerticalAlignment="Center"/>
+                <DatePicker
+                    Width="130"
+                    materialDesign:HintAssist.Hint="c"
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    SelectedDate="{Binding SelectStartDate}" Margin="0,0,10,0"
+                    materialDesign:TextFieldAssist.HasClearButton="True">
+                </DatePicker>
+                <DatePicker
+                    Width="130"
+                    materialDesign:HintAssist.Hint="по"
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    SelectedDate="{Binding SelectEndDate}"
+                    materialDesign:TextFieldAssist.HasClearButton="True">
+                </DatePicker>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Склад:" Width="100" VerticalAlignment="Center"/>
+                <ComboBox
+                    Width="200"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    materialDesign:HintAssist.Hint="Место хранения"
+                    ItemsSource="{Binding ReceiptLocation}"
+                    DisplayMemberPath="Name"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    SelectedValue="{Binding SelectLocation, UpdateSourceTrigger=PropertyChanged}">
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Контрагент:" Width="100" VerticalAlignment="Center"/>
+                <ComboBox
+                    Width="200"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    materialDesign:HintAssist.Hint="От кого"
+                    ItemsSource="{Binding ReceiptCounterpartie}"
+                    DisplayMemberPath="Name"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    SelectedValue="{Binding SelectCounterpartie, UpdateSourceTrigger=PropertyChanged}">
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="Hidden">
+                <Label Content="ТМЦ:" Width="100" VerticalAlignment="Center"/>
+                <ComboBox
+                    Width="200"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    materialDesign:HintAssist.Hint="ТМЦ"
+                    ItemsSource="{Binding ReceiptMaterial}"
+                    DisplayMemberPath="Name"
+                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                    materialDesign:TextFieldAssist.HasClearButton="True"
+                    SelectedValue="{Binding SelectMaterial, UpdateSourceTrigger=PropertyChanged}">
+                </ComboBox>
+            </StackPanel>
+
+            <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource MaterialDesignBody}"/>
+
+        </StackPanel>
+        
+        <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Width="110" ToolTip="отмена" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" IsCancel="True" Click="Cansel_Click"/>
+        <Button Content="Продолжить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Width="110" ToolTip="формирование нкладной" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" IsDefault="True" Click="Accept_Click"/>
+
+    </Grid>
+</Window>

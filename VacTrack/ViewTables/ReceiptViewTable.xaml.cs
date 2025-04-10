@@ -6,6 +6,7 @@ using DatabaseManager;
 using Microsoft.EntityFrameworkCore;
 using VacTrack.DialogWindows;
 
+
 namespace VacTrack.ViewTables
 {
     /// <summary>
@@ -62,12 +63,18 @@ namespace VacTrack.ViewTables
 
         private void PrintDoc(object obj)
         {
-            if (SelectedItem != null)
-                new ViewReport.ReceiptReport(SelectedItem).ShowDialog();
-            else
+            var printWindow =  new ReceiptsPrint();
+            bool? dialogResult = printWindow.ShowDialog();
+           
+            if (dialogResult == true)
             {
-                Message = "Выберете поступление";
-                MessageBrush = Brushes.Orange;
+                if (printWindow.Items != null && printWindow.ReceiptsPrintVM != null)
+                    new ViewReport.ReceiptReport(
+                        printWindow.Items,
+                        printWindow.ReceiptsPrintVM
+                        ).Show();
+                else
+                    throw new Exception("Cannot display the report because either `Items` or `ReceiptsPrintVM` is null.");
             }
         }
 
