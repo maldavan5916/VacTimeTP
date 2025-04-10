@@ -112,7 +112,12 @@ namespace VacTrack.ViewTables
                         CounterpartyId = item.Counterpartie.Id,
                         Summ = item.Summ
                     });
+
+                    Db.Materials.First(m => m.Id == item.Material.Id).Count += item.Count;
                 }
+
+                Message = "Успешно добалено";
+                MessageBrush = Brushes.Green;
             }
         }
     }
