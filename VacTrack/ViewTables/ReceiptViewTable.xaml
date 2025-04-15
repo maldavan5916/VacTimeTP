@@ -111,7 +111,7 @@
         </DataGrid>
 
         <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35" x:Name="MainDockPanel">
-            <Button Content="Добавить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding AddMultiItems}" Width="95" ToolTip="добавление новой записи"/>
+            <Button Content="Добавить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding AddItemsCommand}" Width="95" ToolTip="добавление новой записи"/>
             <Button Content="Удалить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding DeleteCommand}" Width="95" ToolTip="удаление выбраной записи"/>
             <Button Content="Сохранить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" Command="{Binding SaveCommand}" Width="95" ToolTip="сохраняет внесеные изменения"/>
             <TextBox materialDesign:TextFieldAssist.HasClearButton="True"

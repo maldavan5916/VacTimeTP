@@ -25,12 +25,14 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Material>? ReceiptMaterial { get; set; }
 
         public ICommand PrintCommand { get; }
-        public ICommand AddMultiItems { get; }
+        public ICommand AddItemsCommand { get; }
+        public new ICommand DeleteCommand { get; }
 
         public ReceiptViewModel() : base(new DatabaseContext())
         {
             PrintCommand = new RelayCommand(PrintDoc);
-            AddMultiItems = new RelayCommand(AddMulti);
+            AddItemsCommand = new RelayCommand(AddItems);
+            DeleteCommand = new RelayCommand(DeleteItem);
         }
 
         protected override void LoadData()
@@ -78,7 +80,7 @@ namespace VacTrack.ViewTables
             }
         }
 
-        private void AddMulti(object obj)
+        private void AddItems(object obj)
         {
             var ReceiptsWindow = new ReceiptsAdd();
             bool? dialogResult = ReceiptsWindow.ShowDialog();
@@ -119,6 +121,14 @@ namespace VacTrack.ViewTables
                 Message = "Успешно добалено";
                 MessageBrush = Brushes.Green;
             }
+        }
+
+        private new void DeleteItem(object obj)
+        {
+            Receipt? tempSelectedItem = SelectedItem;
+            base.DeleteItem(obj);
+            if (tempSelectedItem == null) { return; }
+            Db.Materials.First(m => m.Id == tempSelectedItem.MaterialId).Count -= tempSelectedItem.Count;
         }
     }
 }

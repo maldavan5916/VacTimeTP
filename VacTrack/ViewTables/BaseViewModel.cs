@@ -158,7 +158,7 @@ namespace VacTrack.ViewTables
             Items = DbSet.Local.ToObservableCollection();
         }
 
-        private void AddItem(object obj)
+        protected void AddItem(object obj)
         {
             try
             {
@@ -174,7 +174,7 @@ namespace VacTrack.ViewTables
             }
         }
 
-        private void DeleteItem(object obj)
+        protected void DeleteItem(object obj)
         {
             try
             {
@@ -197,7 +197,7 @@ namespace VacTrack.ViewTables
             }
         }
 
-        private void SaveChanges(object obj)
+        protected void SaveChanges(object obj)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace VacTrack.ViewTables
             }
         }
 
-        private void CancelChanges(object obj)
+        protected void CancelChanges(object obj)
         {
             try
             {
