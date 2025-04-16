@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using VacTrack.ViewReport;
 
 namespace VacTrack.ViewTables
 {
@@ -19,7 +22,11 @@ namespace VacTrack.ViewTables
     {
         public ObservableCollection<Contract>? SaleContract { get; set; }
 
-        public SaleViewModel() : base(new DatabaseContext()) { }
+        public ICommand PrintCommand { get; }
+        public SaleViewModel() : base(new DatabaseContext())
+        {
+            PrintCommand = new RelayCommand(PrintDoc);
+        }
 
         protected override void LoadData()
         {
@@ -27,7 +34,13 @@ namespace VacTrack.ViewTables
             SaleContract = new ObservableCollection<Contract>([.. Db.Contracts]);
 
             DbSet = Db.Set<Sale>();
-            DbSet.Include(e => e.Contract).ThenInclude(c => c != null ? c.Product : null).Load();
+            DbSet
+                .Include(e => e.Contract)
+                    .ThenInclude(c => c != null ? c.Product : null)
+                    .ThenInclude(p => p != null ? p.Unit : null)
+                .Include(e => e.Contract)
+                    .ThenInclude(c => c != null ? c.Counterpartie : null)
+                .Load();
 
             Items = DbSet.Local.ToObservableCollection();
         }
@@ -39,5 +52,16 @@ namespace VacTrack.ViewTables
             item.Contract?.Product?.Name.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
             item.Contract?.Name.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
             item.Summ.ToString().Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true;
+
+        private void PrintDoc(object obj)
+        {
+            if (SelectedItem == null)
+            {
+                Message = "Запись не выбранна";
+                MessageBrush = Brushes.Orange;
+                return;
+            }
+            new SaleReport(SelectedItem).Show();
+        }
     }
 }

@@ -122,5 +122,8 @@
                 OnPropertyChanged(nameof(Sales));
             }
         }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public string DisplayFull => $"Назвение: {Name};\nКому: {Counterpartie?.Name};\nИзделие: {Product?.Name}";
     }
 }

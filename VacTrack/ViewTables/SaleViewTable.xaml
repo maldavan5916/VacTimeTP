@@ -49,15 +49,27 @@
                     </DataGridCheckBoxColumn.HeaderStyle>
                 </DataGridCheckBoxColumn>
 
-                <materialDesign:DataGridTextColumn Header="Изделие" IsReadOnly="True" Binding="{Binding Contract.Product.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTemplateColumn Header="Договор">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <!-- Отображение после выбора (только Name) -->
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Contract.Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
 
-                <materialDesign:DataGridComboBoxColumn
-                    Header="Договор"
-                    IsEditable="True"
-                    ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.SaleContract, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValueBinding="{Binding Contract}"
-                    DisplayMemberPath="Name">
-                </materialDesign:DataGridComboBoxColumn>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <!-- Выпадающий список -->
+                        <DataTemplate>
+                            <ComboBox
+                                ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.SaleContract}"
+                                SelectedItem="{Binding Contract, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                DisplayMemberPath="DisplayFull"
+                                IsEditable="False"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+
+                <materialDesign:DataGridTextColumn Header="Изделие по договору" IsReadOnly="True" Binding="{Binding Contract.Product.Name, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <DataGridTemplateColumn Header="Дата">
                     <DataGridTemplateColumn.CellTemplate>
@@ -120,6 +132,7 @@
                Margin="5,0,3,0"
                MaxWidth="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}"/>
             <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Command="{Binding CancelCommand}" Width="95" ToolTip="отменяет не сохраненые изменения"/>
+            <Button Content="Печать" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Command="{Binding PrintCommand}" Width="95" ToolTip="Печать выбранной записи"/>
         </DockPanel>
     </Grid>
 </Page>
