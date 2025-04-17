@@ -14,5 +14,14 @@
     <Setting Name="Nds" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="ProductReleaseApprover" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="ProductSubmitter" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="OrganizationAdress" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">231000, Г.Сморгонь, ул. Пушкина, 91</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

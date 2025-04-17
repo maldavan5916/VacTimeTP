@@ -39,7 +39,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Ответственный кладовщик:" VerticalAlignment="Center" Width="170"/>
+                <Label Content="Ответственный кладовщик:" VerticalAlignment="Center" Width="200"/>
                 <ComboBox 
                     ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
                     SelectedItem="{Binding SelecteStorekeeper}"
@@ -52,7 +52,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Ответственный бухгалтер:" VerticalAlignment="Center" Width="170"/>
+                <Label Content="Ответственный бухгалтер:" VerticalAlignment="Center" Width="200"/>
                 <ComboBox 
                     ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
                     SelectedItem="{Binding SelectedAccountant}"
@@ -64,8 +64,8 @@
                     materialDesign:HintAssist.Hint="Сотрудник"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Ставка НДС: " VerticalAlignment="Center" Width="170"/>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Ставка НДС: " VerticalAlignment="Center" Width="200"/>
                 <TextBox
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
                     Width="100"
@@ -79,6 +79,32 @@
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Отпуск продукции разрешает:" VerticalAlignment="Center" Width="200"/>
+                <ComboBox 
+                    ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedProductReleaseApprover}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    DisplayMemberPath="GetFioAndPost"
+                    Width="400"
+                    materialDesign:HintAssist.Hint="Сотрудник"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Сдаёт продукцию:" VerticalAlignment="Center" Width="200"/>
+                <ComboBox 
+                    ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedProductSubmitter}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    DisplayMemberPath="GetFioAndPost"
+                    Width="400"
+                    materialDesign:HintAssist.Hint="Сотрудник"/>
             </StackPanel>
         </StackPanel>
         <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35">

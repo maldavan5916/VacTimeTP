@@ -56,6 +56,19 @@ namespace VacTrack
             get => _selecteStorekeeper;
             set => SetProperty(ref _selecteStorekeeper, value);
         }
+        private Employee? _selectedProductReleaseApprover;
+        public Employee? SelectedProductReleaseApprover
+        {
+            get => _selectedProductReleaseApprover;
+            set => SetProperty(ref _selectedProductReleaseApprover, value);
+        }
+
+        private Employee? _selectedProductSubmitter;
+        public Employee? SelectedProductSubmitter
+        {
+            get => _selectedProductSubmitter;
+            set => SetProperty(ref _selectedProductSubmitter, value);
+        }
         private double _selectNds;
         public double SelectNds
         {
@@ -141,6 +154,8 @@ namespace VacTrack
             SelectedAccountant = Employees.FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleAccountant);
             SelecteStorekeeper = Employees.FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper);
             SelectNds = Properties.Settings.Default.Nds;
+            SelectedProductReleaseApprover = Employees.FirstOrDefault(e => e.Id == Properties.Settings.Default.ProductReleaseApprover);
+            SelectedProductSubmitter = Employees.FirstOrDefault(e => e.Id == Properties.Settings.Default.ProductSubmitter);
         }
 
         private void Cancel(object obj) => Init();
@@ -156,7 +171,12 @@ namespace VacTrack
 
         private void Save(object obj)
         {
-            if (SelectedAccountant == null || SelecteStorekeeper == null) return;
+            if (
+                SelectedAccountant == null || 
+                SelecteStorekeeper == null ||
+                SelectedProductReleaseApprover == null ||
+                SelectedProductSubmitter == null
+                ) return;
             
             Properties.Settings.Default.ResponsibleAccountant = SelectedAccountant.Id;
             Properties.Settings.Default.ResponsibleStorekeeper = SelecteStorekeeper.Id;
@@ -168,6 +188,8 @@ namespace VacTrack
                                 _ => "Inherit"
                             };
             Properties.Settings.Default.Nds = SelectNds;
+            Properties.Settings.Default.ProductReleaseApprover = SelectedProductReleaseApprover.Id;
+            Properties.Settings.Default.ProductSubmitter = SelectedProductSubmitter.Id;
 
             Properties.Settings.Default.Save();
         }

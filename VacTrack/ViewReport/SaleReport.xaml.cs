@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
 
 namespace VacTrack.ViewReport
 {
@@ -59,9 +60,17 @@ namespace VacTrack.ViewReport
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
 
+            Employee? productReleaseApprover = Db.Employees
+                .Include(e => e.Post)
+                .FirstOrDefault(e => e.Id == Properties.Settings.Default.ProductReleaseApprover);
+
+            Employee? productSubmitter = Db.Employees
+                .Include(e => e.Post)
+                .FirstOrDefault(e => e.Id == Properties.Settings.Default.ProductSubmitter);
+
             string footerText =
-                $"Отпуск разрешил: <NotImplemented>" +
-                $"\nСдал грузоотправитель: <NotImplemented>";
+                $"Отпуск разрешил: {productReleaseApprover?.Post?.Name} _______________ {productReleaseApprover?.Fio}" +
+                $"\nСдал грузоотправитель: {productSubmitter?.Post?.Name} _______________ {productSubmitter?.Fio}";
 
             Paragraph headerParagraph = new(new Run(footerText))
             {
@@ -116,7 +125,7 @@ namespace VacTrack.ViewReport
             doc.Blocks.Add(title);
 
             string headerText =
-                $"\nГрузоотправитель: <NotImplemented>" +
+                $"\nГрузоотправитель: ООО «ВакТайм», адресс: {Properties.Settings.Default.OrganizationAdress}" +
                 $"\nГрузополучатель: {SelectSale?.Contract?.Counterpartie?.Name}, адрес: {SelectSale?.Contract?.Counterpartie?.PostalAddress}" +
                 $"\nОснование отпуска: договор {SelectSale?.Contract?.Name} от {SelectSale?.Contract?.Date.ToString("dd.MM.yyyy", new CultureInfo("ru-RU"))}";
 

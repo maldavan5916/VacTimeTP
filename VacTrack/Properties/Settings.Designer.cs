@@ -70,5 +70,38 @@ namespace VacTrack.Properties {
                 this["Nds"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ProductReleaseApprover {
+            get {
+                return ((int)(this["ProductReleaseApprover"]));
+            }
+            set {
+                this["ProductReleaseApprover"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int ProductSubmitter {
+            get {
+                return ((int)(this["ProductSubmitter"]));
+            }
+            set {
+                this["ProductSubmitter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("231000, Г.Сморгонь, ул. Пушкина, 91")]
+        public string OrganizationAdress {
+            get {
+                return ((string)(this["OrganizationAdress"]));
+            }
+        }
     }
 }
