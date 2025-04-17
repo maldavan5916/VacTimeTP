@@ -1,8 +1,7 @@
-﻿using DatabaseManager;
-using MaterialDesignThemes.Wpf;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using DatabaseManager;
+using MaterialDesignThemes.Wpf;
 
 namespace VacTrack
 {
@@ -20,58 +19,25 @@ namespace VacTrack
             Db.Database.EnsureCreated();
             InitializeComponent();
 
-            var accountant = new ObservableCollection<Employee>([.. Db.Employees]);     
-            CBResponsibleAccountant.ItemsSource = accountant;
-            CBResponsibleAccountant.SelectedItem = accountant
-                .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleAccountant);
-
-            var storekeeper = new ObservableCollection<Employee>([.. Db.Employees]);
-            CBResponsibleStorekeeper.ItemsSource = storekeeper;
-            CBResponsibleStorekeeper.SelectedItem = storekeeper
-                .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper);
-
             MainFrame.Navigate(new HomePage());
 
-            switch (Properties.Settings.Default.AppTheme)
-            {
-                case "Dark": DarkRb.IsChecked = true; ChangeTheme("Dark"); break;
-                case "Light": LightRB.IsChecked = true; ChangeTheme("Light"); break;
-            }
+            SetTheme(Properties.Settings.Default.AppTheme);
         }
 
-        private void MenuThemeSwitched(object sender, RoutedEventArgs e)
-        {            
-            if (sender is RadioButton themeRB)
-            {
-                ChangeTheme(themeRB.Tag.ToString());
-            }            
-        }
-
-        private void ResponsibleSave(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is ComboBox cb && cb.SelectedItem is Employee emp)
-            {
-                if (cb.Name == CBResponsibleAccountant.Name) Properties.Settings.Default.ResponsibleAccountant = emp.Id;
-                if (cb.Name == CBResponsibleStorekeeper.Name) Properties.Settings.Default.ResponsibleStorekeeper = emp.Id;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        private void ChangeTheme(string? toTheme)
+        private void SetTheme(string SelectTheme)
         {
             var theme = _paletteHelper.GetTheme();
 
-            switch (toTheme)
+            switch (SelectTheme)
             {
-                case "Dark": theme.SetDarkTheme(); Properties.Settings.Default.AppTheme = "Dark"; break;
-                case "Light": theme.SetLightTheme(); Properties.Settings.Default.AppTheme = "Light"; break;
-                default: return;
+                case "Dark": theme.SetBaseTheme(BaseTheme.Dark); break;
+                case "Light": theme.SetBaseTheme(BaseTheme.Light); break;
+                default: { theme.SetBaseTheme(BaseTheme.Inherit); } break;
             }
 
-            Properties.Settings.Default.Save();
             _paletteHelper.SetTheme(theme);
         }
-       
+
         private void Close(object sender, RoutedEventArgs e) => Close();
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();
@@ -144,6 +110,7 @@ namespace VacTrack
                         "StockBalanceReport" => new ViewReport.StockBalanceReport(),
                         "ContractorContractsReport" => new ViewReport.ContractorContractsReport(),
                         "ProductSalesReport" => new ViewReport.ProductSalesReport(),
+                        "Settings" => new SettingsPage(),
                         _ => new NotFoundPage("Запрашиваемая страница не найдена"),
                     };
                     // Добавляем новую страницу в кэш

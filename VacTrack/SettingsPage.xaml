@@ -1,0 +1,89 @@
+﻿<Page x:Class="VacTrack.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VacTrack"
+      xmlns:validators="clr-namespace:VacTrack.Validators"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SettingsPage">
+
+    <Page.DataContext>
+        <local:SettingViewModel/>
+    </Page.DataContext>
+
+    <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
+        <StackPanel Orientation="Vertical" Margin="10,10,10,40">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Тема:" VerticalAlignment="Center"/>
+                <RadioButton
+                   Content="Тёмная"
+                   GroupName="ThemeRB"
+                    IsChecked="{Binding IsDarkTheme}"
+                   Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}"
+                />
+                <RadioButton
+                    Content="Светлая"
+                    GroupName="ThemeRB"
+                    IsChecked="{Binding IsLightTheme}"
+                    Style="{StaticResource MaterialDesignChoiceChipSecondaryOutlineRadioButton}"
+                />
+                <RadioButton
+                    Content="Следовать системе"
+                    GroupName="ThemeRB"
+                    IsChecked="{Binding IsInheritTheme}"
+                    Style="{StaticResource MaterialDesignChoiceChipOutlineRadioButton}"
+                />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Ответственный кладовщик:" VerticalAlignment="Center" Width="170"/>
+                <ComboBox 
+                    ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelecteStorekeeper}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    DisplayMemberPath="GetFioAndPost"
+                    Width="400"
+                    materialDesign:HintAssist.Hint="Сотрудник"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Label Content="Ответственный бухгалтер:" VerticalAlignment="Center" Width="170"/>
+                <ComboBox 
+                    ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedAccountant}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    DisplayMemberPath="GetFioAndPost"
+                    Width="400"
+                    materialDesign:HintAssist.Hint="Сотрудник"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Ставка НДС: " VerticalAlignment="Center" Width="170"/>
+                <TextBox
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Width="100"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    materialDesign:HintAssist.Hint="НДС"
+                    materialDesign:TextFieldAssist.SuffixText="%"
+                    >
+                    <Binding Path="SelectNds">
+                        <Binding.ValidationRules>
+                            <validators:PositiveNumberValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox>
+            </StackPanel>
+        </StackPanel>
+        <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35">
+            <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="5" Cursor="Hand" IsCancel="True" Command="{Binding CancelCommand}" Width="95" ToolTip="отменяет не сохраненые изменения"/>
+            <Button Content="Сохранить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="5" DockPanel.Dock="Right" IsDefault="True" Command="{Binding SaveCommand}" Width="95" ToolTip="сохраняет внесеные изменения"/>
+        </DockPanel>
+    </Grid>
+</Page>

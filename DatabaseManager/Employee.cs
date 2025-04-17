@@ -169,5 +169,8 @@ namespace DatabaseManager
                 OnPropertyChanged(nameof(BankDetails));
             }
         }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public string GetFioAndPost { get => $"{Fio}\t({Post?.Name})"; }
     }
 }
