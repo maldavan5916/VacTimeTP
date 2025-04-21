@@ -17,7 +17,7 @@
     </Page.DataContext>
 
     <Page.Resources>
-        <converter:DockPanelWidthConverter x:Key="DockPanelWidthConverter" />
+        <converter:DockPanelWidthConverter x:Key="DockPanelWidthConverter" Length="720"/>
     </Page.Resources>
 
     <Grid>
@@ -146,8 +146,9 @@
                        Foreground="{Binding MessageBrush}" 
                        TextTrimming="CharacterEllipsis" 
                        Margin="5,0,3,0"
-                       MaxWidth="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}"/>
+                       Width="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}"/>
             <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Command="{Binding CancelCommand}" Width="95" ToolTip="отменяет не сохраненые изменения"/>
+            <Button Content="Печать" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Command="{Binding PrintCommand}" Width="95" ToolTip="Печать договора"/>
         </DockPanel>
     </Grid>
 </Page>
