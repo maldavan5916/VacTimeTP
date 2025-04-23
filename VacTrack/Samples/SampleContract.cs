@@ -7,7 +7,7 @@ namespace VacTrack.Samples
     internal class SampleContract
     {
         public static FlowDocument GenerateContract(
-            int ConractNo,
+            String ConractNo,
             string contractDate,
             string term,
             string price,

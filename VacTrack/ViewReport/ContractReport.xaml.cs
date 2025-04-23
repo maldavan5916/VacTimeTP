@@ -35,7 +35,7 @@ namespace VacTrack.ViewReport
         public override FlowDocument CreateReport()
         {
             FlowDocument doc = Samples.SampleContract.GenerateContract(
-                SelectContract?.Id != null ? SelectContract.Id : 0,
+                $"{SelectContract?.Name}",
                 $"{SelectContract?.Date.ToString("'«'d'»' MMMM yyyy 'г.'", new CultureInfo("ru-RU"))}",
                 $"{SelectContract?.Term} месяцев",
                 $"{SelectContract?.Summ}",
@@ -80,7 +80,7 @@ namespace VacTrack.ViewReport
             };
             header.Inlines.Add(new Run("Приложение 1"));
             header.Inlines.Add(new LineBreak());
-            header.Inlines.Add(new Run($"к договору № {SelectContract?.Id} от {SelectContract?.Date.ToString("'«'d'»' MMMM yyyy 'г.'", new CultureInfo("ru-RU"))} г."));
+            header.Inlines.Add(new Run($"к договору № {SelectContract?.Name} от {SelectContract?.Date.ToString("'«'d'»' MMMM yyyy 'г.'", new CultureInfo("ru-RU"))} г."));
             section.Blocks.Add(header);
 
             // Название
