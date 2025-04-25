@@ -122,6 +122,31 @@
                 </StackPanel>
             </materialDesign:PopupBox>
 
+            <materialDesign:PopupBox StaysOpen="True" Margin="10,0,0,0" ToolTip="Выбор необходимых колонок"
+                         Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                         Width="30" Height="30" PlacementMode="BottomAndAlignLeftEdges">
+                <materialDesign:PopupBox.ToggleContent>
+                    <materialDesign:PackIcon Kind="FormatColumns" Width="30" Foreground="{DynamicResource MaterialDesignBody}"/>
+                </materialDesign:PopupBox.ToggleContent>
+
+                <StackPanel Orientation="Vertical" Margin="0,5,0,0">                    
+                    <ItemsControl ItemsSource="{Binding Columns}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox 
+                                    Content="{Binding Name}" 
+                                    IsChecked="{Binding IsVisible, Mode=TwoWay}" 
+                                    Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}"
+                                    Width="150"
+                                    Margin="1"
+                                    Click="CheckBox_Click"
+                                    />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </materialDesign:PopupBox>
+
             <TextBlock DockPanel.Dock="Right" Height="25" Text="{Binding Message}" ToolTip="{Binding Message}" Foreground="{Binding MessageBrush}" Margin="10,0,0,0"/>
         </DockPanel>
 

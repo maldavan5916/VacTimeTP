@@ -1,6 +1,8 @@
 ﻿using DatabaseManager;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -17,9 +19,31 @@ namespace VacTrack.ViewReport
         private EmployeeDivisionReportViewModel ThisViewModel => (EmployeeDivisionReportViewModel)DataContext;
         public EmployeeDivisionReport() => InitializeComponent();
         public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
+        private void CheckBox_Click(object sender, RoutedEventArgs e) => ThisViewModel.OpenFromCache();
     }
 
     public enum GroupedType { NoGrouped, GroupedByDivision, GroupedByPost }
+
+    public class ColumnSetting : INotifyPropertyChanged
+    {
+        private bool _isVisible;
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set
+            {
+                _isVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public required string Name { get; set; }
+        public required string Code { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
 
     public class EmployeeDivisionReportViewModel : BaseReportViewModel<Employee>
     {
@@ -114,6 +138,19 @@ namespace VacTrack.ViewReport
                 LoadData();
             }
         }
+
+        public ObservableCollection<ColumnSetting> Columns { get; set; } =
+        [
+            new ColumnSetting { Name = "ФИО",             Code = "fio",            IsVisible = true },
+            new ColumnSetting { Name = "Подразделение",   Code = "division",       IsVisible = true },
+            new ColumnSetting { Name = "Должность",       Code = "post",           IsVisible = true },
+            new ColumnSetting { Name = "Дата приема",     Code = "dateHire",       IsVisible = true },
+            new ColumnSetting { Name = "Дата рождения",   Code = "dateOfBirth",    IsVisible = true },
+            new ColumnSetting { Name = "Телефон",         Code = "phoneNumber",    IsVisible = true },
+            new ColumnSetting { Name = "Адресс",          Code = "address",        IsVisible = true },
+            new ColumnSetting { Name = "Оклад",           Code = "salary",         IsVisible = true },
+            new ColumnSetting { Name = "Дата увольнения", Code = "dateDismissal",  IsVisible = false },
+        ];
         #endregion
 
         public ICommand ClearFilterCommand { get; }
@@ -131,8 +168,7 @@ namespace VacTrack.ViewReport
             DbSet = Db.Set<Employee>();
             DbSet.Include(e => e.Division).Include(e => e.Post).Load();
 
-            Items = new ObservableCollection<Employee>(
-                DbSet.Local.Where(item =>
+            Items = [.. DbSet.Local.Where(item =>
                 // Фильтрация по должности
                 (FilterByPost == null || item.Post?.Id == FilterByPost.Id) &&
 
@@ -155,7 +191,7 @@ namespace VacTrack.ViewReport
                 // Если задан только FilterEndDate, фильтруем по точному совпадению с этой датой
                 (FilterStartDate == null && FilterEndDate != null &&
                     (item.DateHire == FilterEndDate || item.DateDismissal == FilterEndDate)))
-                ).ToList());
+                ).ToList()];
         }
 
         public override FlowDocument CreateReport()
@@ -193,59 +229,105 @@ namespace VacTrack.ViewReport
             return doc;
         }
 
+        private List<string> GetVisibleValues(Employee item, string codeEmptyCol = "")
+        {
+            var result = new List<string>();
+
+            foreach (var column in Columns)
+            {
+                if (!column.IsVisible) continue;
+                
+                if (column.Code == codeEmptyCol)
+                {
+                    result.Add(string.Empty);
+                    continue;
+                }
+
+                switch (column.Code)
+                {
+                    case "fio":           result.Add($"{item.Fio}");                      break;
+                    case "division":      result.Add($"{item.Division?.Name}");           break;
+                    case "post":          result.Add($"{item.Post?.Name}");               break;
+                    case "dateHire":      result.Add($"{item.DateHire:dd.MM.yyyy}");      break;
+                    case "dateOfBirth":   result.Add($"{item.DateOfBirth:dd.MM.yyyy}");   break;
+                    case "phoneNumber":   result.Add($"{item.PhoneNumber}");              break;
+                    case "address":       result.Add($"{item.Address}");                  break;
+                    case "salary":        result.Add($"{item.Salary}");                   break;
+                    case "dateDismissal": result.Add($"{item.DateDismissal:dd.MM.yyyy}"); break;
+                    default: result.Add(string.Empty); break;
+                }
+            }
+
+            return result;
+        }
+
         private void CreateGroupedByDivisionRows(ref TableRowGroup dataGroup)
         {
-            CreateGroupedRows(
-                ref dataGroup,
-                item => item.Division?.Name,
-                key => ["", $"{key}", "", "", ""], // Заголовок группы
-                item => [
-                    $"{item.Fio}",
-                    string.Empty,
-                    $"{item.Post?.Name}",
-                    $"{item.DateHire:dd.MM.yyyy}",
-                    $"{item.DateDismissal:dd.MM.yyyy}"]
-            );
+            // Группируем по подразделению
+            var groupedItems = Items.GroupBy(item => item.Division?.Name);
+
+            foreach (var group in groupedItems)
+            {
+                // Добавляем строку заголовка для группы
+                var headerValues = Columns
+                    .Where(c => c.IsVisible)
+                    .Select(c => c.Code == "division" ? group.Key : "") // Заголовок по подразделению
+                    .ToList();
+
+
+#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+                dataGroup.Rows.Add(CreateRow(headerValues));
+#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+
+                // Создаём строки для каждого сотрудника в группе
+                foreach (var item in group)
+                {
+                    var visibleValues = GetVisibleValues(item, "division");
+                    dataGroup.Rows.Add(CreateRow(visibleValues));
+                }
+            }
         }
 
         private void CreateGroupedByPostRows(ref TableRowGroup dataGroup)
         {
-            CreateGroupedRows(
-                ref dataGroup,
-                item => item.Post?.Name,
-                key => ["", "", $"{key}", "", ""], // Заголовок группы
-                item => [
-                    $"{item.Fio}",
-                    $"{item.Division?.Name}",
-                    string.Empty,
-                    $"{item.DateHire:dd.MM.yyyy}",
-                    $"{item.DateDismissal:dd.MM.yyyy}"]
-            );
+            // Группируем по подразделению
+            var groupedItems = Items.GroupBy(item => item.Post?.Name);
+
+            foreach (var group in groupedItems)
+            {
+                // Добавляем строку заголовка для группы
+                var headerValues = Columns
+                    .Where(c => c.IsVisible)
+                    .Select(c => c.Code == "post" ? group.Key : "") // Заголовок по подразделению
+                    .ToList();
+
+#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+                dataGroup.Rows.Add(CreateRow(headerValues));
+#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+
+                // Создаём строки для каждого сотрудника в группе
+                foreach (var item in group)
+                {
+                    var visibleValues = GetVisibleValues(item, "post");
+                    dataGroup.Rows.Add(CreateRow(visibleValues));
+                }
+            }
         }
 
         private void CreateNoGroupedRows(ref TableRowGroup dataGroup)
         {
             foreach (var item in Items)
-            {
-                dataGroup.Rows.Add(CreateRow([
-                    $"{item.Fio}",
-                    $"{item.Division?.Name}",
-                    $"{item.Post?.Name}",
-                    $"{item.DateHire:dd.MM.yyyy}",
-                    $"{item.DateDismissal:dd.MM.yyyy}"]));
-            }
+                dataGroup.Rows.Add(CreateRow(GetVisibleValues(item)));
         }
 
-        private static void AddTableHeader(ref Table table)
+        private void AddTableHeader(ref Table table)
         {
             TableRowGroup headerGroup = new();
             TableRow headerRow = new();
 
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("ФИО"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Подразделение"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Должность"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Дата приема"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Дата увольнения"))) { FontWeight = FontWeights.Bold });
+            foreach (var col in Columns) 
+                if (col.IsVisible)
+                    headerRow.Cells.Add(new TableCell(new Paragraph(new Run(col.Name))) { FontWeight = FontWeights.Bold });
 
             headerGroup.Rows.Add(headerRow);
             table.RowGroups.Add(headerGroup);
@@ -273,11 +355,6 @@ namespace VacTrack.ViewReport
 
             string filterByPost = FilterByPost == null ? string.Empty : $"\nПо должности: {FilterByPost.Name}";
             string filterByDivision = FilterByDivision == null ? string.Empty : $"\nПо подразделению: {FilterByDivision.Name}";
-
-            //string periodFilter =
-            //    FilterStartDate != null && FilterEndDate != null ? $"\nЗа период с {FilterStartDate:dd.MM.yyyy} по {FilterEndDate:dd.MM.yyyy}" :
-            //    FilterStartDate != null && FilterEndDate == null ? $"\nНа день {FilterStartDate:dd.MM.yyyy}" :
-            //    FilterStartDate == null && FilterEndDate != null ? $"\nНа день {FilterEndDate:dd.MM.yyyy}" : string.Empty;
 
             string periodFilter = (FilterStartDate, FilterEndDate) switch
             {
