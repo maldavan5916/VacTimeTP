@@ -32,6 +32,7 @@ namespace VacTrack.ViewReport
         protected DatabaseContext Db;
         protected DbSet<T> DbSet;
         private System.Timers.Timer? _resetTimer;
+        private bool _isRefreshing = false;
 
 
         private ObservableCollection<T> _Items;
@@ -100,13 +101,29 @@ namespace VacTrack.ViewReport
 
         protected void Refresh(object? obj)
         {
-            Document = CreateReport();
+            if (_isRefreshing)
+                return;
 
-            // Настройка размеров документа
-            Document.PageWidth = 793.7; // A4 ширина в пикселях (96 DPI)
-            Document.PageHeight = 1122.52; // A4 высота в пикселях (96 DPI)
-            Document.PagePadding = new Thickness(50); // Поля страницы
-            Document.ColumnWidth = double.PositiveInfinity; // Убрать колонки
+            try
+            {
+                _isRefreshing = true;
+
+                Db = new DatabaseContext();
+                // Повторная загрузка данных, если нужно
+                LoadData();  // Если эта строка меняет Items, то цикл не повторится
+
+                Document = CreateReport();
+
+                // Настройка размеров документа
+                Document.PageWidth = 793.7; // A4 ширина в пикселях (96 DPI)
+                Document.PageHeight = 1122.52; // A4 высота в пикселях (96 DPI)
+                Document.PagePadding = new Thickness(50); // Поля страницы
+                Document.ColumnWidth = double.PositiveInfinity; // Убрать колонки
+            }
+            finally
+            {
+                _isRefreshing = false;
+            }
         }
 
         protected virtual void LoadData()

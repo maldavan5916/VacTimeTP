@@ -79,8 +79,7 @@ namespace VacTrack.ViewReport
             if (SelectedProduct == null)
                 Items = DbSet.Local.ToObservableCollection();
             else
-                Items = new ObservableCollection<Product_Material>(DbSet.Local.Where(
-                    item => item.Product?.Id == SelectedProduct.Id).ToList());
+                Items = [.. DbSet.Local.Where( item => item.Product?.Id == SelectedProduct.Id).ToList()];
         }
 
         public override FlowDocument CreateReport()
