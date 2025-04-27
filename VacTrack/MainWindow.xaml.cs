@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using DatabaseManager;
 using MaterialDesignThemes.Wpf;
+using Windows.System;
 
 namespace VacTrack
 {
@@ -41,6 +45,8 @@ namespace VacTrack
         private void Close(object sender, RoutedEventArgs e) => Close();
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();
+
+        private void CreateNewUser_click(object sender, RoutedEventArgs e) => new CreateUser().ShowDialog();
 
         private void CreateNewWindow(object sender, RoutedEventArgs e) => new MainWindow().Show();
 
@@ -130,6 +136,54 @@ namespace VacTrack
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+    }
+
+    public class MainWindowViewModel : INotifyPropertyChanged
+    {
+        #region interface implemented 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void SetProperty<Ts>(ref Ts field, Ts value, [CallerMemberName] string? propertyName = null)
+        {
+            if (!EqualityComparer<Ts>.Default.Equals(field, value))
+            {
+                field = value;
+                OnPropertyChanged(propertyName);
+            }
+        }
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        #endregion
+
+        private bool _isLogin = false;
+        public bool IsLogin 
+        {
+            get => _isLogin;
+            set
+            {
+                SetProperty(ref _isLogin, value);
+            }
+        } 
+        public Visibility IsLoginVisable => IsLogin ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility NegativeIsLoginVisable => !IsLogin ? Visibility.Visible : Visibility.Collapsed;
+        public bool SaveUser { get; set; } = false;
+        
+        public string? LoginString {  get; set; }
+        public string? PasswordString { get; set; }
+
+        private List<Users> Users { get; set; }
+        public ICommand LogInCommand { get; set; }
+
+        public MainWindowViewModel()
+        {
+            var Db = new DatabaseContext();
+            LogInCommand = new RelayCommand(LogIn);
+            Users = [.. Db.Users];
+        }
+
+        private void LogIn(object obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

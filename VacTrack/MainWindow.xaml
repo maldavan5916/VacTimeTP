@@ -9,6 +9,10 @@
         mc:Ignorable="d"
         Title="Учёт выпуска изделий ООО''ВакТайм''" Height="500" Width="900" MinHeight="450" MinWidth="800">
 
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+
     <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
         <Menu IsMainMenu="True" VerticalAlignment="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="20">
             <MenuItem Header="Файл">
@@ -17,7 +21,7 @@
                 <MenuItem Header="Начальний экран" Click="NavigateToPage" Tag="Home"/>
                 <MenuItem Header="Выход" Click="Close"/>
             </MenuItem>
-            <MenuItem Header="Справочники">
+            <MenuItem Header="Справочники" Visibility="{Binding IsLoginVisable}">
                 <MenuItem Header="Сотрудники" Click="NavigateToPage" Tag="Employee"/>
                 <MenuItem Header="Должности" Click="NavigateToPage" Tag="Post"/>
                 <MenuItem Header="Изделия" Click="NavigateToPage" Tag="Product"/>
@@ -27,12 +31,12 @@
                 <MenuItem Header="Материалы\Коплектуюшие" Click="NavigateToPage" Tag="Material"/>
                 <MenuItem Header="Контрагенты" Click="NavigateToPage" Tag="Counterpartie"/>
             </MenuItem>
-            <MenuItem Header="Документы">
+            <MenuItem Header="Документы" Visibility="{Binding IsLoginVisable}">
                 <MenuItem Header="Договора" Click="NavigateToPage" Tag="Contract"/>
                 <MenuItem Header="Поступления" Click="NavigateToPage" Tag="Receipt"/>
                 <MenuItem Header="Реализация" Click="NavigateToPage" Tag="Sale"/>
             </MenuItem>
-            <MenuItem Header="Отчёты">
+            <MenuItem Header="Отчёты" Visibility="{Binding IsLoginVisable}">
                 <MenuItem Header="Отчет по использованию материалов на изделия" Click="NavigateToPage" Tag="MaterialUsageReport" ToolTip="Показывает, какие материалы использовались для производства определенных изделий, их количество и стоимость."/>
                 <MenuItem Header="Отчет по сотрудникам" Click="NavigateToPage" Tag="EmployeeDivisionReport" ToolTip="Список всех сотрудников с указанием их подразделений, должностей, даты приема и даты увольнения (если есть)."/>
                 <MenuItem Header="Отчет по остаткам материалов и комплектуюших" Click="NavigateToPage" Tag="StockBalanceReport" ToolTip="Информация о текущих остатках материалов и комплектуюших с указанием мест хранения."/>
@@ -44,7 +48,48 @@
                 <MenuItem Header="О программе" Click="OpenAboutProgram"/>
                 <MenuItem Header="Помощь" Click="OpenHelp"/>
             </MenuItem>
+            <MenuItem Header="Создать пользователя" Click="CreateNewUser_click"/>
         </Menu>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="5,25,5,5" />
+        
+        <StackPanel 
+            Orientation="Vertical" 
+            Visibility="{Binding NegativeIsLoginVisable}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Label Content="Вход" HorizontalAlignment="Center" FontSize="20"/>
+            
+            <TextBox 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                Width="300" materialDesign:HintAssist.Hint="Логин" 
+                Foreground="{DynamicResource MaterialDesignBody}"
+                Text="{Binding LoginString}"
+                Margin="0,10,0,0"
+                />
+            
+            <PasswordBox
+                materialDesign:HintAssist.Hint="Пароль"
+                Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                Foreground="{DynamicResource MaterialDesignBody}"
+                local:PasswordBoxHelper.BoundPassword="{Binding PasswordString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,10,0,0"
+                />
+            
+            <CheckBox
+                Content="Запомнить"
+                Foreground="{DynamicResource MaterialDesignBody}"
+                Margin="0,10,0,0"
+                IsChecked="{Binding SaveUser}"
+                />
+
+            <Button 
+                Content="Вход" 
+                Style="{StaticResource MaterialDesignPaperButton}" 
+                Command="{Binding LogInCommand}"
+                Cursor="Hand"
+                Margin="0,10,0,0"
+                />
+        </StackPanel>
+        
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="5,25,5,5" Visibility="{Binding IsLoginVisable}"/>
     </Grid>
 </Window>

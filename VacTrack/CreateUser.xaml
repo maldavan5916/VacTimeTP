@@ -1,0 +1,83 @@
+﻿<Window x:Class="VacTrack.CreateUser"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VacTrack"
+        xmlns:validators="clr-namespace:VacTrack.Validators"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource CustomWindowStyle}"
+        Background="{DynamicResource MaterialDesign.Brush.Background}"
+        mc:Ignorable="d"
+        Title="Создание пользователя" MinHeight="300" MinWidth="340" Height="420" Width="750">
+
+    <Window.DataContext>
+        <local:CreateUserViewModel/>
+    </Window.DataContext>
+    
+    <Grid>
+        <StackPanel 
+            Orientation="Vertical" 
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Label Content="Реристрация" HorizontalAlignment="Center" FontSize="20"/>
+
+            <TextBox 
+                Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                Width="300"
+                materialDesign:HintAssist.Hint="Логин"
+                Foreground="{DynamicResource MaterialDesignBody}"
+                Margin="0,10,0,0">
+
+                <TextBox.Text>
+                    <Binding Path="LoginString"
+                         Mode="TwoWay"
+                         UpdateSourceTrigger="PropertyChanged"
+                         ValidatesOnDataErrors="True"
+                         NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <validators:LoginCheck/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+
+            </TextBox>
+
+            <PasswordBox
+                materialDesign:HintAssist.Hint="Пароль"
+                Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                Foreground="{DynamicResource MaterialDesignBody}"
+                Margin="0,10,0,0">
+                <local:PasswordBoxHelper.BoundPassword>
+                    <Binding Path="PasswordString"
+                         Mode="TwoWay"
+                         UpdateSourceTrigger="PropertyChanged"
+                         ValidatesOnDataErrors="True"
+                         NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <validators:PasswordCheck/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </local:PasswordBoxHelper.BoundPassword>
+            </PasswordBox>
+
+            <PasswordBox
+                 materialDesign:HintAssist.Hint="Повтор пароля"
+                 Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                 Foreground="{DynamicResource MaterialDesignBody}"
+                 local:PasswordBoxHelper.BoundPassword="{Binding SecondPasswordString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="0,10,0,0"
+             />
+
+            <Label Content="{Binding Message}" HorizontalAlignment="Center" Height="20" Margin="0,10,0,0" Foreground="Red"/>
+
+            <Button 
+                Content="Зарегистрировать" 
+                Style="{StaticResource MaterialDesignPaperButton}"
+                Command="{Binding CreateUser}"
+                Cursor="Hand"
+                Margin="0,10,0,0"
+            />
+        </StackPanel>
+    </Grid>
+</Window>
