@@ -16,6 +16,7 @@ namespace DatabaseManager
         public DbSet<Material> Materials { get; set; } = null!;
         public DbSet<Counterpartie> Counterparties { get; set; } = null!;
         public DbSet<Product_Material> Product_Materials { get; set; } = null!;
+        public DbSet<Users> Users { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
