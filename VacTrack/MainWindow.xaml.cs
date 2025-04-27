@@ -16,6 +16,7 @@ namespace VacTrack
     {
         private readonly Dictionary<string, Page> _pagesCache = [];
         private readonly PaletteHelper _paletteHelper = new();
+        private MainWindowViewModel ThisViewModel => (MainWindowViewModel)DataContext;
 
         public MainWindow()
         {
@@ -43,6 +44,13 @@ namespace VacTrack
         }
 
         private void Close(object sender, RoutedEventArgs e) => Close();
+
+        private void LogOunt(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.LogInUserId = -1;
+            ThisViewModel.IsLogin = false;
+            Properties.Settings.Default.Save();
+        }
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();
 
@@ -162,8 +170,21 @@ namespace VacTrack
             set
             {
                 SetProperty(ref _isLogin, value);
+                OnPropertyChanged(nameof(IsLoginVisable));
+                OnPropertyChanged(nameof(NegativeIsLoginVisable));
+            }
+        }
+
+        private string _message = string.Empty;
+        public string Message 
+        {
+            get => _message;
+            set
+            {
+                SetProperty(ref _message, value);
             }
         } 
+
         public Visibility IsLoginVisable => IsLogin ? Visibility.Visible : Visibility.Collapsed;
         public Visibility NegativeIsLoginVisable => !IsLogin ? Visibility.Visible : Visibility.Collapsed;
         public bool SaveUser { get; set; } = false;
@@ -171,19 +192,38 @@ namespace VacTrack
         public string? LoginString {  get; set; }
         public string? PasswordString { get; set; }
 
-        private List<Users> Users { get; set; }
+        private List<Users> Users { get; set; } = [];
         public ICommand LogInCommand { get; set; }
 
         public MainWindowViewModel()
         {
-            var Db = new DatabaseContext();
             LogInCommand = new RelayCommand(LogIn);
-            Users = [.. Db.Users];
+
+            if (Properties.Settings.Default.LogInUserId != -1)
+                IsLogin = true;
         }
 
         private void LogIn(object obj)
         {
-            throw new NotImplementedException();
+            var Db = new DatabaseContext();
+            Users = [.. Db.Users];
+
+            if (string.IsNullOrWhiteSpace(PasswordString) || string.IsNullOrWhiteSpace(LoginString))
+            {
+                Message = "Введите пароль и логин";
+                return;
+            }
+
+            var user = Users.FirstOrDefault(u => u.Login == LoginString);
+            IsLogin = user != null && user.Password == CreateUserViewModel.HashPassword(PasswordString);
+
+            if (SaveUser)
+            {
+                Properties.Settings.Default.LogInUserId = IsLogin ? user?.Id ?? -1 : -1;
+                Properties.Settings.Default.Save();
+            }
+
+            Message = IsLogin ? "Успешно" : "Не верный логин или пароль";
         }
     }
 }

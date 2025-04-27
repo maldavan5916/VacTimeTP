@@ -19,7 +19,7 @@
                 <MenuItem Header="Настройки" Click="NavigateToPage" Tag="Settings"/>
                 <MenuItem Header="Создать новое окно" Click="CreateNewWindow"/>
                 <MenuItem Header="Начальний экран" Click="NavigateToPage" Tag="Home"/>
-                <MenuItem Header="Выход" Click="Close"/>
+                <MenuItem Header="Выход" Click="LogOunt"/>
             </MenuItem>
             <MenuItem Header="Справочники" Visibility="{Binding IsLoginVisable}">
                 <MenuItem Header="Сотрудники" Click="NavigateToPage" Tag="Employee"/>
@@ -48,7 +48,7 @@
                 <MenuItem Header="О программе" Click="OpenAboutProgram"/>
                 <MenuItem Header="Помощь" Click="OpenHelp"/>
             </MenuItem>
-            <MenuItem Header="Создать пользователя" Click="CreateNewUser_click"/>
+            <MenuItem Header="Создать пользователя" Click="CreateNewUser_click" Visibility="{Binding NegativeIsLoginVisable}"/>
         </Menu>
         
         <StackPanel 
@@ -80,6 +80,8 @@
                 Margin="0,10,0,0"
                 IsChecked="{Binding SaveUser}"
                 />
+
+            <Label Content="{Binding Message}" Foreground="#E5FFDE00" Height="25" HorizontalAlignment="Center"/>
 
             <Button 
                 Content="Вход" 
