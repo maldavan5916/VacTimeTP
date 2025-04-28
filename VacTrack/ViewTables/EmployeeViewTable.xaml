@@ -159,7 +159,9 @@
                 </materialDesign:DataGridTextColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                   Header="Оклад">
+                                                   Header="Оклад"
+                                                   materialDesign:TextFieldAssist.SuffixText="{Binding Currency}"
+                                                   >
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Salary">
                             <Binding.ValidationRules>

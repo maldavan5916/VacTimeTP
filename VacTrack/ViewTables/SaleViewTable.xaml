@@ -88,7 +88,8 @@
                 </DataGridTemplateColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                           Header="Cумма">
+                                           Header="Cумма"
+                                                   materialDesign:TextFieldAssist.SuffixText="{Binding Currency}">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Summ">
                             <Binding.ValidationRules>

@@ -103,7 +103,7 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
-                <materialDesign:DataGridTextColumn Header="Цена за единицу">
+                <materialDesign:DataGridTextColumn Header="Цена за единицу" materialDesign:TextFieldAssist.SuffixText="{Binding Currency}">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Price">
                             <Binding.ValidationRules>
@@ -113,7 +113,7 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
-                <materialDesign:DataGridTextColumn Header="Стоимость" IsReadOnly="True">
+                <materialDesign:DataGridTextColumn Header="Стоимость" materialDesign:TextFieldAssist.SuffixText="{Binding Currency}" IsReadOnly="True">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="GetSum">
                             <Binding.ValidationRules>

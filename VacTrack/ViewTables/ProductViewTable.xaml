@@ -121,7 +121,8 @@
                 </DataGridTemplateColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                                   Header="Цена">
+                                                   Header="Цена"
+                                                   materialDesign:TextFieldAssist.SuffixText="{Binding Currency}">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Price">
                             <Binding.ValidationRules>
@@ -132,7 +133,8 @@
                 </materialDesign:DataGridTextColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                   Header="Cумма НДС" IsReadOnly="True">
+                                   Header="Cумма НДС" IsReadOnly="True"
+                                                   materialDesign:TextFieldAssist.SuffixText="{Binding Currency}">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="SummNds">
                             <Binding.ValidationRules>
@@ -143,7 +145,8 @@
                 </materialDesign:DataGridTextColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                   Header="Цена с НДС" IsReadOnly="True">
+                   Header="Цена с НДС" IsReadOnly="True"
+                                                   materialDesign:TextFieldAssist.SuffixText="{Binding Currency}">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Summ">
                             <Binding.ValidationRules>

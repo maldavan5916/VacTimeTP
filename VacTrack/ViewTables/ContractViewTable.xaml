@@ -85,7 +85,7 @@
                 </DataGridTemplateColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                   Header="Срок(месацев)">
+                                   Header="Срок (месацев)">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Term">
                             <Binding.ValidationRules>
@@ -96,7 +96,8 @@
                 </materialDesign:DataGridTextColumn>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                                   Header="Cумма">
+                                                   Header="Cумма"
+                                                   materialDesign:TextFieldAssist.SuffixText="{Binding Currency}">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Summ">
                             <Binding.ValidationRules>

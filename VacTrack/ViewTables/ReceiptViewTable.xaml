@@ -93,11 +93,12 @@
                 </materialDesign:DataGridTextColumn>
 
                 <DataGridTextColumn IsReadOnly="True" Header="Ед.Изм." Binding="{Binding Material.Unit.Name, UpdateSourceTrigger=PropertyChanged}"/>
-                
-                <DataGridTextColumn IsReadOnly="True" Header="Цена" Binding="{Binding Material.Price, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <DataGridTextColumn IsReadOnly="True" Header="Цена" Binding="{Binding Material.Price, UpdateSourceTrigger=PropertyChanged}" materialDesign:TextFieldAssist.SuffixText="{Binding Currency}"/>
 
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                           Header="Cумма">
+                           Header="Cумма"
+                                                   materialDesign:TextFieldAssist.SuffixText="{Binding Currency}">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Summ" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>

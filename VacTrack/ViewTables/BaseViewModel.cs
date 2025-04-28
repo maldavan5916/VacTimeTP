@@ -115,6 +115,17 @@ namespace VacTrack.ViewTables
             }
         }
 
+        private string _currency = Properties.Settings.Default.Currency;
+        public string Currency 
+        {
+            get => _currency;
+            set
+            {
+                _currency = value;
+                OnPropertyChanged(nameof(Currency));
+            }
+        }
+
         #endregion
 
         public ICommand AddCommand { get; }
