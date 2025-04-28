@@ -147,7 +147,11 @@ namespace VacTrack.ViewTables
             foreach (var item in Items) { item.Nds = Properties.Settings.Default.Nds; }
         }
 
-        protected override Product CreateNewItem() => new() { Name = "Новое изделие", SerialNo = "Серийный номер" };
+        protected override Product CreateNewItem() => new() { 
+            Name = "Новое изделие", 
+            SerialNo = "Серийный номер", 
+            Nds = Properties.Settings.Default.Nds 
+        };
 
         protected override bool FilterItem(Product item, string? searchText) =>
             string.IsNullOrWhiteSpace(searchText) ||

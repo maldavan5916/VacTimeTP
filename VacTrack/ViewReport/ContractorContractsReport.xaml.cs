@@ -275,13 +275,13 @@ namespace VacTrack.ViewReport
             TableRowGroup headerGroup = new();
             TableRow headerRow = new();
 
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Название договора"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Номер договора"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Контрагент"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Дата заключения"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Изделие"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Количество"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Единица измерения"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма договора"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Ед.изм."))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n"+Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
 
             headerGroup.Rows.Add(headerRow);
             table.RowGroups.Add(headerGroup);

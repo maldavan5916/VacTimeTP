@@ -167,12 +167,12 @@ namespace VacTrack.ViewReport
             TableRow headerRow = new();
 
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Код"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Наименование изделия"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Наименование материала"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Изделие"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Материал"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Количество"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Единица измерения"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость за единицу"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Ед.изм"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
 
             headerGroup.Rows.Add(headerRow);
             table.RowGroups.Add(headerGroup);

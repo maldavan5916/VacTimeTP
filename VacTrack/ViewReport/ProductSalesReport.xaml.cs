@@ -276,10 +276,10 @@ namespace VacTrack.ViewReport
 
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Дата реализации"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Контрагент"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Наименование изделия"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Изделие"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Количество"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Единица измерения"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма реализации"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Ед.изм."))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
 
             headerGroup.Rows.Add(headerRow);
             table.RowGroups.Add(headerGroup);

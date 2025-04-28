@@ -115,5 +115,17 @@ namespace VacTrack.Properties {
                 this["LogInUserId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("руб.коп.")]
+        public string Currency {
+            get {
+                return ((string)(this["Currency"]));
+            }
+            set {
+                this["Currency"] = value;
+            }
+        }
     }
 }

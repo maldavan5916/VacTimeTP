@@ -156,7 +156,12 @@ namespace VacTrack.ViewReport
             var rowGroup = new TableRowGroup();
 
             // Добавляем заголовки
-            var headerRow = CreateRow(["Наименование", "Количество", "Цена за ед.", "Сумма"]);
+            var headerRow = CreateRow([
+                "Наименование", 
+                "Количество", 
+                "Цена за ед.,\n" + Properties.Settings.Default.Currency, 
+                "Сумма,\n" + Properties.Settings.Default.Currency
+                ]);
             headerRow.FontWeight = FontWeights.Bold;
             rowGroup.Rows.Add(headerRow);
 
@@ -294,8 +299,8 @@ namespace VacTrack.ViewReport
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("необходимо"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Есть на складе"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Нехватет"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость за единицу"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма"))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
 
             headerGroup.Rows.Add(headerRow);
             table.RowGroups.Add(headerGroup);

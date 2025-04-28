@@ -148,7 +148,7 @@ namespace VacTrack.ViewReport
             new ColumnSetting { Name = "Дата рождения",   Code = "dateOfBirth",    IsVisible = true },
             new ColumnSetting { Name = "Телефон",         Code = "phoneNumber",    IsVisible = true },
             new ColumnSetting { Name = "Адресс",          Code = "address",        IsVisible = true },
-            new ColumnSetting { Name = "Оклад",           Code = "salary",         IsVisible = true },
+            new ColumnSetting { Name = "Оклад,\n" + Properties.Settings.Default.Currency, Code = "salary", IsVisible = true },
             new ColumnSetting { Name = "Дата увольнения", Code = "dateDismissal",  IsVisible = false },
         ];
         #endregion

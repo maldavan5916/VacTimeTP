@@ -73,7 +73,7 @@ namespace VacTrack.ViewReport
             section.FontSize = 14;
 
             // Заголовок
-            Paragraph header = new Paragraph
+            Paragraph header = new()
             {
                 TextAlignment = TextAlignment.Right,
                 FontWeight = FontWeights.Bold
@@ -92,7 +92,7 @@ namespace VacTrack.ViewReport
             });
 
             // Таблица
-            Table table = new Table
+            Table table = new()
             {
                 CellSpacing = 0,
                 BorderBrush = Brushes.Black,
@@ -114,10 +114,10 @@ namespace VacTrack.ViewReport
                 "Наименование", 
                 "Кол-во", 
                 "Цена за ед.",
-                "Сумма", 
+                "Сумма,\n" + Properties.Settings.Default.Currency, 
                 "ставка НДС", 
-                "Сумма НДС", 
-                "Всего с НДС"
+                "Сумма НДС,\n" + Properties.Settings.Default.Currency, 
+                "Всего с НДС,\n" + Properties.Settings.Default.Currency
             ];
             foreach (string h in headers)
             {
@@ -154,17 +154,17 @@ namespace VacTrack.ViewReport
             section.Blocks.Add(table);
 
             // Суммы
-            Paragraph totals = new Paragraph();
+            Paragraph totals = new();
             totals.Inlines.Add(new Bold(new Run("Сумма НДС: ")));
-            totals.Inlines.Add(new Run($"{SelectContract?.Summ * (nds / 100)}"));
+            totals.Inlines.Add(new Run($"{SelectContract?.Summ * (nds / 100)}" + Properties.Settings.Default.Currency));
             totals.Inlines.Add(new LineBreak());
             totals.Inlines.Add(new Bold(new Run("Всего с НДС: ")));
-            totals.Inlines.Add(new Run($"{SelectContract?.Summ * (1 + nds / 100)}"));
+            totals.Inlines.Add(new Run($"{SelectContract?.Summ * (1 + nds / 100)}" + Properties.Settings.Default.Currency));
             totals.Margin = new Thickness(0, 10, 0, 0);
             section.Blocks.Add(totals);
 
             // Таблица для "Покупатель" и "Поставщик"
-            Table infoTable = new Table
+            Table infoTable = new()
             {
                 CellSpacing = 0,
                 Margin = new Thickness(20, 20, 0, 0)
@@ -172,7 +172,7 @@ namespace VacTrack.ViewReport
             infoTable.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
             infoTable.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
 
-            TableRowGroup infoGroup = new TableRowGroup();
+            TableRowGroup infoGroup = new();
             infoTable.RowGroups.Add(infoGroup);
 
             // Строка с двумя ячейками
