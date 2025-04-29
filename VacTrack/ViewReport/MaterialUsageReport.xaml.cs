@@ -89,7 +89,6 @@ namespace VacTrack.ViewReport
             AddHeader(ref doc, SelectedProduct); // Добавляем заголовок Отчёта
 
             Table table = new() { CellSpacing = 3, BorderBrush = Brushes.Gray, BorderThickness = new Thickness(1) };
-            table.Columns.Add(new TableColumn { Width = new GridLength(40) });
 
             AddTableHeader(ref table);  // Добавляем заголовок таблицы
 
@@ -102,7 +101,7 @@ namespace VacTrack.ViewReport
                 CreateUngroupedRows(ref dataGroup, ref totalSumm);
 
 
-            if (AreOverallTotalsEnabled) dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", "", $"{totalSumm}"]));
+            if (AreOverallTotalsEnabled) dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", $"{totalSumm:N2}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
@@ -128,16 +127,14 @@ namespace VacTrack.ViewReport
                 ref dataGroup,
                 item => item.Product?.Name,
                 item => item.GetSum,
-                key => ["", $"{key}", "", "", "", "", ""],
-                total => ["Итого", "", "", "", "", "", $"{total}"],
+                key => [$"{key}", "", "", "", ""],
+                total => ["Итого", "", "", "", $"{total:N2}"],
                 item => [
-                    $"{item.Id}",
                     String.Empty,
                     $"{item.Material?.Name}",
-                    $"{item.Quantity}",
-                    $"{item.Material?.Unit?.Name}",
-                    $"{item.Material?.Price}",
-                    $"{item.GetSum}"
+                    $"{item.Quantity} {item.Material?.Unit?.Name}",
+                    $"{item.Material?.Price:N2}",
+                    $"{item.GetSum:N2}"
                     ],
                 ref totalSum,
                 IsGroupTotalEnabled);
@@ -151,13 +148,12 @@ namespace VacTrack.ViewReport
                 totalSumm += price;
 
                 dataGroup.Rows.Add(CreateRow([
-                    $"{item.Id}",
                     $"{item.Product?.Name}",
                     $"{item.Material?.Name}",
-                    $"{item.Quantity}",
-                    $"{item.Material?.Unit?.Name}",
-                    $"{item.Material?.Price}",
-                    $"{price}"]));
+                    $"{item.Quantity} {item.Material?.Unit?.Name}",
+                    $"{item.Material?.Price:N2}",
+                    $"{price:N2}"
+                    ]));
             }
         }
 
@@ -166,11 +162,9 @@ namespace VacTrack.ViewReport
             TableRowGroup headerGroup = new();
             TableRow headerRow = new();
 
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Код"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Изделие"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Материал"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Количество"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Ед.изм"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
 

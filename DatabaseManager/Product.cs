@@ -117,7 +117,7 @@ namespace DatabaseManager
         private double _price;
         public double Price
         {
-            get => _price;
+            get => Math.Round(Math.Round(_price, 2));
             set
             {
                 _price = Math.Round(value > 0 ? value : 0, 3);

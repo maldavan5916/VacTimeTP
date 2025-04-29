@@ -71,7 +71,7 @@
         private double _count;
         public double Count
         {
-            get => _count;
+            get => Math.Round(_count, 3);
             set
             {
                 _count = value > 0 ? value : 0;
@@ -83,7 +83,7 @@
         private double _price;
         public double Price
         {
-            get => _price;
+            get => Math.Round(_price, 2);
             set
             {
                 _price = value > 0 ? value : 0;

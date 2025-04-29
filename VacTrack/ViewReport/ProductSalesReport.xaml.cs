@@ -193,7 +193,7 @@ namespace VacTrack.ViewReport
             }
 
             if (AreOverallTotalsEnabled)
-                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", $"{totalSum}"]));
+                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", $"{totalSum:N2}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
@@ -219,15 +219,14 @@ namespace VacTrack.ViewReport
                 ref dataGroup,
                 item => item.Contract?.Counterpartie?.Name,
                 item => item.Summ,
-                key => ["", $"{key}", "", "", "", ""],
-                total => ["Итого", "", "", "", "", $"{total}"],
+                key => ["", $"{key}", "", "", ""],
+                total => ["Итого", "", "", "", $"{total:N2}"],
                 item => [
                     $"{item.Date:dd.MM.yyyy}",
                     String.Empty,
                     $"{item.Contract?.Product?.Name}",
-                    $"{item.Count}",
-                    $"{item.Contract?.Product?.Unit?.Name}",
-                    $"{item.Summ}"
+                    $"{item.Count} {item.Contract?.Product?.Unit?.Name}",
+                    $"{item.Summ:N2}"
                     ],
                 ref totalSum,
                 IsGroupTotalEnabled);
@@ -241,14 +240,13 @@ namespace VacTrack.ViewReport
                 item => item.Summ,
                 item => item.Count,
                 key => ["", "", $"{key}", "", "", ""],
-                cntTotal => ["Итого", "", "", $"{cntTotal.Item1}", "", $"{cntTotal.Item2}"],
+                cntTotal => ["Итого", "", "", $"{cntTotal.Item1}", $"{cntTotal.Item2:N2}"],
                 item => [
                     $"{item.Date:dd.MM.yyyy}",
                     $"{item.Contract?.Counterpartie?.Name}",
                     String.Empty,
-                    $"{item.Count}",
-                    $"{item.Contract?.Product?.Unit?.Name}",
-                    $"{item.Summ}"
+                    $"{item.Count} {item.Contract?.Product?.Unit?.Name}",
+                    $"{item.Summ:N2}"
                     ],
                 ref totalSum,
                 IsGroupTotalEnabled);
@@ -262,9 +260,9 @@ namespace VacTrack.ViewReport
                     $"{item.Date:dd.MM.yyyy}",
                     $"{item.Contract?.Counterpartie?.Name}",
                     $"{item.Contract?.Product?.Name}",
-                    $"{item.Count}",
-                    $"{item.Contract?.Product?.Unit?.Name}",
-                    $"{item.Summ}"]));
+                    $"{item.Count} {item.Contract?.Product?.Unit?.Name}",
+                    $"{item.Summ:N2}"
+                    ]));
                 totalSum += item.Summ;
             }
         }
@@ -278,7 +276,6 @@ namespace VacTrack.ViewReport
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Контрагент"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Изделие"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Количество"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Ед.изм."))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
 
             headerGroup.Rows.Add(headerRow);

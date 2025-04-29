@@ -1,10 +1,10 @@
-﻿using DatabaseManager;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
 
 namespace VacTrack.ViewReport
 {
@@ -191,7 +191,7 @@ namespace VacTrack.ViewReport
             }
 
             if (AreOverallTotalsEnabled)
-                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", "", $"{totalSum}"]));
+                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", $"{totalSum:N2}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
@@ -218,16 +218,15 @@ namespace VacTrack.ViewReport
                 item => item.Product?.Name,
                 item => item.Summ,
                 item => item.Count,
-                key => ["", "", "", $"{key}", "", "", ""],
-                cntTotal => ["Итого", "", "", "", $"{cntTotal.Item1}", "", $"{cntTotal.Item2}"],
+                key => ["", "", "", $"{key}", "", ""],
+                cntTotal => ["Итого", "", "", "", $"{cntTotal.Item1}", $"{cntTotal.Item2:N2}"],
                 item => [
                     $"{item.Name}",
                     $"{item.Counterpartie?.Name}",
                     $"{item.Date:dd.MM.yyyy}",
                     string.Empty,
-                    $"{item.Count}",
-                    $"{item.Product?.Unit?.Name}",
-                    $"{item.Summ}"
+                    $"{item.Count} {item.Product?.Unit?.Name}",
+                    $"{item.Summ:F2}"
                     ],
                 ref totalSum,
                 IsGroupTotalEnabled);
@@ -239,16 +238,15 @@ namespace VacTrack.ViewReport
                 ref dataGroup,
                 item => item.Counterpartie?.Name,
                 item => item.Summ,
-                key => ["", $"{key}", "", "", "", "", ""],
-                total => ["Итого", "", "", "", "", "", $"{total}"],
+                key => ["", $"{key}", "", "", "", ""],
+                total => ["Итого", "", "", "", "", $"{total:N2}"],
                 item => [
                     $"{item.Name}",
                     String.Empty,
                     $"{item.Date:dd.MM.yyyy}",
                     $"{item.Product?.Name}",
-                    $"{item.Count}",
-                    $"{item.Product?.Unit?.Name}",
-                    $"{item.Summ}"
+                    $"{item.Count} {item.Product?.Unit?.Name}",
+                    $"{item.Summ:N2}"
                     ],
                 ref totalSum,
                 IsGroupTotalEnabled);
@@ -263,9 +261,9 @@ namespace VacTrack.ViewReport
                     $"{item.Counterpartie?.Name}",
                     $"{item.Date:dd.MM.yyyy}",
                     $"{item.Product?.Name}",
-                    $"{item.Count}",
-                    $"{item.Product?.Unit?.Name}",
-                    $"{item.Summ}"]));
+                    $"{item.Count} {item.Product?.Unit?.Name}",
+                    $"{item.Summ:N2}"
+                    ]));
                 totalSum += item.Summ;
             }
         }
@@ -280,8 +278,7 @@ namespace VacTrack.ViewReport
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Дата заключения"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Изделие"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Количество"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Ед.изм."))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n"+Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
+            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
 
             headerGroup.Rows.Add(headerRow);
             table.RowGroups.Add(headerGroup);

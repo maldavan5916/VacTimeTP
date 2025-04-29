@@ -52,10 +52,10 @@ namespace VacTrack.ViewReport
                 "Итого",
                 "X",
                 $"{SelectSale?.Count}",
-                $"{SelectSale?.Summ}",
+                $"{SelectSale?.Summ:N2}",
                 "X",
-                $"{SelectSale?.Summ * _nds}",
-                $"{SelectSale?.Summ * (1 + _nds)}"]));
+                $"{SelectSale?.Summ * _nds:F2}",
+                $"{SelectSale?.Summ * (1 + _nds):N2}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
@@ -89,10 +89,10 @@ namespace VacTrack.ViewReport
                     $"{SelectSale?.Contract?.Product?.Name}",
                     $"{SelectSale?.Contract?.Product?.Unit?.Name}",
                     $"{SelectSale?.Count}",
-                    $"{SelectSale?.Summ}",
-                    $"{_nds * 100}",
-                    $"{SelectSale?.Summ * _nds}",
-                    $"{SelectSale?.Summ * (1 + _nds)}"
+                    $"{SelectSale?.Summ:N2}",
+                    $"{_nds * 100:F2}",
+                    $"{SelectSale?.Summ * _nds:N2}",
+                    $"{SelectSale?.Summ * (1 + _nds):N2}"
             ]));
         }
 

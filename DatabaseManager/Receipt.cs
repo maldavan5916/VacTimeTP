@@ -39,7 +39,7 @@
         private double _summ;
         public double Summ
         {
-            get => _summ;
+            get => Math.Round(_summ, 2);
             set
             {
                 _summ = value;

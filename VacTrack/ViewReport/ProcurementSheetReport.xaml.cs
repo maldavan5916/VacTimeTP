@@ -108,7 +108,7 @@ namespace VacTrack.ViewReport
                 CreateUngroupedRows(ref dataGroup, ref totalSumm);
 
 
-            if (AreOverallTotalsEnabled) dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", "", $"{totalSumm}"]));
+            if (AreOverallTotalsEnabled) dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", "", $"{totalSumm:N2}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
@@ -168,7 +168,7 @@ namespace VacTrack.ViewReport
             // Добавляем данные
             foreach (var m in materials)
             {
-                var count = $"{m.Count} {m.Unit?.Name ?? string.Empty}".Trim();
+                var count = $"{m.Count:N0} {m.Unit?.Name ?? string.Empty}".Trim();
                 var price = $"{m.Price:N2}";
                 var sum = $"{m.GetSum:N2}";
 
@@ -206,10 +206,10 @@ namespace VacTrack.ViewReport
                         string.Empty,
                         $"{item.Material?.Name}",
                         $"{item.Quantity} {unit}",
-                        $"{available} {unit}",
-                        $"{shortage} {unit}",
-                        $"{item.Material?.Price}",
-                        $"{cost}"
+                        $"{available:N0} {unit}",
+                        $"{shortage:N0} {unit}",
+                        $"{item.Material?.Price:N2}",
+                        $"{cost:N2}"
                         ]));
                     summ += cost;
 
@@ -220,7 +220,7 @@ namespace VacTrack.ViewReport
 
                 }
 
-                if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", "", $"{summ}"]));
+                if (IsGroupTotalEnabled) dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", "", $"{summ:N2}"]));
 
                 totalSum += summ;
             }
@@ -243,10 +243,10 @@ namespace VacTrack.ViewReport
                     $"{item.Product?.Name}",
                     $"{item.Material?.Name}",
                     $"{item.Quantity} {unit}",
-                    $"{available} {unit}",
-                    $"{shortage} {unit}",
-                    $"{item.Material?.Price}",
-                    $"{cost}"
+                    $"{available:N0} {unit}",
+                    $"{shortage:N0} {unit}",
+                    $"{item.Material?.Price:N2}",
+                    $"{cost:N2}"
                 ]));
 
                 materialDictionary[item.MaterialId] =

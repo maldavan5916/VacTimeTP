@@ -130,11 +130,11 @@ namespace VacTrack.ViewReport
             string[] row1 = [
                 $"{SelectContract?.Product?.Name}", 
                 $"{SelectContract?.Count} {SelectContract?.Product?.Unit?.Name}", 
-                $"{SelectContract?.Product?.Price}",
-                $"{SelectContract?.Summ}", 
-                $"{nds}%", 
-                $"{SelectContract?.Summ * (nds / 100)}", 
-                $"{SelectContract?.Summ * (1 + nds / 100)}"
+                $"{SelectContract?.Product?.Price:N2}",
+                $"{SelectContract?.Summ:N2}", 
+                $"{nds:F2}%", 
+                $"{SelectContract?.Summ * (nds / 100):N2}", 
+                $"{SelectContract?.Summ * (1 + nds / 100):N2}"
             ];
             foreach (string cell in row1)
             {
@@ -156,10 +156,10 @@ namespace VacTrack.ViewReport
             // Суммы
             Paragraph totals = new();
             totals.Inlines.Add(new Bold(new Run("Сумма НДС: ")));
-            totals.Inlines.Add(new Run($"{SelectContract?.Summ * (nds / 100)}" + Properties.Settings.Default.Currency));
+            totals.Inlines.Add(new Run($"{SelectContract?.Summ * (nds / 100)}:N2" + Properties.Settings.Default.Currency));
             totals.Inlines.Add(new LineBreak());
             totals.Inlines.Add(new Bold(new Run("Всего с НДС: ")));
-            totals.Inlines.Add(new Run($"{SelectContract?.Summ * (1 + nds / 100)}" + Properties.Settings.Default.Currency));
+            totals.Inlines.Add(new Run($"{SelectContract?.Summ * (1 + nds / 100)}:N2" + Properties.Settings.Default.Currency));
             totals.Margin = new Thickness(0, 10, 0, 0);
             section.Blocks.Add(totals);
 

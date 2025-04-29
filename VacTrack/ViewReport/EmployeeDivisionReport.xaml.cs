@@ -252,7 +252,7 @@ namespace VacTrack.ViewReport
                     case "dateOfBirth":   result.Add($"{item.DateOfBirth:dd.MM.yyyy}");   break;
                     case "phoneNumber":   result.Add($"{item.PhoneNumber}");              break;
                     case "address":       result.Add($"{item.Address}");                  break;
-                    case "salary":        result.Add($"{item.Salary}");                   break;
+                    case "salary":        result.Add($"{item.Salary:N2}");                break;
                     case "dateDismissal": result.Add($"{item.DateDismissal:dd.MM.yyyy}"); break;
                     default: result.Add(string.Empty); break;
                 }

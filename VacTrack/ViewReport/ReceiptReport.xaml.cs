@@ -120,7 +120,7 @@ namespace VacTrack.ViewReport
 
             CreateNoGroupedRows(ref dataGroup, ref totalSum);
 
-            dataGroup.Rows.Add(CreateRow(["Итого", "X", "X", "X", $"{totalSum}"]));
+            dataGroup.Rows.Add(CreateRow(["Итого", "X", "X", "X", $"{totalSum:N2}"]));
 
 
             table.RowGroups.Add(dataGroup);
@@ -156,7 +156,8 @@ namespace VacTrack.ViewReport
                     $"{item.Count}",
                     $"{item.Material?.Unit?.Name}",
                     $"{item.Material?.Price}",
-                    $"{item.Summ}"]));
+                    $"{item.Summ:N2}"
+                    ]));
                 totalSum += item.Summ;
             }
         }

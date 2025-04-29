@@ -140,7 +140,7 @@ namespace DatabaseManager
         private double _salary;
         public double Salary
         {
-            get => _salary;
+            get => Math.Round(_salary, 2);
             set
             {
                 _salary = value;
@@ -151,7 +151,7 @@ namespace DatabaseManager
         private double? _bonuses;
         public double? Bonuses
         {
-            get => _bonuses;
+            get => Math.Round(_bonuses ?? 0, 3);
             set
             {
                 _bonuses = value;

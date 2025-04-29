@@ -103,7 +103,7 @@ namespace VacTrack.ViewReport
                 CreateNoGroupedRows(ref dataGroup, ref totalSum);
 
             if (AreOverallTotalsEnabled)
-                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", "", $"{totalSum}"]));
+                dataGroup.Rows.Add(CreateRow(["Итого", "", "", "", $"{totalSum:N2}"]));
 
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
@@ -130,15 +130,14 @@ namespace VacTrack.ViewReport
                 ref dataGroup,
                 item => item.Location?.Name,
                 item => item.GetSum,
-                key => ["", $"{key}", "", "", "", ""],
-                total => ["Итого", "", "", "", "", $"{total}"],
+                key => ["", $"{key}", "", "", ""],
+                total => ["Итого", "", "", "", $"{total:N2}"],
                 item => [
                     $"{item.Name}",
                     String.Empty,
-                    $"{item.Count}",
-                    $"{item.Unit?.Name}",
-                    $"{item.Price}",
-                    $"{item.GetSum}"
+                    $"{item.Count} {item.Unit?.Name}",
+                    $"{item.Price:N2}",
+                    $"{item.GetSum:N2}"
                     ],
                 ref totalSum,
                 IsGroupTotalEnabled);
@@ -154,10 +153,10 @@ namespace VacTrack.ViewReport
                 dataGroup.Rows.Add(CreateRow([
                     $"{item.Name}",
                     $"{item.Location?.Name}",
-                    $"{item.Count}",
-                    $"{item.Unit?.Name}",
-                    $"{item.Price}",
-                    $"{summ}"]));
+                    $"{item.Count} {item.Unit?.Name}",
+                    $"{item.Price:N2}",
+                    $"{summ:N2}"
+                    ]));
             }
         }
 
@@ -169,7 +168,6 @@ namespace VacTrack.ViewReport
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Наименование"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Место хранения"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Количество"))) { FontWeight = FontWeights.Bold });
-            headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Единица измерения"))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Стоимость,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
             headerRow.Cells.Add(new TableCell(new Paragraph(new Run("Сумма,\n" + Properties.Settings.Default.Currency))) { FontWeight = FontWeights.Bold });
 
