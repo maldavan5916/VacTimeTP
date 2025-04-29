@@ -15,98 +15,213 @@
     </Page.DataContext>
 
     <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
-        <StackPanel Orientation="Vertical" Margin="10,10,10,40">
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Тема:" VerticalAlignment="Center"/>
-                <RadioButton
-                   Content="Тёмная"
-                   GroupName="ThemeRB"
-                    IsChecked="{Binding IsDarkTheme}"
-                   Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}"
-                />
-                <RadioButton
-                    Content="Светлая"
-                    GroupName="ThemeRB"
-                    IsChecked="{Binding IsLightTheme}"
-                    Style="{StaticResource MaterialDesignChoiceChipSecondaryOutlineRadioButton}"
-                />
-                <RadioButton
-                    Content="Следовать системе"
-                    GroupName="ThemeRB"
-                    IsChecked="{Binding IsInheritTheme}"
-                    Style="{StaticResource MaterialDesignChoiceChipOutlineRadioButton}"
-                />
-            </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Ответственный кладовщик:" VerticalAlignment="Center" Width="200"/>
-                <ComboBox 
-                    ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelecteStorekeeper}"
-                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
-                    Foreground="{DynamicResource MaterialDesignBody}"
-                    DisplayMemberPath="GetFioAndPost"
-                    Width="400"
-                    materialDesign:HintAssist.Hint="Сотрудник"/>
-            </StackPanel>
+        <TabControl Margin="0,0,0,35">
+            <TabItem Header="Основные">
+                <ScrollViewer>
+                    <StackPanel Orientation="Vertical" Margin="10,10,10,40" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="Ответственный кладовщик:" VerticalAlignment="Center" Width="200"/>
+                            <ComboBox 
+                                ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding SelecteStorekeeper}"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                DisplayMemberPath="GetFioAndPost"
+                                Width="400"
+                                materialDesign:HintAssist.Hint="Сотрудник"/>
+                        </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Ответственный бухгалтер:" VerticalAlignment="Center" Width="200"/>
-                <ComboBox 
-                    ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedAccountant}"
-                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
-                    Foreground="{DynamicResource MaterialDesignBody}"
-                    DisplayMemberPath="GetFioAndPost"
-                    Width="400"
-                    materialDesign:HintAssist.Hint="Сотрудник"/>
-            </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="Ответственный бухгалтер:" VerticalAlignment="Center" Width="200"/>
+                            <ComboBox 
+                                ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding SelectedAccountant}"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                DisplayMemberPath="GetFioAndPost"
+                                Width="400"
+                                materialDesign:HintAssist.Hint="Сотрудник"/>
+                        </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Ставка НДС: " VerticalAlignment="Center" Width="200"/>
-                <TextBox
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                    Width="100"
-                    Foreground="{DynamicResource MaterialDesignBody}"
-                    materialDesign:HintAssist.Hint="НДС"
-                    materialDesign:TextFieldAssist.SuffixText="%"
-                    >
-                    <Binding Path="SelectNds">
-                        <Binding.ValidationRules>
-                            <validators:PositiveNumberValidationRule/>
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox>
-            </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="Ставка НДС: " VerticalAlignment="Center" Width="200"/>
+                            <TextBox
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Width="100"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                materialDesign:HintAssist.Hint="НДС"
+                                materialDesign:TextFieldAssist.SuffixText="%"
+                                >
+                                <Binding Path="SelectNds">
+                                    <Binding.ValidationRules>
+                                        <validators:PositiveNumberValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                        </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Отпуск продукции разрешает:" VerticalAlignment="Center" Width="200"/>
-                <ComboBox 
-                    ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedProductReleaseApprover}"
-                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
-                    Foreground="{DynamicResource MaterialDesignBody}"
-                    DisplayMemberPath="GetFioAndPost"
-                    Width="400"
-                    materialDesign:HintAssist.Hint="Сотрудник"/>
-            </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="Отпуск продукции разрешает:" VerticalAlignment="Center" Width="200"/>
+                            <ComboBox 
+                                ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding SelectedProductReleaseApprover}"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                DisplayMemberPath="GetFioAndPost"
+                                Width="400"
+                                materialDesign:HintAssist.Hint="Сотрудник"/>
+                        </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="5">
-                <Label Content="Сдаёт продукцию:" VerticalAlignment="Center" Width="200"/>
-                <ComboBox 
-                    ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedProductSubmitter}"
-                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                    materialDesign:ComboBoxAssist.ShowSelectedItem="True"
-                    Foreground="{DynamicResource MaterialDesignBody}"
-                    DisplayMemberPath="GetFioAndPost"
-                    Width="400"
-                    materialDesign:HintAssist.Hint="Сотрудник"/>
-            </StackPanel>
-        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="Сдаёт продукцию:" VerticalAlignment="Center" Width="200"/>
+                            <ComboBox 
+                                ItemsSource="{Binding Employees, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding SelectedProductSubmitter}"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                materialDesign:ComboBoxAssist.ShowSelectedItem="True"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                DisplayMemberPath="GetFioAndPost"
+                                Width="400"
+                                materialDesign:HintAssist.Hint="Сотрудник"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                materialDesign:HintAssist.Hint="валюта"
+                                Width="300"
+                                Text="{Binding SelectCurrency}"
+                                >
+                            </TextBox>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Пользователя">
+                <ScrollViewer>
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBox
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Foreground="{DynamicResource MaterialDesignBody}"
+                                materialDesign:HintAssist.Hint="Имя пользоватя (логин)"
+                                Width="300"
+                                >
+                                <TextBox.Text>
+                                    <Binding Path="CurrentUser.Login"
+                                         Mode="TwoWay"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True"
+                                         NotifyOnValidationError="True">
+                                        <Binding.ValidationRules>
+                                            <validators:LoginCheck/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                        <GroupBox 
+                            Header="Смена пароля"
+                            materialDesign:ElevationAssist.Elevation="Dp5"
+                            >
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <PasswordBox
+                                        materialDesign:HintAssist.Hint="Старый пароль"
+                                        Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                                        Foreground="{DynamicResource MaterialDesignBody}"
+                                        Width="300"
+                                        >
+                                        <local:PasswordBoxHelper.BoundPassword>
+                                            <Binding Path="OldPasswordString"
+                                                     Mode="TwoWay"
+                                                     UpdateSourceTrigger="PropertyChanged"
+                                                     ValidatesOnDataErrors="True"
+                                                     NotifyOnValidationError="True">
+                                            </Binding>
+                                        </local:PasswordBoxHelper.BoundPassword>
+                                    </PasswordBox>
+                                    <TextBlock Text="{Binding Message}" Margin="10,0,0,0" Foreground="Yellow" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <PasswordBox
+                                        x:Name="newPass"
+                                        materialDesign:HintAssist.Hint="Новый пароль"
+                                        Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                                        Foreground="{DynamicResource MaterialDesignBody}"
+                                        Width="300">
+                                        <local:PasswordBoxHelper.BoundPassword>
+                                            <Binding Path="NewPasswordString"
+                                                 Mode="TwoWay"
+                                                 UpdateSourceTrigger="PropertyChanged"
+                                                 ValidatesOnDataErrors="True"
+                                                 NotifyOnValidationError="True">
+                                                <Binding.ValidationRules>
+                                                    <validators:PasswordCheck/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </local:PasswordBoxHelper.BoundPassword>
+                                    </PasswordBox>
+                                    <PasswordBox
+                                        materialDesign:HintAssist.Hint="новый пароль еще раз"
+                                        Style="{StaticResource MaterialDesignOutlinedRevealPasswordBox}"
+                                        Foreground="{DynamicResource MaterialDesignBody}"
+                                        Width="300"
+                                        Margin="10,0,0,0">
+                                        <local:PasswordBoxHelper.BoundPassword>
+                                            <Binding Path="NewSecondPasswordString"
+                                                 Mode="TwoWay"
+                                                 UpdateSourceTrigger="PropertyChanged"
+                                                 ValidatesOnDataErrors="True"
+                                                 NotifyOnValidationError="True">
+                                                <Binding.ValidationRules>
+                                                    <validators:PasswordCheck/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </local:PasswordBoxHelper.BoundPassword>
+                                    </PasswordBox>
+                                    <Button 
+                                        Content="Изменить" 
+                                        Style="{StaticResource MaterialDesignPaperButton}" 
+                                        Margin="25,0,0,0"
+                                        Command="{Binding ChangePassword}"
+                                        />
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Темы">
+                <ScrollViewer>
+                    <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Top">
+                        <Label Content="Тема:" VerticalAlignment="Center"/>
+                        <RadioButton
+                               Content="Тёмная"
+                               GroupName="ThemeRB"
+                                IsChecked="{Binding IsDarkTheme}"
+                               Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineRadioButton}"
+                            />
+                        <RadioButton
+                            Content="Светлая"
+                            GroupName="ThemeRB"
+                            IsChecked="{Binding IsLightTheme}"
+                            Style="{StaticResource MaterialDesignChoiceChipSecondaryOutlineRadioButton}"
+                        />
+                        <RadioButton
+                            Content="Следовать системе"
+                            GroupName="ThemeRB"
+                            IsChecked="{Binding IsInheritTheme}"
+                            Style="{StaticResource MaterialDesignChoiceChipOutlineRadioButton}"
+                        />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
         <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35">
             <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="5" Cursor="Hand" IsCancel="True" Command="{Binding CancelCommand}" Width="95" ToolTip="отменяет не сохраненые изменения"/>
             <Button Content="Сохранить" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="5" DockPanel.Dock="Right" IsDefault="True" Command="{Binding SaveCommand}" Width="95" ToolTip="сохраняет внесеные изменения"/>
