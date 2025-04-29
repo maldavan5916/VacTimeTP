@@ -345,7 +345,7 @@ namespace DataGenerator
                     Unit = unit,
                     //LocationId = location.Id,
                     Location = location,
-                    Count = faker.Random.Double(1, 100),
+                    Count = faker.Random.Int(1, 100),
                     Price = Math.Round(faker.Random.Double(1, 5000), 2)
                 });
             }
