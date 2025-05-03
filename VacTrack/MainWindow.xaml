@@ -43,6 +43,7 @@
                 <MenuItem Header="Отчет по договорам с контрагентами" Click="NavigateToPage" Tag="ContractorContractsReport" ToolTip="Информация о заключенных договорах с контрагентами, их суммах и изделиях."/>
                 <MenuItem Header="Отчет по реализации продукции" Click="NavigateToPage" Tag="ProductSalesReport" ToolTip="Детализация продаж продукции: что было продано, кому, за какую сумму и в каком количестве."/>
                 <MenuItem Header="Лист закупок" Click="NavigateToPage" Tag="ProcurementSheetReport" ToolTip="Формирование списка закупок"/>
+                <MenuItem Header="Статистика продаж" Click="NavigateToPage" Tag="SalesStatistics"/>
             </MenuItem>
             <MenuItem Header="Справка">
                 <MenuItem Header="О программе" Click="OpenAboutProgram"/>

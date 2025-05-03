@@ -1,0 +1,79 @@
+﻿<Page x:Class="VacTrack.ViewReport.SalesStatisticsReport"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VacTrack.ViewReport"
+      xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:converter="clr-namespace:VacTrack.Converter"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SalesStatisticsReport">
+
+    <Page.DataContext>
+        <local:SalesStatisticsViewModel/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <converter:InvertBooleanConverter x:Key="InvertBooleanConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                    Style="{StaticResource MaterialDesignIconButton}" Width="30" Height="30"
+                    Command="{Binding RefreshCommand}"
+                    ToolTip="Обновить">
+                <materialDesign:PackIcon Kind="Refresh" />
+            </Button>
+
+            <Button 
+                x:Name="ExportBtn"
+                Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                Style="{StaticResource MaterialDesignIconButton}" Width="30" Height="30" Margin="10,0,0,0"
+                ToolTip="Экспорт графика"
+                Click="ExportBtn_Click">
+                <materialDesign:PackIcon Kind="FileExport" />
+            </Button>
+
+            <RadioButton 
+                Margin="20,0,0,0"
+                Content="По годам"
+                GroupName="GroupType"
+                IsChecked="{Binding IsGroupedByYear, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
+             />
+            <RadioButton 
+                Content="По месяцам"
+                GroupName="GroupType"
+                IsChecked="{Binding IsGroupedByYear, Converter={StaticResource InvertBooleanConverter}}"
+                Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
+                />
+
+            <RadioButton 
+                Margin="10,0,0,0"
+                Content="По количеству"
+                GroupName="LineType"
+                IsChecked="{Binding IsCountGraph, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
+             /> 
+            <RadioButton 
+                Content="По цене"
+                GroupName="LineType"
+                IsChecked="{Binding IsCountGraph, Converter={StaticResource InvertBooleanConverter}}"
+                Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
+            />
+
+        </StackPanel>
+        <lvc:CartesianChart
+            x:Name="chartControl"
+            Series="{Binding Series, UpdateSourceTrigger=PropertyChanged}"
+            XAxes="{Binding XAxes, UpdateSourceTrigger=PropertyChanged}"
+            YAxes="{Binding YAxes, UpdateSourceTrigger=PropertyChanged}"
+            LegendPosition="Bottom"
+            ZoomMode="Both"
+            Margin="0,40,0,0">
+        </lvc:CartesianChart>
+    </Grid>
+</Page>

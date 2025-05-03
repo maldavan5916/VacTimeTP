@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DatabaseManager;
 using MaterialDesignThemes.Wpf;
-using Windows.System;
 
 namespace VacTrack
 {
@@ -125,6 +124,7 @@ namespace VacTrack
                         "ContractorContractsReport" => new ViewReport.ContractorContractsReport(),
                         "ProductSalesReport" => new ViewReport.ProductSalesReport(),
                         "ProcurementSheetReport" => new ViewReport.ProcurementSheetReport(),
+                        "SalesStatistics" => new ViewReport.SalesStatisticsReport(),
                         "Settings" => new SettingsPage(),
                         _ => new NotFoundPage("Запрашиваемая страница не найдена"),
                     };
@@ -164,7 +164,7 @@ namespace VacTrack
         #endregion
 
         private bool _isLogin = false;
-        public bool IsLogin 
+        public bool IsLogin
         {
             get => _isLogin;
             set
@@ -176,20 +176,20 @@ namespace VacTrack
         }
 
         private string _message = string.Empty;
-        public string Message 
+        public string Message
         {
             get => _message;
             set
             {
                 SetProperty(ref _message, value);
             }
-        } 
+        }
 
         public Visibility IsLoginVisable => IsLogin ? Visibility.Visible : Visibility.Collapsed;
         public Visibility NegativeIsLoginVisable => !IsLogin ? Visibility.Visible : Visibility.Collapsed;
         public bool SaveUser { get; set; } = false;
-        
-        public string? LoginString {  get; set; }
+
+        public string? LoginString { get; set; }
         public string? PasswordString { get; set; }
 
         private List<Users> Users { get; set; } = [];
