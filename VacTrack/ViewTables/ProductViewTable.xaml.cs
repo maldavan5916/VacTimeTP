@@ -135,7 +135,7 @@ namespace VacTrack.ViewTables
 
         protected override void LoadData()
         {
-            TableName = "Изделия";
+            TableName = "Продукция";
             ProductUnit = new ObservableCollection<Unit>([.. Db.Units]);
             ProductLocation = new ObservableCollection<Location>([.. Db.Locations]);
             ProductMaterials = new ObservableCollection<Material>([.. Db.Materials]);

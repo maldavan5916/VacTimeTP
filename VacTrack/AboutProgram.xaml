@@ -46,11 +46,13 @@
 
     <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
         <Image Source="{StaticResource VacTimeLogoDrawingImage}" HorizontalAlignment="Left" Width="160" Stretch="UniformToFill"/>
-        <TextBlock Text="ПС «Учет выпуска и реализации продукции ООО«ВакТайм»" TextWrapping="WrapWithOverflow" Margin="165,5,5,0"  Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" FontSize="14" Width="230" HorizontalAlignment="Left"/>
+        <TextBlock Text="ПС «Учёт выпуска и реализации продукции в ООО «Вактайм» г. Сморгонь»" TextWrapping="WrapWithOverflow" Margin="165,5,0,0"  Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" FontSize="14" Width="299" HorizontalAlignment="Left"/>
         <Label Content="Разработал: Грачёв Денис Сергеевич" Margin="165,45,5,0" VerticalAlignment="Top"/>
 
         <ScrollViewer Foreground="{DynamicResource MaterialDesignBody}" Width="300" Margin="165,100,0,50">
-            <TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." TextWrapping="WrapWithOverflow"/>
+            <TextBlock Text="
+Целью программного средства «Учёт выпуска и реализации продукции в ООО „Вактайм“ г. Сморгонь» является автоматизация процессов регистрации, хранения, обработки и анализа информации, связанной с выпуском и реализацией вакуумных установок. Программное обеспечение должно обеспечить удобный интерфейс и надёжный доступ к данным, снизить количество ручной работы, повысить точность учёта, а также ускорить получение отчётной информации.
+                       " TextWrapping="WrapWithOverflow"/>
         </ScrollViewer>
 
         <Button Style="{StaticResource MaterialDesignIconForegroundButton}" Foreground="{StaticResource MaterialDesign.Brush.Secondary}" Width="30" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,10" Click="GitHubOpen">

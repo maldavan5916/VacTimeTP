@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Style="{StaticResource CustomWindowStyle}"
         mc:Ignorable="d"
-        Title="Учёт выпуска изделий ООО''ВакТайм''" Height="500" Width="900" MinHeight="450" MinWidth="800">
+        Title="«Учёт выпуска и реализации продукции в ООО «Вактайм» г. Сморгонь»" Height="500" Width="900" MinHeight="450" MinWidth="800">
 
     <Window.DataContext>
         <local:MainWindowViewModel/>
@@ -24,7 +24,7 @@
             <MenuItem Header="Справочники" Visibility="{Binding IsLoginVisable}">
                 <MenuItem Header="Сотрудники" Click="NavigateToPage" Tag="Employee"/>
                 <MenuItem Header="Должности" Click="NavigateToPage" Tag="Post"/>
-                <MenuItem Header="Изделия" Click="NavigateToPage" Tag="Product"/>
+                <MenuItem Header="Продукция" Click="NavigateToPage" Tag="Product"/>
                 <MenuItem Header="Единицы измерения" Click="NavigateToPage" Tag="Unit"/>
                 <MenuItem Header="Места хранения" Click="NavigateToPage" Tag="Location"/>
                 <MenuItem Header="Подразделения" Click="NavigateToPage" Tag="Division"/>

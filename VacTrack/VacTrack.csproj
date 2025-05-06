@@ -16,7 +16,7 @@
     <Company>VacTime</Company>
     <Copyright>Denis Grachov</Copyright>
     <PackageIcon></PackageIcon>
-    <Description>Учёт изделий ООО"ВакТайм"</Description>
+    <Description>Программное средство «Учёт выпуска и реализации продукции в ООО «Вактайм» г. Сморгонь»</Description>
     <RepositoryUrl>https://github.com/maldavan5916/VacTimeTP</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/maldavan5916/VacTimeTP</PackageProjectUrl>
