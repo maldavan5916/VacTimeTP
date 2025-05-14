@@ -488,33 +488,34 @@ namespace DataGenerator
                     Summ = sum,
                     ProductId = product.Id,
                     Product = product,
-                    Count = quantity
+                    Count = quantity,
+                    Status = faker.PickRandom(
+                        ContractStatus.completed,
+                        ContractStatus.created,
+                        ContractStatus.running
+                        )
                 });
             }
 
             return contracts;
         }
 
-        public static List<Sale> SeedSales(List<Contract> contracts, int totalSales = 30)
+        public static List<Sale> SeedSales(List<Contract> contracts, int totalSales = 30, int numberOfYears = 5)
         {
             var faker = new Faker("ru");
             var sales = new List<Sale>();
-
-            // 50% в первом году, остальные равномерно на 2 и 3 год
-            int[] distribution = [15, 8, 7];
             var baseDate = DateTime.Today;
-
+            int[] distribution = CalculateDistribution(totalSales, numberOfYears);
             int contractIndex = 0;
 
-            for (int year = 0; year < 3; year++)
+            for (int year = 0; year < numberOfYears; year++)
             {
                 for (int i = 0; i < distribution[year]; i++)
                 {
                     var contract = contracts[contractIndex++ % contracts.Count];
                     var productPrice = contract.Product?.Price ?? 0;
-
                     var count = faker.Random.Int(1, Math.Max(contract.Count / 2, 1));
-                    var date = faker.Date.Between(baseDate.AddYears(-3 + year), baseDate.AddYears(-2 + year));
+                    var date = faker.Date.Between(baseDate.AddYears(-numberOfYears + year), baseDate.AddYears(-numberOfYears + year + 1));
                     var sum = productPrice * count;
 
                     sales.Add(new Sale
@@ -529,6 +530,38 @@ namespace DataGenerator
             }
 
             return sales;
+        }
+
+        private static int[] CalculateDistribution(int totalSales, int numberOfYears)
+        {
+            if (numberOfYears <= 0)
+            {
+                throw new ArgumentException("Number of years must be at least 1.");
+            }
+
+            if (numberOfYears == 1)
+            {
+                return [totalSales];
+            }
+
+            int W = numberOfYears * (numberOfYears + 1) / 2;
+            int[] baseSales = new int[numberOfYears];
+            int totalBase = 0;
+
+            for (int i = 0; i < numberOfYears; i++)
+            {
+                double proportion = (double)(i + 1) / W;
+                baseSales[i] = (int)Math.Floor(totalSales * proportion);
+                totalBase += baseSales[i];
+            }
+
+            int remainder = totalSales - totalBase;
+            for (int i = 0; i < remainder; i++)
+            {
+                baseSales[numberOfYears - 1 - i] += 1;
+            }
+
+            return baseSales;
         }
     }
 }

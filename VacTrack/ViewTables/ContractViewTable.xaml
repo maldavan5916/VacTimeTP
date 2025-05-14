@@ -18,6 +18,7 @@
 
     <Page.Resources>
         <converter:DockPanelWidthConverter x:Key="DockPanelWidthConverter" Length="720"/>
+        <converter:ContractStatusConverter x:Key="ContractStatusConverter"/>
     </Page.Resources>
 
     <Grid>
@@ -125,6 +126,12 @@
                         </Binding>
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
+
+                <materialDesign:DataGridComboBoxColumn 
+                    Header="СТатус"
+                    ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Statuses, Converter={StaticResource ContractStatusConverter}}"
+                    SelectedValueBinding="{Binding Status, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ContractStatusConverter}}"
+                    IsEditable="False"/>
 
             </DataGrid.Columns>
         </DataGrid>

@@ -23,6 +23,12 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Counterpartie>? ContractCounterpartie { get; set; }
         public ObservableCollection<Product>? ContractProduct { get; set; }
 
+        public List<ContractStatus> Statuses { get; } = [
+            ContractStatus.created,
+            ContractStatus.running,
+            ContractStatus.completed,
+            ];
+
         public ICommand PrintCommand { get; }
         public ContractViewModel() : base(new DatabaseContext()) 
         {
@@ -51,7 +57,8 @@ namespace VacTrack.ViewTables
             string.IsNullOrWhiteSpace(searchText) ||
             item.Counterpartie?.Name?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
             item.Product?.Name?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
-            item.Summ.ToString().Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true;
+            item.Summ.ToString().Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
+            item.Status.ToString().Contains(searchText, StringComparison.CurrentCultureIgnoreCase);
 
         private void PrintContract(object obj)
         {

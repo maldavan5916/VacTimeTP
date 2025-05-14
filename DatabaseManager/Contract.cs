@@ -1,5 +1,7 @@
 ﻿namespace DatabaseManager
 {
+    public enum ContractStatus { created, running, completed }
+
     public class Contract : BaseModel
     {
         private int _id;
@@ -121,6 +123,13 @@
                 _sales = value;
                 OnPropertyChanged(nameof(Sales));
             }
+        }
+
+        private ContractStatus _status = ContractStatus.created;
+        public ContractStatus Status
+        {
+            get => _status;
+            set => SetProperty(ref _status, value);
         }
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
