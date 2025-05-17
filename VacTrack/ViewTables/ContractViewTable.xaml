@@ -128,7 +128,7 @@
                 </materialDesign:DataGridTextColumn>
 
                 <materialDesign:DataGridComboBoxColumn 
-                    Header="СТатус"
+                    Header="Статус"
                     ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Statuses, Converter={StaticResource ContractStatusConverter}}"
                     SelectedValueBinding="{Binding Status, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ContractStatusConverter}}"
                     IsEditable="False"/>

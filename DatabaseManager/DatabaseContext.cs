@@ -18,10 +18,14 @@ namespace DatabaseManager
         public DbSet<Product_Material> Product_Materials { get; set; } = null!;
         public DbSet<Users> Users { get; set; }
 
+        static DatabaseContext()
+        {
+            SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlcipher());
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=VacDB.db");
+            optionsBuilder.UseSqlite("Data Source=VacDB.db;Password=MyPass12345");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
