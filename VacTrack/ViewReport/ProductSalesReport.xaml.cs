@@ -159,18 +159,18 @@ namespace VacTrack.ViewReport
                 .Load();
 
             Items = new ObservableCollection<Sale>(
-                DbSet.Local.Where(item =>
+                [.. DbSet.Local.Where(item =>
                 (FilterByCounterpartie == null || item.Contract?.Counterpartie?.Id == FilterByCounterpartie.Id) &&
                 (FilterByProduct == null || item.Contract?.Product?.Id == FilterByProduct.Id) &&
 
                 ((FilterStartDate == null && FilterEndDate == null) ||
 
                 (FilterStartDate != null && FilterEndDate != null &&
-                    item.Date >= FilterStartDate && item.Date <= FilterEndDate) ||
+                    item.Date.Date >= FilterStartDate.Value.Date && item.Date.Date <= FilterEndDate.Value.Date) ||
 
-                (FilterStartDate != null && FilterEndDate == null && item.Date == FilterStartDate) ||
-                (FilterStartDate == null && FilterEndDate != null && item.Date == FilterEndDate))
-                ).ToList());
+                (FilterStartDate != null && FilterEndDate == null && item.Date.Date == FilterStartDate.Value.Date) ||
+                (FilterStartDate == null && FilterEndDate != null && item.Date.Date == FilterEndDate.Value.Date))
+                )]);
         }
 
         public override FlowDocument CreateReport()

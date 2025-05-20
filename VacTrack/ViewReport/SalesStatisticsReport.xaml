@@ -37,8 +37,11 @@
                 <materialDesign:PackIcon Kind="FileExport" />
             </Button>
 
+            <Label Content="|" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontFamily="Consolas" Foreground="{DynamicResource MaterialDesign.Brush.Secondary}"/>
+
+
             <RadioButton 
-                Margin="20,0,0,0"
+                Margin="0,0,0,0"
                 Content="По годам"
                 GroupName="GroupType"
                 IsChecked="{Binding IsGroupedByYear, UpdateSourceTrigger=PropertyChanged}"
@@ -51,15 +54,17 @@
                 Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
                 />
 
+            <Label Content="|" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontFamily="Consolas" Foreground="{DynamicResource MaterialDesign.Brush.Secondary}"/>
+
             <RadioButton 
-                Margin="10,0,0,0"
+                Margin="5,0,0,0"
                 Content="По количеству"
                 GroupName="LineType"
                 IsChecked="{Binding IsCountGraph, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
              /> 
             <RadioButton 
-                Content="По цене"
+                Content="По сумме"
                 GroupName="LineType"
                 IsChecked="{Binding IsCountGraph, Converter={StaticResource InvertBooleanConverter}}"
                 Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"

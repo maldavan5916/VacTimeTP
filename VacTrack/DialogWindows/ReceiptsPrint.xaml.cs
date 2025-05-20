@@ -99,10 +99,10 @@ namespace VacTrack.DialogWindows
                 ((SelectStartDate == null && SelectEndDate == null) ||
 
                 (SelectStartDate != null && SelectEndDate != null &&
-                    item.Date >= SelectStartDate && item.Date <= SelectEndDate) ||
+                    item.Date.Date >= SelectStartDate.Value.Date && item.Date.Date <= SelectEndDate.Value.Date) ||
 
-                (SelectStartDate != null && SelectEndDate == null && item.Date == SelectStartDate) ||
-                (SelectStartDate == null && SelectEndDate != null && item.Date == SelectEndDate))
+                (SelectStartDate != null && SelectEndDate == null && item.Date.Date == SelectStartDate.Value.Date) ||
+                (SelectStartDate == null && SelectEndDate != null && item.Date.Date == SelectEndDate.Value.Date))
                 ).ToList()];
         }
     }

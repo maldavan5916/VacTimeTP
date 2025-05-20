@@ -164,10 +164,10 @@ namespace VacTrack.ViewReport
                 ((FilterStartDate == null && FilterEndDate == null) ||
 
                 (FilterStartDate != null && FilterEndDate != null &&
-                    item.Date >= FilterStartDate && item.Date <= FilterEndDate) ||
+                    item.Date.Date >= FilterStartDate.Value.Date && item.Date.Date <= FilterEndDate.Value.Date) ||
 
-                (FilterStartDate != null && FilterEndDate == null && item.Date == FilterStartDate) ||
-                (FilterStartDate == null && FilterEndDate != null && item.Date == FilterEndDate))
+                (FilterStartDate != null && FilterEndDate == null && item.Date.Date == FilterStartDate.Value.Date) ||
+                (FilterStartDate == null && FilterEndDate != null && item.Date.Date == FilterEndDate.Value.Date))
                 ).ToList()];
         }
 
