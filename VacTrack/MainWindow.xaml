@@ -18,7 +18,7 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Настройки" Click="NavigateToPage" Tag="Settings"/>
                 <MenuItem Header="Создать новое окно" Click="CreateNewWindow"/>
-                <MenuItem Header="Начальний экран" Click="NavigateToPage" Tag="Home"/>
+                <MenuItem Header="Начальный экран" Click="NavigateToPage" Tag="Home"/>
                 <MenuItem Header="Выход" Click="LogOunt"/>
             </MenuItem>
             <MenuItem Header="Справочники" Visibility="{Binding IsLoginVisable}">
@@ -28,7 +28,7 @@
                 <MenuItem Header="Единицы измерения" Click="NavigateToPage" Tag="Unit"/>
                 <MenuItem Header="Места хранения" Click="NavigateToPage" Tag="Location"/>
                 <MenuItem Header="Подразделения" Click="NavigateToPage" Tag="Division"/>
-                <MenuItem Header="Материалы\Коплектуюшие" Click="NavigateToPage" Tag="Material"/>
+                <MenuItem Header="Материалы\Комплектующие" Click="NavigateToPage" Tag="Material"/>
                 <MenuItem Header="Контрагенты" Click="NavigateToPage" Tag="Counterpartie"/>
             </MenuItem>
             <MenuItem Header="Документы" Visibility="{Binding IsLoginVisable}">
@@ -39,7 +39,7 @@
             <MenuItem Header="Отчёты" Visibility="{Binding IsLoginVisable}">
                 <MenuItem Header="Отчет по использованию материалов на изделия" Click="NavigateToPage" Tag="MaterialUsageReport" ToolTip="Показывает, какие материалы использовались для производства определенных изделий, их количество и стоимость."/>
                 <MenuItem Header="Отчет по сотрудникам" Click="NavigateToPage" Tag="EmployeeDivisionReport" ToolTip="Список всех сотрудников с указанием их подразделений, должностей, даты приема и даты увольнения (если есть)."/>
-                <MenuItem Header="Отчет по остаткам материалов и комплектуюших" Click="NavigateToPage" Tag="StockBalanceReport" ToolTip="Информация о текущих остатках материалов и комплектуюших с указанием мест хранения."/>
+                <MenuItem Header="Отчет по остаткам материалов и комплектующих" Click="NavigateToPage" Tag="StockBalanceReport" ToolTip="Информация о текущих остатках материалов и комплектующих с указанием мест хранения."/>
                 <MenuItem Header="Отчет по договорам с контрагентами" Click="NavigateToPage" Tag="ContractorContractsReport" ToolTip="Информация о заключенных договорах с контрагентами, их суммах и изделиях."/>
                 <MenuItem Header="Отчет по реализации продукции" Click="NavigateToPage" Tag="ProductSalesReport" ToolTip="Детализация продаж продукции: что было продано, кому, за какую сумму и в каком количестве."/>
                 <MenuItem Header="Лист закупок" Click="NavigateToPage" Tag="ProcurementSheetReport" ToolTip="Формирование списка закупок"/>
