@@ -12,7 +12,7 @@ namespace VacTrack.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.13.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -23,7 +23,11 @@ namespace VacTrack.Properties {
             }
         }
         
+        /// <summary>
+        /// &quot;Dark&quot;/&quot;Light&quot;/&quot;Inherit&quot;
+        /// </summary>
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsDescriptionAttribute("\"Dark\"/\"Light\"/\"Inherit\"")]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Inherit")]
         public string AppTheme {
@@ -125,6 +129,54 @@ namespace VacTrack.Properties {
             }
             set {
                 this["Currency"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FF009999")]
+        public string PrimaryColor {
+            get {
+                return ((string)(this["PrimaryColor"]));
+            }
+            set {
+                this["PrimaryColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFF7400")]
+        public string SecondaryColor {
+            get {
+                return ((string)(this["SecondaryColor"]));
+            }
+            set {
+                this["SecondaryColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4.5")]
+        public float DesiredContrastRatio {
+            get {
+                return ((float)(this["DesiredContrastRatio"]));
+            }
+            set {
+                this["DesiredContrastRatio"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\"Medium\"")]
+        public string Contrast {
+            get {
+                return ((string)(this["Contrast"]));
+            }
+            set {
+                this["Contrast"] = value;
             }
         }
     }

@@ -13,7 +13,7 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
 
-    <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
+    <Grid>
         <Menu IsMainMenu="True" VerticalAlignment="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="20">
             <MenuItem Header="Файл">
                 <MenuItem Header="Настройки" Click="NavigateToPage" Tag="Settings"/>

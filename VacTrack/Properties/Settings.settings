@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VacTrack.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="AppTheme" Type="System.String" Scope="User">
+    <Setting Name="AppTheme" Description="&quot;Dark&quot;/&quot;Light&quot;/&quot;Inherit&quot;" Type="System.String" Scope="User">
       <Value Profile="(Default)">Inherit</Value>
     </Setting>
     <Setting Name="ResponsibleStorekeeper" Type="System.Int32" Scope="User">
@@ -28,6 +28,18 @@
     </Setting>
     <Setting Name="Currency" Type="System.String" Scope="User">
       <Value Profile="(Default)">руб.коп.</Value>
+    </Setting>
+    <Setting Name="PrimaryColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FF009999</Value>
+    </Setting>
+    <Setting Name="SecondaryColor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">#FFFF7400</Value>
+    </Setting>
+    <Setting Name="DesiredContrastRatio" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">4.5</Value>
+    </Setting>
+    <Setting Name="Contrast" Type="System.String" Scope="User">
+      <Value Profile="(Default)">"Medium"</Value>
     </Setting>
   </Settings>
 </SettingsFile>

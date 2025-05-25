@@ -129,11 +129,11 @@
                     <materialDesign:PackIcon Kind="FormatColumns" Width="30" Foreground="{DynamicResource MaterialDesignBody}"/>
                 </materialDesign:PopupBox.ToggleContent>
 
-                <StackPanel Orientation="Vertical" Margin="0,5,0,0">                    
-                    <ItemsControl ItemsSource="{Binding Columns}">
+                <StackPanel Orientation="Vertical" Margin="0,5,0,0">
+                    <ItemsControl ItemsSource="{Binding Columns}" Background="{DynamicResource MaterialDesign.Brush.Background}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox 
+                                <CheckBox
                                     Content="{Binding Name}" 
                                     IsChecked="{Binding IsVisible, Mode=TwoWay}" 
                                     Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}"

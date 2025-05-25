@@ -1,12 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using DatabaseManager;
+﻿using DatabaseManager;
 using MaterialDesignThemes.Wpf;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace VacTrack
 {
@@ -130,6 +129,79 @@ namespace VacTrack
             }
         }
 
+        private bool _isColorAdjusted;
+        public bool IsColorAdjusted
+        {
+            get => _isColorAdjusted;
+            set
+            {
+                SetProperty(ref _isColorAdjusted, value);
+                ModifyTheme(theme =>
+                {
+                    if (theme is Theme internalTheme)
+                    {
+                        internalTheme.ColorAdjustment = value
+                            ? new ColorAdjustment
+                            {
+                                DesiredContrastRatio = DesiredContrastRatio,
+                                Contrast = ContrastValue,
+                                Colors = ColorSelectionValue
+                            }
+                            : null;
+                    }
+                });
+            }
+        }
+
+        private float _desiredContrastRatio = 4.5f;
+        public float DesiredContrastRatio
+        {
+            get => _desiredContrastRatio;
+            set
+            {
+                SetProperty(ref _desiredContrastRatio, value);
+
+                ModifyTheme(theme =>
+                {
+                    if (theme is Theme internalTheme && internalTheme.ColorAdjustment != null)
+                        internalTheme.ColorAdjustment.DesiredContrastRatio = value;
+                });
+            }
+        }
+
+        private Contrast _contrastValue;
+        public Contrast ContrastValue
+        {
+            get => _contrastValue;
+            set
+            {
+                SetProperty(ref _contrastValue, value);
+                ModifyTheme(theme =>
+                {
+                    if (theme is Theme internalTheme && internalTheme.ColorAdjustment != null)
+                        internalTheme.ColorAdjustment.Contrast = value;
+                });
+            }
+        }
+        public static IEnumerable<ColorSelection> ColorSelectionValues => Enum.GetValues(typeof(ColorSelection)).Cast<ColorSelection>();
+
+        private ColorSelection _colorSelectionValue;
+        public ColorSelection ColorSelectionValue
+        {
+            get => _colorSelectionValue;
+            set
+            {
+                SetProperty(ref _colorSelectionValue, value);
+                ModifyTheme(theme =>
+                 {
+                     if (theme is Theme internalTheme && internalTheme.ColorAdjustment != null)
+                         internalTheme.ColorAdjustment.Colors = value;
+                 });
+            }
+        }
+
+        public static IEnumerable<Contrast> ContrastValues => Enum.GetValues(typeof(Contrast)).Cast<Contrast>();
+
         private readonly PaletteHelper _paletteHelper = new();
         private readonly Theme _theme;
         private readonly DatabaseContext Db = new();
@@ -156,7 +228,8 @@ namespace VacTrack
 
         public ICommand CancelCommand { get; set; }
         public ICommand SaveCommand { get; set; }
-        public ICommand ChangePassword {  get; set; }
+        public ICommand ChangePassword { get; set; }
+        public ICommand ResetSettingCommand { get; set; }
 
         public SettingViewModel()
         {
@@ -165,6 +238,7 @@ namespace VacTrack
             CancelCommand = new RelayCommand(Cancel);
             SaveCommand = new RelayCommand(Save);
             ChangePassword = new RelayCommand(ChangePass);
+            ResetSettingCommand = new RelayCommand(ResetSetting);
 
             Init();
 
@@ -175,23 +249,46 @@ namespace VacTrack
                 Properties.Settings.Default.LogInUserId = -1;
                 Properties.Settings.Default.Save();
 #if !DEBUG
-                MessageBox.Show("Не удалось загрузить пользователя. Возможно, сохранённый ID недействителен.\n" +
+                System.Windows.MessageBox.Show("Не удалось загрузить пользователя. Возможно, сохранённый ID недействителен.\n" +
                     "Сохранённый пользователь не найден. Выполните вход заново.");
 #endif
+            }
+
+            if (_theme is Theme internalTheme)
+            {
+                _isColorAdjusted = internalTheme.ColorAdjustment is not null;
+
+                var colorAdjustment = internalTheme.ColorAdjustment ?? new ColorAdjustment();
+                _desiredContrastRatio = colorAdjustment.DesiredContrastRatio;
+                _contrastValue = colorAdjustment.Contrast;
+                _colorSelectionValue = colorAdjustment.Colors;
             }
         }
 
         private void Init()
         {
             LoadData();
+            Tools.ThemeManager.ApplySavedTheme();
 
-            SelectTheme = Properties.Settings.Default.AppTheme switch
+            if (Enum.TryParse<BaseTheme>(Properties.Settings.Default.AppTheme, out var savedBase))
+                SelectTheme = savedBase;
+            else
+                SelectTheme = BaseTheme.Inherit;
+
+            if (Properties.Settings.Default.DesiredContrastRatio > 0 &&
+    !string.IsNullOrWhiteSpace(Properties.Settings.Default.Contrast) &&
+    Enum.TryParse<Contrast>(Properties.Settings.Default.Contrast, ignoreCase: true, out var savedContrast) &&
+    Enum.IsDefined(typeof(Contrast), savedContrast))
             {
-                "Dark" => BaseTheme.Dark,
-                "Light" => BaseTheme.Light,
-                "Inherit" => BaseTheme.Inherit,
-                _ => BaseTheme.Inherit,
-            };
+                DesiredContrastRatio = Properties.Settings.Default.DesiredContrastRatio;
+                ContrastValue = savedContrast;
+                IsColorAdjusted = true;
+            }
+            else
+            {
+                IsColorAdjusted = false;
+            }
+
             SelectedAccountant = Employees.FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleAccountant);
             SelecteStorekeeper = Employees.FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper);
             SelectNds = Properties.Settings.Default.Nds;
@@ -229,17 +326,13 @@ namespace VacTrack
 
             Properties.Settings.Default.ResponsibleAccountant = SelectedAccountant.Id;
             Properties.Settings.Default.ResponsibleStorekeeper = SelecteStorekeeper.Id;
-            Properties.Settings.Default.AppTheme = SelectTheme switch
-            {
-                BaseTheme.Dark => "Dark",
-                BaseTheme.Light => "Light",
-                BaseTheme.Inherit => "Inherit",
-                _ => "Inherit"
-            };
+            Tools.ThemeManager.SaveTheme(SelectTheme);
             Properties.Settings.Default.Nds = SelectNds;
             Properties.Settings.Default.ProductReleaseApprover = SelectedProductReleaseApprover.Id;
             Properties.Settings.Default.ProductSubmitter = SelectedProductSubmitter.Id;
             Properties.Settings.Default.Currency = SelectCurrency;
+
+
 
             Properties.Settings.Default.Save();
             Db.SaveChanges();
@@ -247,7 +340,7 @@ namespace VacTrack
 
         private void ChangePass(object obj)
         {
-            if(OldPasswordString == null || NewPasswordString == null || NewSecondPasswordString == null)
+            if (OldPasswordString == null || NewPasswordString == null || NewSecondPasswordString == null)
             {
                 Message = "поля для пароля пусты";
                 return;
@@ -278,6 +371,24 @@ namespace VacTrack
                 Message = "Неверный старый пароль";
                 return;
             }
+        }
+
+        private static void ModifyTheme(Action<Theme> modificationAction)
+        {
+            var paletteHelper = new PaletteHelper();
+            Theme theme = paletteHelper.GetTheme();
+
+            modificationAction?.Invoke(theme);
+
+            paletteHelper.SetTheme(theme);
+        }
+
+        private void ResetSetting(object obj)
+        {
+            var userId = Properties.Settings.Default.LogInUserId;
+            Properties.Settings.Default.Reset();
+            Properties.Settings.Default.LogInUserId = userId;
+            Init();
         }
     }
 }

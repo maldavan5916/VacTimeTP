@@ -15,9 +15,22 @@ namespace VacTrack
     {
         private readonly Dictionary<string, Page> _pagesCache = [];
         private readonly PaletteHelper _paletteHelper = new();
+        private  int CntWin = 0;
         private MainWindowViewModel ThisViewModel => (MainWindowViewModel)DataContext;
 
         public MainWindow()
+        {
+            Init();
+        }
+
+        public MainWindow(int cntWin)
+        {
+            CntWin = cntWin;
+            Init();
+            Title += $" - Окно №{CntWin+1}";
+        }
+
+        public void Init()
         {
             var Db = new DatabaseContext();
             Db.Database.EnsureCreated();
@@ -25,21 +38,7 @@ namespace VacTrack
 
             MainFrame.Navigate(new HomePage());
 
-            SetTheme(Properties.Settings.Default.AppTheme);
-        }
-
-        private void SetTheme(string SelectTheme)
-        {
-            var theme = _paletteHelper.GetTheme();
-
-            switch (SelectTheme)
-            {
-                case "Dark": theme.SetBaseTheme(BaseTheme.Dark); break;
-                case "Light": theme.SetBaseTheme(BaseTheme.Light); break;
-                default: { theme.SetBaseTheme(BaseTheme.Inherit); } break;
-            }
-
-            _paletteHelper.SetTheme(theme);
+            if(CntWin == 0) Tools.ThemeManager.ApplySavedTheme();
         }
 
         private void Close(object sender, RoutedEventArgs e) => Close();
@@ -55,7 +54,14 @@ namespace VacTrack
 
         private void CreateNewUser_click(object sender, RoutedEventArgs e) => new CreateUser().ShowDialog();
 
-        private void CreateNewWindow(object sender, RoutedEventArgs e) => new MainWindow().Show();
+        private void CreateNewWindow(object sender, RoutedEventArgs e)
+        {
+            if (CntWin >= 9) return;
+
+            new MainWindow(CntWin + 1).Show();
+
+            CntWin = 99;
+        }
 
         private void OpenHelp(object sender, RoutedEventArgs e) => OpenChmFile(@"UserGuide.chm");
 
