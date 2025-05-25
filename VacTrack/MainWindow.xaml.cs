@@ -15,19 +15,19 @@ namespace VacTrack
     {
         private readonly Dictionary<string, Page> _pagesCache = [];
         private readonly PaletteHelper _paletteHelper = new();
-        private  int CntWin = 0;
+        private readonly bool IsFirstWindow = true;
         private MainWindowViewModel ThisViewModel => (MainWindowViewModel)DataContext;
 
         public MainWindow()
         {
             Init();
+            IsFirstWindow = true;
         }
 
-        public MainWindow(int cntWin)
+        public MainWindow(bool ifw)
         {
-            CntWin = cntWin;
+            IsFirstWindow = ifw;
             Init();
-            Title += $" - Окно №{CntWin+1}";
         }
 
         public void Init()
@@ -38,7 +38,7 @@ namespace VacTrack
 
             MainFrame.Navigate(new HomePage());
 
-            if(CntWin == 0) Tools.ThemeManager.ApplySavedTheme();
+            if(IsFirstWindow) Tools.ThemeManager.ApplySavedTheme();
         }
 
         private void Close(object sender, RoutedEventArgs e) => Close();
@@ -56,11 +56,7 @@ namespace VacTrack
 
         private void CreateNewWindow(object sender, RoutedEventArgs e)
         {
-            if (CntWin >= 9) return;
-
-            new MainWindow(CntWin + 1).Show();
-
-            CntWin = 99;
+            new MainWindow(false).Show();
         }
 
         private void OpenHelp(object sender, RoutedEventArgs e) => OpenChmFile(@"UserGuide.chm");
