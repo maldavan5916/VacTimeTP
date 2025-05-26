@@ -1,6 +1,5 @@
 ﻿using DatabaseManager;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -79,7 +78,7 @@ namespace VacTrack.ViewReport
             if (SelectedProduct == null)
                 Items = DbSet.Local.ToObservableCollection();
             else
-                Items = [.. DbSet.Local.Where( item => item.Product?.Id == SelectedProduct.Id).ToList()];
+                Items = [.. DbSet.Local.Where(item => item.Product?.Id == SelectedProduct.Id).ToList()];
         }
 
         public override FlowDocument CreateReport()

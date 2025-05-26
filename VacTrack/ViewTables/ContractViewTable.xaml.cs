@@ -30,7 +30,7 @@ namespace VacTrack.ViewTables
             ];
 
         public ICommand PrintCommand { get; }
-        public ContractViewModel() : base(new DatabaseContext()) 
+        public ContractViewModel() : base(new DatabaseContext())
         {
             PrintCommand = new RelayCommand(PrintContract);
         }
@@ -51,7 +51,7 @@ namespace VacTrack.ViewTables
             Items = DbSet.Local.ToObservableCollection();
         }
 
-        protected override Contract CreateNewItem() => new() { Name="ДП-0", Date = DateTime.Now };
+        protected override Contract CreateNewItem() => new() { Name = "ДП-0", Date = DateTime.Now };
 
         protected override bool FilterItem(Contract item, string? searchText) =>
             string.IsNullOrWhiteSpace(searchText) ||

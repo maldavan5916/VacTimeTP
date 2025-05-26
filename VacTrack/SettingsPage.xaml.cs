@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -35,15 +36,14 @@ namespace VacTrack
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         #endregion
 
-        private ObservableCollection<Employee> _employees = null!;
+        private ObservableCollection<Employee> _employees;
         public ObservableCollection<Employee> Employees
         {
             get => _employees;
             set => SetProperty(ref _employees, value);
         }
 
-        private ObservableCollection<Users> _users = null!;
-        private Users _currentUser = null!;
+        private Users _currentUser;
         public Users CurrentUser
         {
             get => _currentUser;
@@ -242,18 +242,6 @@ namespace VacTrack
 
             Init();
 
-            if (_currentUser == null ||
-                _users == null ||
-                _employees == null)
-            {
-                Properties.Settings.Default.LogInUserId = -1;
-                Properties.Settings.Default.Save();
-#if !DEBUG
-                System.Windows.MessageBox.Show("Не удалось загрузить пользователя. Возможно, сохранённый ID недействителен.\n" +
-                    "Сохранённый пользователь не найден. Выполните вход заново.");
-#endif
-            }
-
             if (_theme is Theme internalTheme)
             {
                 _isColorAdjusted = internalTheme.ColorAdjustment is not null;
@@ -263,6 +251,21 @@ namespace VacTrack
                 _contrastValue = colorAdjustment.Contrast;
                 _colorSelectionValue = colorAdjustment.Colors;
             }
+
+            if (Application.Current.Properties.Contains("CurrentUser") &&
+                Application.Current.Properties["CurrentUser"] is Users user)
+                _currentUser = Db.Set<Users>().First(u => u.Id == user.Id);
+            else
+#if DEBUG
+            {
+                _currentUser = new Users { Login = "TestUsr", Password = string.Empty, Access = "rwa" };
+                System.Diagnostics.Debug.WriteLine(">>> Invalid or missing `CurrentUser` in application properties.");
+            }
+#else
+                throw new ArgumentException("Invalid or missing `CurrentUser` in application properties.");
+#endif
+
+            if (_employees == null) throw new ArgumentException("`_employees` are not initialized");
         }
 
         private void Init()
@@ -295,9 +298,6 @@ namespace VacTrack
             SelectedProductReleaseApprover = Employees.FirstOrDefault(e => e.Id == Properties.Settings.Default.ProductReleaseApprover);
             SelectedProductSubmitter = Employees.FirstOrDefault(e => e.Id == Properties.Settings.Default.ProductSubmitter);
             SelectCurrency = Properties.Settings.Default.Currency;
-
-            var tempUsr = _users.FirstOrDefault(u => u.Id == Properties.Settings.Default.LogInUserId);
-            if (tempUsr != null) CurrentUser = tempUsr;
         }
 
         private void Cancel(object obj) => Init();
@@ -307,10 +307,6 @@ namespace VacTrack
             var emplDbSet = Db.Set<Employee>();
             emplDbSet.Include(m => m.Post).Load();
             Employees = emplDbSet.Local.ToObservableCollection();
-
-            var usersDbSet = Db.Set<Users>();
-            usersDbSet.Load();
-            _users = usersDbSet.Local.ToObservableCollection();
         }
 
         public void ReloadData() => LoadData();
@@ -332,8 +328,6 @@ namespace VacTrack
             Properties.Settings.Default.ProductSubmitter = SelectedProductSubmitter.Id;
             Properties.Settings.Default.Currency = SelectCurrency;
 
-
-
             Properties.Settings.Default.Save();
             Db.SaveChanges();
         }
@@ -342,14 +336,12 @@ namespace VacTrack
         {
             if (OldPasswordString == null || NewPasswordString == null || NewSecondPasswordString == null)
             {
-                Message = "поля для пароля пусты";
-                return;
+                Message = "поля для пароля пусты"; return;
             }
 
             if (NewPasswordString != NewSecondPasswordString)
             {
-                Message = "пароли не совпадают";
-                return;
+                Message = "пароли не совпадают"; return;
             }
 
             string oldPassHash = CreateUserViewModel.HashPassword(OldPasswordString);
@@ -358,12 +350,12 @@ namespace VacTrack
                 string newPassHash = CreateUserViewModel.HashPassword(NewPasswordString);
                 CurrentUser.Password = newPassHash;
                 Db.SaveChanges();
-                Message = "Пароль изменён";
 
                 OldPasswordString = string.Empty; OnPropertyChanged(nameof(OldPasswordString));
                 NewPasswordString = string.Empty; OnPropertyChanged(nameof(NewPasswordString));
                 NewSecondPasswordString = string.Empty; OnPropertyChanged(nameof(NewSecondPasswordString));
 
+                Message = "Пароль изменён";
                 return;
             }
             else

@@ -1,9 +1,9 @@
-﻿using System.Windows;
+﻿using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using DatabaseManager;
-using Microsoft.EntityFrameworkCore;
 
 namespace VacTrack.ViewReport
 {
@@ -157,9 +157,9 @@ namespace VacTrack.ViewReport
 
             // Добавляем заголовки
             var headerRow = CreateRow([
-                "Наименование", 
-                "Количество", 
-                "Цена за ед.,\n" + Properties.Settings.Default.Currency, 
+                "Наименование",
+                "Количество",
+                "Цена за ед.,\n" + Properties.Settings.Default.Currency,
                 "Сумма,\n" + Properties.Settings.Default.Currency
                 ]);
             headerRow.FontWeight = FontWeights.Bold;
@@ -172,11 +172,11 @@ namespace VacTrack.ViewReport
                 var price = $"{m.Price:N2}";
                 var sum = $"{m.GetSum:N2}";
 
-                rowGroup.Rows.Add(CreateRow( [ m.Name, count, price, sum ]));
+                rowGroup.Rows.Add(CreateRow([m.Name, count, price, sum]));
             }
 
             // Добавляем итоговую строку
-            var totalRow = CreateRow([ "Итого:", string.Empty, string.Empty, $"{materials.Sum(m => m.GetSum):N2}" ]);
+            var totalRow = CreateRow(["Итого:", string.Empty, string.Empty, $"{materials.Sum(m => m.GetSum):N2}"]);
             totalRow.FontWeight = FontWeights.SemiBold;
             rowGroup.Rows.Add(totalRow);
 

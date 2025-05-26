@@ -35,10 +35,10 @@
         private string? _access;
         public string? Access
         {
-            get => _access;
+            get => _access?.ToLower();
             set
             {
-                SetProperty(ref _access, value);
+                SetProperty(ref _access, value?.ToLower());
             }
         }
     }

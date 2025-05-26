@@ -54,9 +54,9 @@ namespace VacTrack.ViewReport
                 Location? location = value != null ? Db.Locations
                         .Include(e => e.Employee)
                         .FirstOrDefault(e => e.Id == value.Id) : null;
-                
+
                 if (_selectLocation == location) return;
-                
+
                 SetProperty(ref _selectLocation, location);
                 Refresh(null);
             }
@@ -126,7 +126,7 @@ namespace VacTrack.ViewReport
             table.RowGroups.Add(dataGroup);
             doc.Blocks.Add(table);
 
-            Employee? responsible = SelectLocation == null ? 
+            Employee? responsible = SelectLocation == null ?
                Db.Employees
                 .Include(e => e.Post)
                 .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper) :
@@ -181,17 +181,17 @@ namespace VacTrack.ViewReport
         {
             string? startDate = SelectStartDate?.ToString("d MMMM yyyy 'г.'", new CultureInfo("ru-RU"));
             string? endDate = SelectEndDate?.ToString("d MMMM yyyy 'г.'", new CultureInfo("ru-RU"));
-           
+
             string date = startDate != null && endDate != null ?
                 $"За период с {startDate} по {endDate}" :
                 startDate != null ? $"От {startDate}" : $"От {endDate}";
 
             Paragraph title = new(new Run($"Приходная накладная № {FilteredItems?[0]?.Id}\n" + date))
-                {
-                    FontSize = 14,
-                    FontWeight = FontWeights.Bold,
-                    TextAlignment = TextAlignment.Center
-                };
+            {
+                FontSize = 14,
+                FontWeight = FontWeights.Bold,
+                TextAlignment = TextAlignment.Center
+            };
             doc.Blocks.Add(title);
 
             string headerText = $"\nПоставщик: {SelectCounterpartie?.Name}" +

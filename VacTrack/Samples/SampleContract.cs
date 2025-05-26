@@ -362,7 +362,7 @@ namespace VacTrack.Samples
 
             Paragraph supplierPara = new Paragraph(new Run(OrganizationData));
             supplierPara.Style = (Style)doc.Resources["normalStyle"];
-            supplierCell.Blocks.Add(supplierPara);;
+            supplierCell.Blocks.Add(supplierPara); ;
             contentRow.Cells.Add(supplierCell);
 
             doc.Blocks.Add(partiesTable);

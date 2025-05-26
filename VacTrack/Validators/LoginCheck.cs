@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using DatabaseManager;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
-using DatabaseManager;
 
 namespace VacTrack.Validators
 {

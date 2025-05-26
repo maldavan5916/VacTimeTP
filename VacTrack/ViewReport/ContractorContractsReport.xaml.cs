@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using DatabaseManager;
-using Microsoft.EntityFrameworkCore;
 
 namespace VacTrack.ViewReport
 {

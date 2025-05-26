@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using DatabaseManager;
+using MaterialDesignThemes.Wpf;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DatabaseManager;
-using MaterialDesignThemes.Wpf;
 
 namespace VacTrack
 {
@@ -32,13 +33,11 @@ namespace VacTrack
 
         public void Init()
         {
-            var Db = new DatabaseContext();
-            Db.Database.EnsureCreated();
             InitializeComponent();
 
             MainFrame.Navigate(new HomePage());
 
-            if(IsFirstWindow) Tools.ThemeManager.ApplySavedTheme();
+            if (IsFirstWindow) Tools.ThemeManager.ApplySavedTheme();
         }
 
         private void Close(object sender, RoutedEventArgs e) => Close();
@@ -48,6 +47,7 @@ namespace VacTrack
             Properties.Settings.Default.LogInUserId = -1;
             ThisViewModel.IsLogin = false;
             Properties.Settings.Default.Save();
+            ThisViewModel.CheckAdmin();
         }
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();
@@ -151,6 +151,8 @@ namespace VacTrack
 
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        private readonly DatabaseContext Db = new();
+
         #region interface implemented 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void SetProperty<Ts>(ref Ts field, Ts value, [CallerMemberName] string? propertyName = null)
@@ -177,6 +179,13 @@ namespace VacTrack
             }
         }
 
+        private bool _enableAdmin;
+        public bool EnableAdmin
+        {
+            get => _enableAdmin;
+            set => SetProperty(ref _enableAdmin, value);
+        }
+
         private string _message = string.Empty;
         public string Message
         {
@@ -199,15 +208,52 @@ namespace VacTrack
 
         public MainWindowViewModel()
         {
+            Db.Database.EnsureCreated();
             LogInCommand = new RelayCommand(LogIn);
+            CheckUser();
+            CheckAdmin();
+        }
 
-            if (Properties.Settings.Default.LogInUserId != -1)
-                IsLogin = true;
+        public async void CheckAdmin()
+        {
+            EnableAdmin = await Db.Set<Users>()
+                .AsNoTracking()
+                .AnyAsync(u => u.Access != null && u.Access.Contains("rwa"));
+        }
+
+        private async void CheckUser()
+        {
+            int userId = Properties.Settings.Default.LogInUserId;
+
+            try
+            {
+                if (userId != -1)
+                {
+                    var user = await Db.Set<Users>()
+                                         .AsNoTracking()
+                                         .FirstOrDefaultAsync(u => u.Id == userId);
+
+                    if (user != null)
+                    {
+                        IsLogin = true;
+                        Application.Current.Properties["CurrentUser"] = user;
+                    }
+                    else
+                    {
+                        // Пользователь удалён — сбрасываем сохранённый ID
+                        Properties.Settings.Default.LogInUserId = -1;
+                        Properties.Settings.Default.Save();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void LogIn(object obj)
         {
-            var Db = new DatabaseContext();
             Users = [.. Db.Users];
 
             if (string.IsNullOrWhiteSpace(PasswordString) || string.IsNullOrWhiteSpace(LoginString))

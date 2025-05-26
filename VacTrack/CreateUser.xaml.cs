@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using DatabaseManager;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using DatabaseManager;
 
 namespace VacTrack
 {
@@ -62,17 +62,8 @@ namespace VacTrack
 
         private void AddUser(object obj)
         {
-            if (PasswordString != SecondPasswordString)
-            {
-                Message = "Пароли не совпадают";
-                return;
-            }
-
-            if (LoginString == null || PasswordString == null)
-            {
-                Message = "Пароль не введен";
-                return;
-            }
+            if (PasswordString != SecondPasswordString) { Message = "Пароли не совпадают"; return; }
+            if (LoginString == null || PasswordString == null) { Message = "Пароль не введен"; return; }
 
             using (var db = new DatabaseContext())
             {
@@ -80,7 +71,7 @@ namespace VacTrack
                 {
                     Login = LoginString,
                     Password = HashPassword(PasswordString),
-                    Access = "FULL"
+                    Access = "rwa"
                 };
 
                 db.Set<Users>().Add(newUser);

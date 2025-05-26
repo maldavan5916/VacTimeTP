@@ -1,9 +1,9 @@
-﻿using System.Collections.ObjectModel;
+﻿using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using DatabaseManager;
-using Microsoft.EntityFrameworkCore;
 using VacTrack.DialogWindows;
 
 
@@ -65,9 +65,9 @@ namespace VacTrack.ViewTables
 
         private void PrintDoc(object obj)
         {
-            var printWindow =  new ReceiptsPrint();
+            var printWindow = new ReceiptsPrint();
             bool? dialogResult = printWindow.ShowDialog();
-           
+
             if (dialogResult == true)
             {
                 if (printWindow.Items != null && printWindow.ReceiptsPrintVM != null)
@@ -89,7 +89,8 @@ namespace VacTrack.ViewTables
             {
                 var newItems = ReceiptsWindow.NewItems;
 
-                if (newItems == null) {
+                if (newItems == null)
+                {
                     Message = "Нет элементов для добавления";
                     MessageBrush = Brushes.Orange;
                     return;

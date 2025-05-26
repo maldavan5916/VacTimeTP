@@ -116,7 +116,7 @@ namespace VacTrack.ViewTables
         }
 
         private string _currency = Properties.Settings.Default.Currency;
-        public string Currency 
+        public string Currency
         {
             get => _currency;
             set
@@ -324,6 +324,6 @@ namespace VacTrack.ViewTables
             }
         }
 
-        private void MessageToClipboard(object obj) => Clipboard.SetText(Message); 
+        private void MessageToClipboard(object obj) => Clipboard.SetText(Message);
     }
 }

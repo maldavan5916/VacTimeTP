@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using DatabaseManager;
-using Microsoft.EntityFrameworkCore;
 
 namespace VacTrack.DialogWindows
 {
@@ -14,10 +13,10 @@ namespace VacTrack.DialogWindows
     public partial class ReceiptsPrint : Window
     {
         private ReceiptsPrintVM ThisVM => (ReceiptsPrintVM)DataContext;
-        
-        public ReceiptsPrintVM? ReceiptsPrintVM {  get; private set; }
+
+        public ReceiptsPrintVM? ReceiptsPrintVM { get; private set; }
         public ObservableCollection<Receipt>? Items { get; set; }
-        
+
         public ReceiptsPrint() => InitializeComponent();
         private void Cansel_Click(object sender, RoutedEventArgs e) => DialogResult = false;
         private void Accept_Click(object sender, RoutedEventArgs e)
@@ -44,8 +43,9 @@ namespace VacTrack.DialogWindows
         public ObservableCollection<Material> ReceiptMaterial { get; set; }
 
         private string? _message;
-        public string? Message {
-            get => _message; 
+        public string? Message
+        {
+            get => _message;
             set
             {
                 _message = value;

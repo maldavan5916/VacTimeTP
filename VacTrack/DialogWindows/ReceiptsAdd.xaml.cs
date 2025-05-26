@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
-using DatabaseManager;
-using Microsoft.EntityFrameworkCore;
 
 namespace VacTrack.DialogWindows
 {
@@ -45,14 +45,15 @@ namespace VacTrack.DialogWindows
         public ObservableCollection<Location> ReceiptLocation { get; set; }
 
         private Counterpartie? _selectCounterpartie;
-        public Counterpartie? SelectCounterpartie {
+        public Counterpartie? SelectCounterpartie
+        {
             get => _selectCounterpartie;
-            set 
+            set
             {
                 _selectCounterpartie = value;
                 foreach (var item in Items) item.Counterpartie = value;
                 OnPropertyChanged(nameof(SelectCounterpartie));
-            } 
+            }
         }
         public Location? SelectLocation { get; set; }
         public DateTime SelectDate { get; set; }

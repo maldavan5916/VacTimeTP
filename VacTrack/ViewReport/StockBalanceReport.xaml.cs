@@ -80,9 +80,9 @@ namespace VacTrack.ViewReport
                 .ThenInclude(e => e != null ? e.Employee : null)
                 .Load();
 
-            Items = new ObservableCollection<Material>(DbSet.Local.Where(item =>
+            Items = new ObservableCollection<Material>([.. DbSet.Local.Where(item =>
                 FilterByLocation == null || item.Location?.Id == FilterByLocation.Id
-                ).ToList());
+                )]);
         }
 
         public override FlowDocument CreateReport()
@@ -112,8 +112,8 @@ namespace VacTrack.ViewReport
                 .Include(e => e.Post)
                 .FirstOrDefault(e => e.Id == Properties.Settings.Default.ResponsibleStorekeeper);
 
-            doc.Blocks.Add( new Paragraph(
-                new Run(FilterByLocation != null ? $"      _____________   { FilterByLocation.Employee?.Fio}" :
+            doc.Blocks.Add(new Paragraph(
+                new Run(FilterByLocation != null ? $"      _____________   {FilterByLocation.Employee?.Fio}" :
                 $"{responsible?.Post?.Name}    _____________   {responsible?.Fio}"))
             {
                 FontSize = 12,
@@ -195,8 +195,8 @@ namespace VacTrack.ViewReport
             doc.Blocks.Add(title);
 
 
-            string filteredText = FilterByLocation != null ? 
-                $"\nПо месту хранения: {FilterByLocation.Name}, Ответственный: {FilterByLocation.Employee?.Fio}" 
+            string filteredText = FilterByLocation != null ?
+                $"\nПо месту хранения: {FilterByLocation.Name}, Ответственный: {FilterByLocation.Employee?.Fio}"
                 : string.Empty;
 
             string headerText = $"Дата формирования: {DateTime.Now:dd.MM.yyyy}" + filteredText;

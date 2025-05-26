@@ -236,7 +236,7 @@ namespace VacTrack.ViewReport
             foreach (var column in Columns)
             {
                 if (!column.IsVisible) continue;
-                
+
                 if (column.Code == codeEmptyCol)
                 {
                     result.Add(string.Empty);
@@ -245,14 +245,14 @@ namespace VacTrack.ViewReport
 
                 switch (column.Code)
                 {
-                    case "fio":           result.Add($"{item.Fio}");                      break;
-                    case "division":      result.Add($"{item.Division?.Name}");           break;
-                    case "post":          result.Add($"{item.Post?.Name}");               break;
-                    case "dateHire":      result.Add($"{item.DateHire:dd.MM.yyyy}");      break;
-                    case "dateOfBirth":   result.Add($"{item.DateOfBirth:dd.MM.yyyy}");   break;
-                    case "phoneNumber":   result.Add($"{item.PhoneNumber}");              break;
-                    case "address":       result.Add($"{item.Address}");                  break;
-                    case "salary":        result.Add($"{item.Salary:N2}");                break;
+                    case "fio": result.Add($"{item.Fio}"); break;
+                    case "division": result.Add($"{item.Division?.Name}"); break;
+                    case "post": result.Add($"{item.Post?.Name}"); break;
+                    case "dateHire": result.Add($"{item.DateHire:dd.MM.yyyy}"); break;
+                    case "dateOfBirth": result.Add($"{item.DateOfBirth:dd.MM.yyyy}"); break;
+                    case "phoneNumber": result.Add($"{item.PhoneNumber}"); break;
+                    case "address": result.Add($"{item.Address}"); break;
+                    case "salary": result.Add($"{item.Salary:N2}"); break;
                     case "dateDismissal": result.Add($"{item.DateDismissal:dd.MM.yyyy}"); break;
                     default: result.Add(string.Empty); break;
                 }
@@ -325,7 +325,7 @@ namespace VacTrack.ViewReport
             TableRowGroup headerGroup = new();
             TableRow headerRow = new();
 
-            foreach (var col in Columns) 
+            foreach (var col in Columns)
                 if (col.IsVisible)
                     headerRow.Cells.Add(new TableCell(new Paragraph(new Run(col.Name))) { FontWeight = FontWeights.Bold });
 

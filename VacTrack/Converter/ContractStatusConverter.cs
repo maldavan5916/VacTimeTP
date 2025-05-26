@@ -1,6 +1,6 @@
-﻿using System.Globalization;
+﻿using DatabaseManager;
+using System.Globalization;
 using System.Windows.Data;
-using DatabaseManager;
 
 namespace VacTrack.Converter
 {

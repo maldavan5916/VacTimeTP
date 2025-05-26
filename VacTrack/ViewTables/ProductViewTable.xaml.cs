@@ -25,7 +25,7 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Material>? ProductMaterials { get; set; }
 
         public ObservableCollection<Product_Material>? ProdMater { get; set; }
-       
+
         private Product_Material? _SelectedMaterial;
         public Product_Material? SelectedMaterial
         {
@@ -49,7 +49,7 @@ namespace VacTrack.ViewTables
         {
             AddMaterialCommand = new RelayCommand(AddMaterial);
             DeleteMaterialCommand = new RelayCommand(DeleteMaterial);
-            
+
             PropertyChanged += OnPropertyChangedHandler;
         }
 
@@ -80,7 +80,7 @@ namespace VacTrack.ViewTables
             }
         }
 
-        private void AddMaterial(object obj) 
+        private void AddMaterial(object obj)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace VacTrack.ViewTables
             }
         }
 
-        private void DeleteMaterial(object obj) 
+        private void DeleteMaterial(object obj)
         {
             try
             {
@@ -147,10 +147,11 @@ namespace VacTrack.ViewTables
             foreach (var item in Items) { item.Nds = Properties.Settings.Default.Nds; }
         }
 
-        protected override Product CreateNewItem() => new() { 
-            Name = "Новое изделие", 
-            SerialNo = "Серийный номер", 
-            Nds = Properties.Settings.Default.Nds 
+        protected override Product CreateNewItem() => new()
+        {
+            Name = "Новое изделие",
+            SerialNo = "Серийный номер",
+            Nds = Properties.Settings.Default.Nds
         };
 
         protected override bool FilterItem(Product item, string? searchText) =>

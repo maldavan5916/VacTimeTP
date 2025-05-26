@@ -1,8 +1,8 @@
-﻿using System.Globalization; // Для CultureInfo
+﻿using DatabaseManager;
+using System.Globalization; // Для CultureInfo
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using DatabaseManager;
 
 namespace VacTrack.ViewReport
 {
@@ -61,7 +61,7 @@ namespace VacTrack.ViewReport
             {
                 BreakPageBefore = true
             };
-            AddAttachment( newSection );
+            AddAttachment(newSection);
             doc.Blocks.Add(newSection);
 
             return doc;
@@ -111,12 +111,12 @@ namespace VacTrack.ViewReport
             // Заголовок таблицы
             trg.Rows.Add(new TableRow());
             string[] headers = [
-                "Наименование", 
-                "Кол-во", 
+                "Наименование",
+                "Кол-во",
                 "Цена за ед.",
-                "Сумма,\n" + Properties.Settings.Default.Currency, 
-                "ставка НДС", 
-                "Сумма НДС,\n" + Properties.Settings.Default.Currency, 
+                "Сумма,\n" + Properties.Settings.Default.Currency,
+                "ставка НДС",
+                "Сумма НДС,\n" + Properties.Settings.Default.Currency,
                 "Всего с НДС,\n" + Properties.Settings.Default.Currency
             ];
             foreach (string h in headers)
@@ -128,12 +128,12 @@ namespace VacTrack.ViewReport
             // Строка с товаром
             trg.Rows.Add(new TableRow());
             string[] row1 = [
-                $"{SelectContract?.Product?.Name}", 
-                $"{SelectContract?.Count} {SelectContract?.Product?.Unit?.Name}", 
+                $"{SelectContract?.Product?.Name}",
+                $"{SelectContract?.Count} {SelectContract?.Product?.Unit?.Name}",
                 $"{SelectContract?.Product?.Price:N2}",
-                $"{SelectContract?.Summ:N2}", 
-                $"{nds:F2}%", 
-                $"{SelectContract?.Summ * (nds / 100):N2}", 
+                $"{SelectContract?.Summ:N2}",
+                $"{nds:F2}%",
+                $"{SelectContract?.Summ * (nds / 100):N2}",
                 $"{SelectContract?.Summ * (1 + nds / 100):N2}"
             ];
             foreach (string cell in row1)

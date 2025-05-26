@@ -19,7 +19,8 @@ namespace VacTrack.ViewTables
 
         public CounterpartieViewModel() : base(new DatabaseContext()) { TableName = "Контрагенты"; }
 
-        protected override Counterpartie CreateNewItem() => new() { 
+        protected override Counterpartie CreateNewItem() => new()
+        {
             Name = "Новый контрагент",
             LegalAddress = "Юридический адрес",
             PhoneNomber = "Номер телефона",

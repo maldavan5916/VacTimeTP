@@ -1,9 +1,9 @@
-﻿using System.Globalization;
+﻿using DatabaseManager;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using DatabaseManager;
-using Microsoft.EntityFrameworkCore;
 
 namespace VacTrack.ViewReport
 {

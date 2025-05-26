@@ -13,6 +13,10 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
 
+    <Window.Resources>
+        <materialDesign:InvertBooleanConverter x:Key="InvertBooleanConverter"/>
+    </Window.Resources>
+
     <Grid>
         <Menu IsMainMenu="True" VerticalAlignment="Top" materialDesign:MenuAssist.TopLevelMenuItemHeight="20">
             <MenuItem Header="Файл">
@@ -49,7 +53,7 @@
                 <MenuItem Header="О программе" Click="OpenAboutProgram"/>
                 <MenuItem Header="Помощь" Click="OpenHelp"/>
             </MenuItem>
-            <MenuItem Header="Создать пользователя" Click="CreateNewUser_click" Visibility="{Binding NegativeIsLoginVisable}"/>
+            <MenuItem Header="Создать пользователя" Click="CreateNewUser_click" Visibility="{Binding NegativeIsLoginVisable}" IsEnabled="{Binding EnableAdmin, Converter={StaticResource InvertBooleanConverter}}"/>
         </Menu>
         
         <StackPanel 
