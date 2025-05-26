@@ -1,5 +1,4 @@
-﻿using MaterialDesignColors.ColorManipulation;
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
 using System.Windows.Media;
 
 namespace VacTrack.Tools
@@ -69,6 +68,7 @@ namespace VacTrack.Tools
                 float desiredRatio = Properties.Settings.Default.DesiredContrastRatio;
                 theme.ColorAdjustment ??= new ColorAdjustment();
                 theme.ColorAdjustment.DesiredContrastRatio = desiredRatio;
+                theme.ColorAdjustment.Colors = ColorSelection.All;
 
                 if (Enum.TryParse<Contrast>(Properties.Settings.Default.Contrast, out var savedContrast))
                     theme.ColorAdjustment.Contrast = savedContrast;

@@ -103,7 +103,7 @@
 
                         <Button 
                             Content="Сбросить все настройки"
-                            Style="{StaticResource MaterialDesignPaperButton}" 
+                            Style="{StaticResource MaterialDesignPaperSecondaryButton}" 
                             Margin="5, 100, 5, 5"
                             Command="{Binding ResetSettingCommand}"
                             Width="225"
@@ -207,6 +207,9 @@
                                 </StackPanel>
                             </StackPanel>
                         </GroupBox>
+
+                        <controls:UserListView/>
+                    
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -291,11 +294,13 @@
                                                Grid.Column="0"
                                                Margin="10"
                                                VerticalAlignment="Center"
-                                               Text="Выбор цвета" />
+                                               Text="Выбор цвета" 
+                                               Visibility="Collapsed"/>
                                     <ComboBox Grid.Row="2"
                                               Grid.Column="1"
                                               ItemsSource="{Binding ColorSelectionValues}"
-                                              SelectedItem="{Binding ColorSelectionValue}" />
+                                              SelectedItem="{Binding ColorSelectionValue}"
+                                              Visibility="Collapsed" />
                                 </Grid>
                             </materialDesign:PopupBox>
 

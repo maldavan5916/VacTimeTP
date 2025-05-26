@@ -185,7 +185,7 @@ namespace VacTrack
         }
         public static IEnumerable<ColorSelection> ColorSelectionValues => Enum.GetValues(typeof(ColorSelection)).Cast<ColorSelection>();
 
-        private ColorSelection _colorSelectionValue;
+        private ColorSelection _colorSelectionValue = ColorSelection.All;
         public ColorSelection ColorSelectionValue
         {
             get => _colorSelectionValue;
