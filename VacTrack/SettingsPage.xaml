@@ -15,6 +15,10 @@
         <local:SettingViewModel/>
     </Page.DataContext>
 
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+
     <Grid Background="{DynamicResource MaterialDesign.Brush.Background}">
 
         <TabControl Margin="0,0,0,35">
@@ -209,8 +213,14 @@
                             </StackPanel>
                         </Expander>
                         
-                        <controls:UserListView/>
-                        
+                        <Expander 
+                            Foreground="{DynamicResource MaterialDesign.Brush.Secondary}"
+                            Header="Управление другими пользователями"
+                            materialDesign:ElevationAssist.Elevation="Dp12"
+                            Visibility="{Binding CurrentUser.IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <controls:UserListView/>
+                        </Expander>
+
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

@@ -62,8 +62,28 @@
 
                 <materialDesign:DataGridTextColumn 
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
-                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                    Header="Права доступа">
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" >
+                    <materialDesign:DataGridTextColumn.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Права доступа"/>
+                            <materialDesign:PackIcon 
+                                Kind="Help" 
+                                Width="20" 
+                                Height="12" 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Center"
+                                ToolTipService.InitialShowDelay="0"
+                                >
+                                <materialDesign:PackIcon.ToolTip>
+                                    <TextBlock>
+                                        r - чтение<LineBreak/>
+                                        w - запись<LineBreak/>
+                                        a - администрирование
+                                    </TextBlock>
+                                </materialDesign:PackIcon.ToolTip>
+                            </materialDesign:PackIcon>
+                        </StackPanel>
+                    </materialDesign:DataGridTextColumn.Header>
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Access">
                             <Binding.ValidationRules>

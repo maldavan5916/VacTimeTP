@@ -41,5 +41,8 @@
                 SetProperty(ref _access, value?.ToLower());
             }
         }
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public bool IsAdmin { get => Access != null && Access.Contains('a'); }
     }
 }

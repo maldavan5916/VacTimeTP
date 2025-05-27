@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Windows.System;
 
 namespace VacTrack
 {
@@ -45,9 +46,15 @@ namespace VacTrack
         private void LogOunt(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.LogInUserId = -1;
-            ThisViewModel.IsLogin = false;
             Properties.Settings.Default.Save();
+            Application.Current.Properties["CurrentUser"] = null;
+
+            ThisViewModel.IsLogin = false;
+            
             ThisViewModel.CheckAdmin();
+            
+            _pagesCache.Clear();
+            MainFrame.Navigate(new HomePage());
         }
 
         private void OpenAboutProgram(object sender, RoutedEventArgs e) => new AboutProgram().ShowDialog();
@@ -176,6 +183,7 @@ namespace VacTrack
                 SetProperty(ref _isLogin, value);
                 OnPropertyChanged(nameof(IsLoginVisable));
                 OnPropertyChanged(nameof(NegativeIsLoginVisable));
+                if (!value) Message = string.Empty;
             }
         }
 
@@ -218,7 +226,7 @@ namespace VacTrack
         {
             EnableAdmin = await Db.Set<Users>()
                 .AsNoTracking()
-                .AnyAsync(u => u.Access != null && u.Access.Contains("rwa"));
+                .AnyAsync(u => u.Access != null && u.Access.Contains("a"));
         }
 
         private async void CheckUser()
@@ -271,7 +279,16 @@ namespace VacTrack
                 Properties.Settings.Default.Save();
             }
 
-            Message = IsLogin ? "Успешно" : "Не верный логин или пароль";
+            Application.Current.Properties["CurrentUser"] = user;
+
+            if (IsLogin)
+            {
+                Message = "Успешно";
+                LoginString = string.Empty;    OnPropertyChanged(nameof(LoginString));
+                PasswordString = string.Empty; OnPropertyChanged(nameof(PasswordString));
+            }
+            else
+                Message = "Не верный логин или пароль";
         }
     }
 }
