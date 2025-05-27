@@ -12,6 +12,7 @@ namespace VacTrack.Validators
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             var input = (value ?? "").ToString();
+            if (input == null) return new ValidationResult(false, $"Ошибка валидации, значение нет");
 
             if (Length == 0)
             {

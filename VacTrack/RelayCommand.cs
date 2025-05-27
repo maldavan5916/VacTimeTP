@@ -1,23 +1,24 @@
-﻿using System.Windows.Input;
+﻿#nullable disable
 
-public class RelayCommand : ICommand
+using System.Windows.Input;
+
+namespace VacTrack
 {
-    private readonly Action<object> _execute;
-    private readonly Predicate<object> _canExecute;
-
-    public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
+    public class RelayCommand(Action<object> execute, Predicate<object> canExecute = null) : ICommand
     {
-        _execute = execute;
-        _canExecute = canExecute;
-    }
+        private readonly Action<object> _execute = execute;
+        private readonly Predicate<object> _canExecute = canExecute;
 
-    public bool CanExecute(object parameter) => _canExecute?.Invoke(parameter) ?? true;
+        public bool CanExecute(object parameter) => _canExecute?.Invoke(parameter) ?? true;
 
-    public void Execute(object parameter) => _execute(parameter);
+        public void Execute(object parameter) => _execute(parameter);
 
-    public event EventHandler CanExecuteChanged
-    {
-        add => CommandManager.RequerySuggested += value;
-        remove => CommandManager.RequerySuggested -= value;
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
     }
 }
+
+#nullable restore

@@ -204,7 +204,7 @@ namespace VacTrack
 
         private readonly PaletteHelper _paletteHelper = new();
         private readonly Theme _theme;
-        private readonly DatabaseContext Db = new();
+        private readonly DatabaseContext Db = new(false);
 
         public string? OldPasswordString { get; set; }
         public string? NewPasswordString { get; set; }
@@ -251,19 +251,8 @@ namespace VacTrack
                 _contrastValue = colorAdjustment.Contrast;
                 _colorSelectionValue = colorAdjustment.Colors;
             }
-
-            if (Application.Current.Properties.Contains("CurrentUser") &&
-                Application.Current.Properties["CurrentUser"] is Users user)
-                _currentUser = Db.Set<Users>().First(u => u.Id == user.Id);
-            else
-#if DEBUG
-            {
-                _currentUser = new Users { Login = "TestUsr", Password = string.Empty, Access = "rwa" };
-                System.Diagnostics.Debug.WriteLine(">>> Invalid or missing `CurrentUser` in application properties.");
-            }
-#else
-                throw new ArgumentException("Invalid or missing `CurrentUser` in application properties.");
-#endif
+            
+            _currentUser = Tools.AppSession.CurrentUser;
 
             if (_employees == null) throw new ArgumentException("`_employees` are not initialized");
         }
