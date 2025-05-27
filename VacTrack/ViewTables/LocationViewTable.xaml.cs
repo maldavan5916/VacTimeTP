@@ -19,7 +19,9 @@ namespace VacTrack.ViewTables
     {
         public ObservableCollection<Employee>? LocalEmployee { get; set; }
 
-        public LocationViewModel() : base(new DatabaseContext()) { }
+        public LocationViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly)) 
+        { }
 
         protected override void LoadData()
         {

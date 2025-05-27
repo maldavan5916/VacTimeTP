@@ -20,7 +20,9 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Unit>? MaterialUnit { get; set; }
         public ObservableCollection<Location>? MaterialLocation { get; set; }
 
-        public MaterialViewModel() : base(new DatabaseContext()) { }
+        public MaterialViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly)) 
+        { }
 
         protected override void LoadData()
         {

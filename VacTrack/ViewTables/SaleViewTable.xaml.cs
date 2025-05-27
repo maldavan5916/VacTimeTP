@@ -23,7 +23,8 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Contract>? SaleContract { get; set; }
 
         public ICommand PrintCommand { get; }
-        public SaleViewModel() : base(new DatabaseContext())
+        public SaleViewModel() :
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly))
         {
             PrintCommand = new RelayCommand(PrintDoc);
         }
@@ -37,7 +38,7 @@ namespace VacTrack.ViewTables
             DbSet
                 .Include(e => e.Contract)
                     .ThenInclude(c => c != null ? c.Product : null)
-                    .ThenInclude(p => p != null ? p.Unit : null)
+                        .ThenInclude(p => p != null ? p.Unit : null)
                 .Include(e => e.Contract)
                     .ThenInclude(c => c != null ? c.Counterpartie : null)
                 .Load();

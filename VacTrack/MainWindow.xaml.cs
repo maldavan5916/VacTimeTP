@@ -47,7 +47,7 @@ namespace VacTrack
         {
             Properties.Settings.Default.LogInUserId = -1;
             Properties.Settings.Default.Save();
-            Application.Current.Properties["CurrentUser"] = null;
+            Application.Current.Properties.Clear();
 
             ThisViewModel.IsLogin = false;
             
@@ -158,7 +158,7 @@ namespace VacTrack
 
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private readonly DatabaseContext Db = new();
+        private readonly DatabaseContext Db = new(false);
 
         #region interface implemented 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -244,7 +244,7 @@ namespace VacTrack
                     if (user != null)
                     {
                         IsLogin = true;
-                        Application.Current.Properties["CurrentUser"] = user;
+                        Tools.AppSession.CurrentUser = user;
                     }
                     else
                     {
@@ -279,10 +279,9 @@ namespace VacTrack
                 Properties.Settings.Default.Save();
             }
 
-            Application.Current.Properties["CurrentUser"] = user;
-
-            if (IsLogin)
+            if (IsLogin && user != null)
             {
+                Tools.AppSession.CurrentUser = user;
                 Message = "Успешно";
                 LoginString = string.Empty;    OnPropertyChanged(nameof(LoginString));
                 PasswordString = string.Empty; OnPropertyChanged(nameof(PasswordString));

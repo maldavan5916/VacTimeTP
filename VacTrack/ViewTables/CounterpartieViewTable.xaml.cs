@@ -17,7 +17,9 @@ namespace VacTrack.ViewTables
     {
         public List<CounterpartieType> Types { get; } = [CounterpartieType.Fiz, CounterpartieType.Ur];
 
-        public CounterpartieViewModel() : base(new DatabaseContext()) { TableName = "Контрагенты"; }
+        public CounterpartieViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly)) 
+        { TableName = "Контрагенты"; }
 
         protected override Counterpartie CreateNewItem() => new()
         {

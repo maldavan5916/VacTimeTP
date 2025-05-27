@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseManager
 {
@@ -18,14 +19,26 @@ namespace DatabaseManager
         public DbSet<Product_Material> Product_Materials { get; set; } = null!;
         public DbSet<Users> Users { get; set; }
 
-        static DatabaseContext()
+        private readonly bool _readOnly;
+
+        public DatabaseContext(bool readOnly = false)
         {
             SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlcipher());
+            _readOnly = readOnly;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=VacDB.db;Password=MyPass12345");
+            var builder = new SqliteConnectionStringBuilder
+            {
+                DataSource = "VacDB.db",
+                Password = "MyPass12345",
+                Mode = _readOnly ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWrite,
+                Pooling = !_readOnly
+            };
+
+
+            optionsBuilder.UseSqlite(builder.ToString()); //"Data Source=VacDB.db;Password=MyPass12345"
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

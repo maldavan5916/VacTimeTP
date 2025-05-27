@@ -16,10 +16,13 @@ namespace VacTrack.ViewTables
 
     public class PostViewModel : BaseViewModel<Post>
     {
-        public PostViewModel() : base(new DatabaseContext()) { TableName = "Должности"; }
+        public PostViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly)) 
+        { TableName = "Должности"; }
 
         protected override Post CreateNewItem() => new() { Name = "Новая должность" };
-        protected override bool FilterItem(Post item, string filter) =>
+        protected override bool FilterItem(Post item, string? filter) =>
+            string.IsNullOrWhiteSpace(filter) ||
             item.Name != null && item.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
     }
 }

@@ -16,10 +16,13 @@ namespace VacTrack.ViewTables
 
     public class UnitViewModel : BaseViewModel<Unit>
     {
-        public UnitViewModel() : base(new DatabaseContext()) { TableName = "Единицы измерения"; }
+        public UnitViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly)) 
+        { TableName = "Единицы измерения"; }
 
         protected override Unit CreateNewItem() => new() { Name = "Новая единица" };
-        protected override bool FilterItem(Unit item, string filter) =>
+        protected override bool FilterItem(Unit item, string? filter) =>
+            string.IsNullOrWhiteSpace(filter) ||
             item.Name != null && item.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
     }
 }

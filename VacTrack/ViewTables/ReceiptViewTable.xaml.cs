@@ -28,7 +28,8 @@ namespace VacTrack.ViewTables
         public ICommand AddItemsCommand { get; }
         public new ICommand DeleteCommand { get; }
 
-        public ReceiptViewModel() : base(new DatabaseContext())
+        public ReceiptViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly))
         {
             PrintCommand = new RelayCommand(PrintDoc);
             AddItemsCommand = new RelayCommand(AddItems);

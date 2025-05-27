@@ -58,7 +58,8 @@ namespace VacTrack.DialogWindows
         public Location? SelectLocation { get; set; }
         public DateTime SelectDate { get; set; }
 
-        public ReceiptsAddVM() : base(new DatabaseContext())
+        public ReceiptsAddVM() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly))
         {
             var MaterDbSet = Db.Set<Material>();
             MaterDbSet.Include(m => m.Unit).Load();

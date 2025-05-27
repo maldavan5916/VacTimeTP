@@ -30,7 +30,8 @@ namespace VacTrack.ViewTables
             ];
 
         public ICommand PrintCommand { get; }
-        public ContractViewModel() : base(new DatabaseContext())
+        public ContractViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly))
         {
             PrintCommand = new RelayCommand(PrintContract);
         }

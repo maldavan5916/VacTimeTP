@@ -20,7 +20,9 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Division>? EmployDivisions { get; set; }
         public ObservableCollection<Post>? EmployPosts { get; set; }
 
-        public EmployeeViewModel() : base(new DatabaseContext()) { }
+        public EmployeeViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly)) 
+        { }
 
         protected override void LoadData()
         {

@@ -19,7 +19,8 @@ namespace VacTrack.Controls
     {
         public new ICommand AddCommand { get; }
 
-        public UserListViewModel() : base(new DatabaseContext())
+        public UserListViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly))
         {
             TableName = "Пользователи";
             AddCommand = new RelayCommand(AddUser);

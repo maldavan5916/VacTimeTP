@@ -20,7 +20,7 @@ namespace VacTrack.Validators
             if (!Regex.IsMatch(login, @"^[а-яА-Яa-zA-Z0-9_]+$"))
                 return new ValidationResult(false, "Логин должен содержать только буквы, цифры и подчёркивания.");
 
-            using (var db = new DatabaseContext())
+            using (var db = new DatabaseContext(true))
                 if (db.Users.Any(u => u.Login == login))
                     return new ValidationResult(false, "Такой пользователь уже есть.");
 

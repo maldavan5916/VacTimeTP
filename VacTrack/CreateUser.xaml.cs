@@ -65,7 +65,7 @@ namespace VacTrack
             if (PasswordString != SecondPasswordString) { Message = "Пароли не совпадают"; return; }
             if (LoginString == null || PasswordString == null) { Message = "Пароль не введен"; return; }
 
-            using (var db = new DatabaseContext())
+            using (var db = new DatabaseContext(false))
             {
                 var newUser = new Users
                 {

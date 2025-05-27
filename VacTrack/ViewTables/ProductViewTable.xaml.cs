@@ -45,7 +45,8 @@ namespace VacTrack.ViewTables
         public ICommand AddMaterialCommand { get; }
         public ICommand DeleteMaterialCommand { get; }
 
-        public ProductViewModel() : base(new DatabaseContext())
+        public ProductViewModel() : 
+            base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly))
         {
             AddMaterialCommand = new RelayCommand(AddMaterial);
             DeleteMaterialCommand = new RelayCommand(DeleteMaterial);

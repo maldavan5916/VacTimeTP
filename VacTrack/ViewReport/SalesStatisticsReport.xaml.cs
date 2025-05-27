@@ -154,7 +154,7 @@ namespace VacTrack.ViewReport
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         #endregion
 
-        private readonly DatabaseContext Db = new();
+        private readonly DatabaseContext Db = new(true);
         private DbSet<Sale> DbSet;
         private ObservableCollection<Sale> Sales;
 

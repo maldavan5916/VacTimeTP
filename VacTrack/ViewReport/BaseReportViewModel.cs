@@ -87,7 +87,7 @@ namespace VacTrack.ViewReport
 
         public BaseReportViewModel()
         {
-            Db = new DatabaseContext();
+            Db = new DatabaseContext(true);
             Db.Database.EnsureCreated();
             LoadData();
             if (DbSet == null || _Items == null) throw new Exception("Data loading error");
@@ -108,7 +108,7 @@ namespace VacTrack.ViewReport
             {
                 _isRefreshing = true;
 
-                Db = new DatabaseContext();
+                Db = new DatabaseContext(true);
                 // Повторная загрузка данных, если нужно
                 LoadData();  // Если эта строка меняет Items, то цикл не повторится
 

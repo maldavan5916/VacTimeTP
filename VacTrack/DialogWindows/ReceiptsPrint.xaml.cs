@@ -77,7 +77,7 @@ namespace VacTrack.DialogWindows
 
         public ReceiptsPrintVM()
         {
-            Db = new DatabaseContext();
+            Db = new DatabaseContext(true);
 
             ReceiptCounterpartie = new ObservableCollection<Counterpartie>([.. Db.Counterparties]);
             ReceiptLocation = new ObservableCollection<Location>([.. Db.Locations]);
