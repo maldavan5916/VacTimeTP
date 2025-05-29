@@ -50,8 +50,10 @@
                     </DataGridCheckBoxColumn.HeaderStyle>
                 </DataGridCheckBoxColumn>
 
-                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                   Header="Номер">
+                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
+                                                   ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
+                                                   Header="Номер"
+                                                   IsReadOnly="True">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Name">
                             <Binding.ValidationRules>

@@ -18,11 +18,14 @@
         private string? _name;
         public required string Name
         {
-            get => _name ?? throw new InvalidOperationException("Name must be initialized.");
+            //_name ?? throw new InvalidOperationException("Name must be initialized.");
+            get => $"ДП-{(Id > 0 ? Id : new DatabaseContext().Contracts.Any()
+                ? new DatabaseContext().Contracts.Max(e => e.Id) + 1
+                : 1):D3}";
             set
             {
                 _name = value;
-                OnPropertyChanged(nameof(Name));
+                SetProperty(ref _name, value);
             }
         }
 
