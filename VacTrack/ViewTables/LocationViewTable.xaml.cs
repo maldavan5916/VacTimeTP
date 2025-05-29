@@ -12,7 +12,7 @@ namespace VacTrack.ViewTables
     {
         private LocationViewModel ThisViewModel => (LocationViewModel)DataContext;
         public LocationViewTable() => InitializeComponent();
-        public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
+        public void OnNavigatedFromCache() => ThisViewModel.Refresh();
     }
 
     public class LocationViewModel : BaseViewModel<Location>

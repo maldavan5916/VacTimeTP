@@ -10,7 +10,7 @@ namespace VacTrack.ViewTables
     {
         private CounterpartieViewModel ThisViewModel => (CounterpartieViewModel)DataContext;
         public CounterpartieViewTable() => InitializeComponent();
-        public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
+        public void OnNavigatedFromCache() => ThisViewModel.Refresh();
     }
 
     public class CounterpartieViewModel : BaseViewModel<Counterpartie>

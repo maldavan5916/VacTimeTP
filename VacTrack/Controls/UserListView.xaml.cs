@@ -9,10 +9,7 @@ namespace VacTrack.Controls
     /// </summary>
     public partial class UserListView : UserControl
     {
-        public UserListView()
-        {
-            InitializeComponent();
-        }
+        public UserListView() => InitializeComponent();
     }
 
     public class UserListViewModel : ViewTables.BaseViewModel<Users>

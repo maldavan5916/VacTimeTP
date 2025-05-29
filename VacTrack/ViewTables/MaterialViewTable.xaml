@@ -19,6 +19,14 @@
         <converter:DockPanelWidthConverter x:Key="DockPanelWidthConverter"/>
     </Page.Resources>
 
+    <Page.InputBindings>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding SaveCommand}"/>
+        <KeyBinding Key="Z" Modifiers="Ctrl" Command="{Binding CancelCommand}"/>
+        <KeyBinding Key="R" Modifiers="Ctrl" Command="{Binding RefreshCommand}"/>
+        <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="{Binding AddCommand}"/>
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}"/>
+    </Page.InputBindings>
+
     <Grid>
         <Label Content="{Binding TableName}" Foreground="{DynamicResource MaterialDesignBody}" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
@@ -124,6 +132,15 @@
                 </materialDesign:DataGridTextColumn>
 
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить" Command="{Binding AddCommand}" Icon="{materialDesign:PackIcon Kind=Plus}"/>
+                    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" Icon="{materialDesign:PackIcon Kind=Delete}" InputGestureText="delete"/>
+                    <MenuItem Header="Сохранить" Command="{Binding SaveCommand}" Icon="{materialDesign:PackIcon Kind=ContentSave}" InputGestureText="Ctrl+S"/>
+                    <MenuItem Header="Отмена" Command="{Binding CancelCommand}" Icon="{materialDesign:PackIcon Kind=Undo}" InputGestureText="Ctrl+Z"/>
+                    <MenuItem Header="Обновить" Command="{Binding RefreshCommand}" Icon="{materialDesign:PackIcon Kind=Refresh}" InputGestureText="Ctrl+R"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
 
         <DockPanel LastChildFill="False" VerticalAlignment="Bottom" Height="35" x:Name="MainDockPanel">
@@ -144,7 +161,14 @@
                        Foreground="{Binding MessageBrush}" 
                        TextTrimming="CharacterEllipsis" 
                        Margin="5,0,3,0"
-                       MaxWidth="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}"/>
+                       MaxWidth="{Binding ActualWidth, ElementName=MainDockPanel, Converter={StaticResource DockPanelWidthConverter}}">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Копировать" Command="{Binding MessageToClipboardCommand}"/>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
+            
             <Button Content="Отмена" Style="{StaticResource MaterialDesignPaperButton}" Height="25" FontSize="12" Margin="0,0,5,0" DockPanel.Dock="Right" Cursor="Hand" Command="{Binding CancelCommand}" Width="95" ToolTip="отменяет не сохраненые изменения"/>
         </DockPanel>
     </Grid>

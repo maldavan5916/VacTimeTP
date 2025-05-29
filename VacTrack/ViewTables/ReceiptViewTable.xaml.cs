@@ -16,7 +16,7 @@ namespace VacTrack.ViewTables
     {
         private ReceiptViewModel ThisViewModel => (ReceiptViewModel)DataContext;
         public ReceiptViewTable() => InitializeComponent();
-        public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
+        public void OnNavigatedFromCache() => ThisViewModel.Refresh();
     }
 
     public class ReceiptViewModel : BaseViewModel<Receipt>

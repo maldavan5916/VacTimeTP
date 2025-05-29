@@ -12,7 +12,7 @@ namespace VacTrack.ViewTables
     {
         private EmployeeViewModel ThisViewModel => (EmployeeViewModel)DataContext;
         public EmployeeViewTable() => InitializeComponent();
-        public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
+        public void OnNavigatedFromCache() => ThisViewModel.Refresh();
     }
 
     public class EmployeeViewModel : BaseViewModel<Employee>

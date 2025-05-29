@@ -133,6 +133,7 @@ namespace VacTrack.ViewTables
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand MessageToClipboardCommand { get; }
+        public ICommand RefreshCommand {  get; }
 
         public BaseViewModel(DatabaseContext db)
         {
@@ -147,6 +148,7 @@ namespace VacTrack.ViewTables
             SaveCommand = new RelayCommand(SaveChanges);
             CancelCommand = new RelayCommand(CancelChanges);
             MessageToClipboardCommand = new RelayCommand(MessageToClipboard);
+            RefreshCommand = new RelayCommand(Refresh);
 
             foreach (var model in Items)
             {
@@ -314,7 +316,12 @@ namespace VacTrack.ViewTables
             _resetTimer?.Stop();
         }
 
-        public void OpenFromCache() => LoadData();
+        public void Refresh(object obj = null!)
+        {
+            LoadData();
+            Message = "Обновлено";
+            MessageBrush = Brushes.Green;
+        }
 
         private static void SelectAll(bool select, IEnumerable<T> models)
         {

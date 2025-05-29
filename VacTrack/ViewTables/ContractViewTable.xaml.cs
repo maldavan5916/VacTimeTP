@@ -15,7 +15,7 @@ namespace VacTrack.ViewTables
     {
         private ContractViewModel ThisViewModel => (ContractViewModel)DataContext;
         public ContractViewTable() => InitializeComponent();
-        public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
+        public void OnNavigatedFromCache() => ThisViewModel.Refresh();
     }
 
     public class ContractViewModel : BaseViewModel<Contract>

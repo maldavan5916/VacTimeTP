@@ -12,7 +12,7 @@ namespace VacTrack.ViewTables
     {
         private MaterialViewModel ThisViewModel => (MaterialViewModel)DataContext;
         public MaterialViewTable() => InitializeComponent();
-        public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
+        public void OnNavigatedFromCache() => ThisViewModel.Refresh();
     }
 
     public class MaterialViewModel : BaseViewModel<Material>

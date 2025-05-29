@@ -15,7 +15,7 @@ namespace VacTrack.ViewTables
     {
         private SaleViewModel ThisViewModel => (SaleViewModel)DataContext;
         public SaleViewTable() => InitializeComponent();
-        public void OnNavigatedFromCache() => ThisViewModel.OpenFromCache();
+        public void OnNavigatedFromCache() => ThisViewModel.Refresh();
     }
 
     public class SaleViewModel : BaseViewModel<Sale>
