@@ -101,7 +101,7 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
-                <materialDesign:DataGridTextColumn Header="Количество">
+                <materialDesign:DataGridTextColumn Header="Наличие">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="Count">
                             <Binding.ValidationRules>
@@ -121,7 +121,7 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
-                <materialDesign:DataGridTextColumn Header="Стоимость" materialDesign:TextFieldAssist.SuffixText="{Binding Currency}" IsReadOnly="True">
+                <materialDesign:DataGridTextColumn Header="Сумма" materialDesign:TextFieldAssist.SuffixText="{Binding Currency}" IsReadOnly="True">
                     <materialDesign:DataGridTextColumn.Binding>
                         <Binding Path="GetSum">
                             <Binding.ValidationRules>

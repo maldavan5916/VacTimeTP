@@ -344,7 +344,7 @@ namespace VacTrack.ViewReport
             };
             doc.Blocks.Add(header);
 
-            Paragraph title = new(new Run("Отчет по сотрудникам"))
+            Paragraph title = new(new Run("Список сотрудников"))
             {
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
