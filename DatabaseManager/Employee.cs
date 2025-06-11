@@ -172,5 +172,15 @@ namespace DatabaseManager
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public string GetFioAndPost { get => $"{Fio}\t({Post?.Name})"; }
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public string PersonnelNumber
+        {  //get => $"ВТ{Id:D3}";
+            get
+            {
+                const string chars = "0123456789";
+                var random = new Random(Id);
+                return "ВТ" + new string([.. Enumerable.Range(0, 3).Select(_ => chars[random.Next(chars.Length)])]);
+            }
+        }
     }
 }

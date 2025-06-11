@@ -49,6 +49,7 @@ namespace VacTrack.ViewTables
 
         protected override bool FilterItem(Employee item, string? searchText) =>
             string.IsNullOrWhiteSpace(searchText) ||
+            item.PersonnelNumber?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
             item.Fio?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
             item.Division?.Name?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true ||
             item.Post?.Name?.Contains(searchText, StringComparison.CurrentCultureIgnoreCase) == true;
