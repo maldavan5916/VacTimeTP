@@ -1,6 +1,7 @@
 ﻿using DatabaseManager;
 using LiveChartsCore;
 using LiveChartsCore.Kernel.Sketches;
+using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.SKCharts;
@@ -188,6 +189,21 @@ namespace VacTrack.ViewReport
             }
         }
 
+        private bool _isVisableMarker = false;
+        public bool IsVisableMarker
+        {
+            get => _isVisableMarker;
+            set
+            {
+                if (value != _isVisableMarker)
+                {
+                    _isVisableMarker = value;
+                    CreateGraphics();
+                    OnPropertyChanged(nameof(IsVisableMarker));
+                }
+            }
+        }
+
         private record YearMonth(int Year, int Month);
 
         private List<IGrouping<YearMonth, Sale>> GroupSales => [.. Sales
@@ -222,12 +238,18 @@ namespace VacTrack.ViewReport
             }
         ];
 
+        private SKColor _textColor;
+
         public ICommand RefreshCommand { get; set; }
 
         public SalesStatisticsViewModel()
         {
             RefreshCommand = new RelayCommand(Refresh);
             LoadData();
+
+
+            _textColor = new PaletteHelper().GetTheme().GetBaseTheme() == BaseTheme.Dark ? 
+                SKColors.White : SKColors.Black;
 
             if (Sales == null || DbSet == null) throw new ArgumentNullException(nameof(Sales));
 
@@ -279,13 +301,17 @@ namespace VacTrack.ViewReport
                 series.Add(new LineSeries<int>
                 {
                     Name = "Всего продаж",
-                    Values = totalSaleCount
+                    Values = totalSaleCount,
+                    DataLabelsPosition = DataLabelsPosition.Top,
+                    DataLabelsPaint = IsVisableMarker ? new SolidColorPaint(_textColor) : null,
                 });
             else
                 series.Add(new LineSeries<double>
                 {
                     Name = "Всего продаж " + Properties.Settings.Default.Currency,
-                    Values = totalSaleSumm
+                    Values = totalSaleSumm,
+                    DataLabelsPosition = DataLabelsPosition.Top,
+                    DataLabelsPaint = IsVisableMarker ? new SolidColorPaint(_textColor) : null,
                 });
 
             return [.. series];

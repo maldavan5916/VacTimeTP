@@ -70,6 +70,14 @@
                 Style="{StaticResource MaterialDesignChoiceChipPrimaryRadioButton}"
             />
 
+            <Label Content="|" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontFamily="Consolas" Foreground="{DynamicResource MaterialDesign.Brush.Secondary}"/>
+
+            <CheckBox
+                Content="Отображать маркер"
+                IsChecked="{Binding IsVisableMarker}"
+                Style="{StaticResource MaterialDesignFilterChipPrimaryCheckBox}"
+                />
+
         </StackPanel>
         <lvc:CartesianChart
             x:Name="chartControl"
