@@ -31,7 +31,7 @@ namespace VacTrack.ViewTables
 
         protected override void LoadData()
         {
-            TableName = "выбытие";
+            TableName = "Выбытие";
             SaleContract = new ObservableCollection<Contract>([.. Db.Contracts]);
 
             DbSet = Db.Set<Sale>();

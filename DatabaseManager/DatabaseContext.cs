@@ -33,7 +33,7 @@ namespace DatabaseManager
             {
                 DataSource = "VacDB.db",
                 Password = "MyPass12345",
-                Mode = _readOnly ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWrite,
+                Mode = _readOnly ? SqliteOpenMode.ReadOnly : SqliteOpenMode.ReadWriteCreate,
                 Pooling = !_readOnly
             };
 

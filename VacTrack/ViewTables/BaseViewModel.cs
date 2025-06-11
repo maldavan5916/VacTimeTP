@@ -318,6 +318,8 @@ namespace VacTrack.ViewTables
 
         public void Refresh(object obj = null!)
         {
+            Db.Dispose();
+            Db = new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly);
             LoadData();
             Message = "Обновлено";
             MessageBrush = Brushes.Green;
