@@ -156,6 +156,13 @@ namespace DatabaseManager
             }
         }
 
+        [NotMapped]
+        public int CountWithoutCheck
+        {
+            get => _count;
+            set => SetProperty(ref _count, value);
+        }
+
         private double _price;
         public double Price
         {
