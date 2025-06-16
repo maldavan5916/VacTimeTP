@@ -318,6 +318,7 @@ namespace VacTrack.ViewTables
 
         public void Refresh(object obj = null!)
         {
+            Items.Clear();
             Db.Dispose();
             Db = new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly);
             LoadData();

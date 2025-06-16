@@ -86,7 +86,7 @@
                 <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
                                                    Header="Количество">
                     <materialDesign:DataGridTextColumn.Binding>
-                        <Binding Path="Count">
+                        <Binding Path="Count" ValidatesOnNotifyDataErrors="True" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validators:PositiveNumberValidationRule/>
                             </Binding.ValidationRules>

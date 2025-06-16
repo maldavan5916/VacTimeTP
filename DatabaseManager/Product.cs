@@ -109,7 +109,49 @@ namespace DatabaseManager
             get => _count;
             set
             {
-                _count = value > 0 ? value : 0;
+                if (value > _count)
+                {
+                    int delta = value - _count;
+
+                    // Check if there are enough materials
+                    foreach (var item in _productMaterials)
+                    {
+                        if (item.Material == null)
+                            continue;
+
+                        int required = delta * item.Quantity;
+                        if (required > item.Material.Count)
+                        {
+#if !DEBUG
+                            throw new InvalidOperationException(
+                                $"Недостаточно материала '{item.Material.Name}': требуется {required}, в наличии {item.Material.Count}");
+#else
+                            System.Diagnostics.Debug.WriteLine(
+                                $"Недостаточно материала '{item.Material.Name}': требуется {required}, в наличии {item.Material.Count}");
+                            return;
+#endif
+                        }
+                    }
+                    // Deduct materials
+                    foreach (var item in _productMaterials)
+                        if (item.Material != null)
+                            item.Material.Count -= delta * item.Quantity;
+
+                    _count = value;
+                }
+                else if (value < _count)
+                {
+                    int delta = _count - value;
+
+                    // restore materials
+                    foreach (var item in _productMaterials)
+                        if (item.Material != null)
+                            item.Material.Count += delta * item.Quantity;
+
+                    _count = value;
+                }
+                else return;
+
                 OnPropertyChanged(nameof(Count));
             }
         }
