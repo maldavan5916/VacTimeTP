@@ -37,8 +37,8 @@
             </MenuItem>
             <MenuItem Header="Документы" Visibility="{Binding IsLoginVisable}">
                 <MenuItem Header="Договора" Click="NavigateToPage" Tag="Contract"/>
-                <MenuItem Header="Поступления" Click="NavigateToPage" Tag="Receipt"/>
-                <MenuItem Header="Выбытие" Click="NavigateToPage" Tag="Sale"/>
+                <MenuItem Header="Поступления материалов и комплектующих" Click="NavigateToPage" Tag="Receipt"/>
+                <MenuItem Header="Реализация продукции" Click="NavigateToPage" Tag="Sale"/>
             </MenuItem>
             <MenuItem Header="Отчёты" Visibility="{Binding IsLoginVisable}">
                 <MenuItem Header="Отчет по использованию материалов на изделия" Click="NavigateToPage" Tag="MaterialUsageReport" ToolTip="Показывает, какие материалы использовались для производства определенных изделий, их количество и стоимость."/>

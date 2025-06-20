@@ -23,6 +23,7 @@ namespace VacTrack.ViewTables
         public ObservableCollection<Contract>? SaleContract { get; set; }
 
         public ICommand PrintCommand { get; }
+
         public SaleViewModel() :
             base(new DatabaseContext(Tools.AppSession.CurrentUserIsReadOnly))
         {
@@ -31,7 +32,7 @@ namespace VacTrack.ViewTables
 
         protected override void LoadData()
         {
-            TableName = "Выбытие";
+            TableName = "Реализация продукции";
             SaleContract = new ObservableCollection<Contract>([.. Db.Contracts]);
 
             DbSet = Db.Set<Sale>();
