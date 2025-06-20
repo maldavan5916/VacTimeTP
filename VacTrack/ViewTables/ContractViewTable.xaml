@@ -144,6 +144,15 @@
                     SelectedValueBinding="{Binding Status, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ContractStatusConverter}}"
                     IsEditable="False"/>
 
+                <materialDesign:DataGridTextColumn 
+                    Header="Осталось сделать"
+                    ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"
+                    IsReadOnly="True">
+                    <materialDesign:DataGridTextColumn.Binding>
+                        <Binding Path="CntLeft"/>
+                    </materialDesign:DataGridTextColumn.Binding>
+                </materialDesign:DataGridTextColumn>
+
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

@@ -112,8 +112,7 @@
             get => _count;
             set
             {
-                _count = value > 0 ? value : 0;
-                OnPropertyChanged(nameof(Count));
+                SetProperty(ref _count, value > 0 ? value : 0);
             }
         }
 
@@ -137,5 +136,20 @@
 
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public string DisplayFull => $"Назвение: {Name};\nКому: {Counterpartie?.Name};\nИзделие: {Product?.Name}";
+
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public int CntLeft
+        {
+            get
+            {
+                int available = _count - _sales.Sum(s => s.Count);
+
+                //if (available == _count) Status = ContractStatus.created;
+                //else if (available == 0) Status = ContractStatus.completed;
+                //else                     Status = ContractStatus.running;
+
+                return available;
+            }
+        }
     }
 }

@@ -104,6 +104,10 @@
                     _count = value;
                 }
 
+                if (Contract.CntLeft == Contract.Count) Contract.Status = ContractStatus.created;
+                else if (Contract.CntLeft == 0) Contract.Status = ContractStatus.completed;
+                else Contract.Status = ContractStatus.running;
+
                 OnPropertyChanged(nameof(Count));
             }
         }

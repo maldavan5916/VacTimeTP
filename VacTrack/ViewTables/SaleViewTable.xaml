@@ -108,16 +108,45 @@
                     </materialDesign:DataGridTextColumn.Binding>
                 </materialDesign:DataGridTextColumn>
 
-                <materialDesign:DataGridTextColumn EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}" 
-                                           Header="Количество">
-                    <materialDesign:DataGridTextColumn.Binding>
-                        <Binding Path="Count" ValidatesOnNotifyDataErrors="True" UpdateSourceTrigger="PropertyChanged">
-                            <Binding.ValidationRules>
-                                <validators:PositiveNumberValidationRule/>
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </materialDesign:DataGridTextColumn.Binding>
-                </materialDesign:DataGridTextColumn>
+                <DataGridTemplateColumn Header="Количество">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Count, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox 
+                                ToolTipService.InitialShowDelay="0"
+                                >
+                                <Binding Path="Count" ValidatesOnNotifyDataErrors="True" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <validators:PositiveNumberValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                                
+                                <TextBox.ToolTip>
+                                    <StackPanel>
+                                        <TextBlock>    
+                                            <Run Text="Осталось изготовить по договору: "/>
+                                            <Run Text="{Binding Contract.CntLeft, Mode=OneTime}"/>
+                                            <Run Text=" из "/>
+                                            <Run Text="{Binding Contract.Count, Mode=OneTime}"/>
+                                            <Run Text="{Binding Contract.Product.Unit.Name, Mode=OneTime}"/>
+                                            <Run Text="."/>
+                                        </TextBlock>
+                                        <TextBlock>    
+                                            <Run Text="Есть на складе: "/>
+                                            <Run Text="{Binding Contract.Product.Count, Mode=OneTime}"/>
+                                            <Run Text="{Binding Contract.Product.Unit.Name, Mode=OneTime}"/>
+                                            <Run Text="."/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
 
             </DataGrid.Columns>
             <DataGrid.ContextMenu>

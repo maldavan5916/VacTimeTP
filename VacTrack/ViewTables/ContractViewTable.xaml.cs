@@ -45,6 +45,7 @@ namespace VacTrack.ViewTables
             DbSet = Db.Set<Contract>();
             DbSet
                 .Include(e => e.Counterpartie)
+                .Include(e => e.Sales)
                 .Include(e => e.Product)
                     .ThenInclude(p => p != null ? p.Unit : null)
             .Load();
